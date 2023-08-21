@@ -1,0 +1,65 @@
+# depslib dependency file v1.0
+1692414235 source:/home/kylemorris/Desktop/dargon/src/lex/Token.cpp
+	"Token.h"
+
+1692414560 /home/kylemorris/Desktop/dargon/src/lex/Token.h
+	<cstddef>
+	<string>
+
+1692572947 source:/home/kylemorris/Desktop/dargon/main.cpp
+	<vector>
+	"include/Output.h"
+	"include/Log.h"
+	"include/CLI.h"
+
+1692458280 /home/kylemorris/Desktop/dargon/include/Token.h
+	<string>
+	<map>
+
+1692458392 source:/home/kylemorris/Desktop/dargon/src/Token.cpp
+	"../include/Token.h"
+
+1692468112 source:/home/kylemorris/Desktop/dargon/src/Utility.cpp
+	<chrono>
+	<ctime>
+	<time.h>
+	<sys/stat.h>
+	"../include/Utility.h"
+	"../include/Exception.h"
+
+1692468104 /home/kylemorris/Desktop/dargon/include/Utility.h
+	<string>
+	<fstream>
+
+1692467301 /home/kylemorris/Desktop/dargon/include/Exception.h
+	<stdexcept>
+	<string>
+
+1692467209 source:/home/kylemorris/Desktop/dargon/src/Exception.cpp
+	"../include/Exception.h"
+	"../include/Log.h"
+
+1692477667 /home/kylemorris/Desktop/dargon/include/Log.h
+	<fstream>
+	<mutex>
+	"Version.h"
+
+1692467771 source:/home/kylemorris/Desktop/dargon/src/Log.cpp
+	"../include/Log.h"
+	"../include/Output.h"
+	"../include/Utility.h"
+
+1692571902 /home/kylemorris/Desktop/dargon/include/Output.h
+	<iostream>
+	<string>
+
+1692468912 /home/kylemorris/Desktop/dargon/include/Version.h
+	<string>
+	"Utility.h"
+
+1692572845 source:/home/kylemorris/Desktop/dargon/src/CLI.cpp
+	"../include/CLI.h"
+
+1692572797 /home/kylemorris/Desktop/dargon/include/CLI.h
+	<string>
+
