@@ -25,7 +25,6 @@ namespace dargon {
     enum class TokenType {
 		EOF_TYPE, 				// End-Of-File
 		INVALID,				// An invalid token
-		NEWLINE,				// New line (\n or \r)
 		COMMA,					// ','
 		STMT_END,				// ';'
 		PERIOD,					// '.'
@@ -74,7 +73,6 @@ namespace dargon {
     static const std::string TypeNames[] = {
         "EOF", 				// End-Of-File
         "INVALID",				// An invalid token
-        "NEWLINE",				// New line (\n or \r)
         "COMMA",					// ','
         "STMT_END",				// ';'
         "PERIOD",					// '.'

@@ -6,13 +6,13 @@
 	<cstddef>
 	<string>
 
-1692572947 source:/home/kylemorris/Desktop/dargon/main.cpp
+1692573909 source:/home/kylemorris/Desktop/dargon/main.cpp
 	<vector>
 	"include/Output.h"
 	"include/Log.h"
 	"include/CLI.h"
 
-1692458280 /home/kylemorris/Desktop/dargon/include/Token.h
+1693014188 /home/kylemorris/Desktop/dargon/include/Token.h
 	<string>
 	<map>
 
@@ -57,9 +57,19 @@
 	<string>
 	"Utility.h"
 
-1692572845 source:/home/kylemorris/Desktop/dargon/src/CLI.cpp
+1693016886 source:/home/kylemorris/Desktop/dargon/src/CLI.cpp
 	"../include/CLI.h"
+	"../include/Output.h"
 
-1692572797 /home/kylemorris/Desktop/dargon/include/CLI.h
+1693016379 /home/kylemorris/Desktop/dargon/include/CLI.h
 	<string>
+	"Lexer.h"
+
+1693015067 /home/kylemorris/Desktop/dargon/include/Lexer.h
+	<string>
+	"Log.h"
+	"Token.h"
+
+1693016603 source:/home/kylemorris/Desktop/dargon/src/Lexer.cpp
+	"../include/Lexer.h"
 

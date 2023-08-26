@@ -14,11 +14,12 @@
 #define DARGON_CLI_H
 
 #include <string>
+#include "Lexer.h"
 
 namespace dargon {
 
 	/**
-     * @brief Command-Line Interface.
+     * @brief Command-Line Interface for DIR.
     */
 	class CLI {
 	public:
@@ -42,7 +43,12 @@ namespace dargon {
         */
         void RunREPL();
 	private:
+        /**
+         * @brief Sends a line down the pipeline.
+        */
+        void runLine(const std::string& line);
 
+        Lexer _lexer;
 	};
 
 };
