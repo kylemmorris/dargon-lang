@@ -14,19 +14,15 @@
 
 namespace dargon {
 
-    Token::Token() : type(TokenType::INVALID), value("") {}
-    Token::Token(const TokenType& type) : type(type) {
-        value = TypeNames[static_cast<int>(type)];
-    }
-    Token::Token(const TokenType& type, const std::string& val)
-    : type(type), value(val) {}
+    Token::Token() : type(TokenType::INVALID), value("INVALID") {}
+    Token::Token(const TokenType& type, const std::string& val) : type(type), value(val) {}
 
     bool Token::IsValid() const {
         return type != TokenType::INVALID && type != TokenType::EOF_TYPE;
     }
 
     std::string Token::ToString() const {
-        return "<" + TypeNames[static_cast<int>(type)] + ": " + value + ">";
+        return "<" + TypeName(type) + " : " + value + ">";
     }
 
     TokenType IsKeyword(const std::string& input) {

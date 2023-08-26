@@ -27,7 +27,7 @@ namespace dargon {
             std::string line = "";
             while(true) {
                 std::cout << "> ";
-                std::cin >> line;
+                getline(std::cin, line);
                 if(line == "" || line == "quit") { break; }
                 runLine(line);
             }
@@ -39,12 +39,11 @@ namespace dargon {
             _lexer.Input(line);
             out("LEXER:");
             Token t = _lexer.GetNextToken();
-            out(t.ToString());
+            out("   " + t.ToString());
             while(t.IsValid()) {
                 t = _lexer.GetNextToken();
-                out(t.ToString());
+                out("   " + t.ToString());
             }
-            out("LEX END");
         }
 
 };

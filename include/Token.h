@@ -16,6 +16,7 @@
 
 #include <string>
 #include <map>
+#include "Exception.h"
 
 namespace dargon {
 
@@ -68,38 +69,50 @@ namespace dargon {
     };
 
     /**
-     * @brief String representations for each type.
+     * @brief Returns a string representation
+     * of each type.
     */
-    static const std::string TypeNames[] = {
-        "EOF", 				// End-Of-File
-        "INVALID",				// An invalid token
-        "COMMA",					// ','
-        "STMT_END",				// ';'
-        "PERIOD",					// '.'
-        "LPAREN", "RPAREN",			// ( and )
-        "LBRACK", "RBRACK",			// [ and ]
-        "LBLOCK," "RBLOCK",         // { and }
-        "GT", "LT", "GTE", "LTE",		// >, <, >=, <=
-        "OP_PLUS",				// '+'
-        "OP_MINUS",				// '-'
-        "OP_MULT",				// '*'
-        "OP_DIV",					// '/'
-        "OP_EQ", "OP_NEQ",			// '=' and '/='
-        "RANGE",					// '..'
-        "ESCAPE",					// '\'
-        "ASSIGN",					// ':='
-        "IDENTIFIER",				// Any non-keyword identifier.
-        "STR_LITERAL",			// String literal
-        "INT_LITERAL",			// Int literal
-        "REAL_LITERAL",			// Real literal
-        "RESERVED",				// Anything below this is a reserved word
-        "BOOL_LIT_T",             // 'true'
-        "BOOL_LIT_F",             // 'false'
-        "FUNCTION_DEF",			// 'fun'
-        "IF",						// 'if'
-        "ELSE",					// 'else'
-        "LOOP"					// 'loop'
-        "AND", "OR", "NOT"            // 'and', 'or', and 'not'.
+    static std::string TypeName(const TokenType& type) {
+        switch(type) {
+            case TokenType::EOF_TYPE: return "EOF";
+            case TokenType::INVALID: return "INVALID";
+            case TokenType::COMMA: return "COMMA";
+            case TokenType::STMT_END: return "STMT_END";
+            case TokenType::PERIOD: return "PERIOD";
+            case TokenType::LPAREN: "LPAREN";
+            case TokenType::RPAREN: return "RPAREN";
+            case TokenType::LBRACK: return "LBRACK";
+            case TokenType::RBRACK: return "RBRACK";
+            case TokenType::LBLOCK: return "LBLOCK";
+            case TokenType::RBLOCK: return "RBLOCK";
+            case TokenType::GT: return "GT";
+            case TokenType::LT: return "LT";
+            case TokenType::GTE: return "GTE";
+            case TokenType::LTE: return "LTE";
+            case TokenType::OP_PLUS: return "OP_PLUS";
+            case TokenType::OP_MINUS: return "OP_MINUS";
+            case TokenType::OP_MULT: return "OP_MULT";
+            case TokenType::OP_DIV: return "OP_DIV";
+            case TokenType::OP_EQ: return "OP_EQ";
+            case TokenType::OP_NEQ: return "OP_NEW";
+            case TokenType::RANGE: return "RANGE";
+            case TokenType::ESCAPE: return "ESCAPE";
+            case TokenType::ASSIGN: return "ASSIGN";
+            case TokenType::IDENTIFIER: return "IDENTIFIER";
+            case TokenType::STR_LITERAL: return "STRING LITERAL";
+            case TokenType::INT_LITERAL: return "INT LITERAL";
+            case TokenType::REAL_LITERAL: return "REAL LITERAL";
+            case TokenType::BOOL_LIT_T: return "BOOL LITERAL TRUE";
+            case TokenType::BOOL_LIT_F: return "BOOL LITERAL FALSE";
+            case TokenType::FUNCTION_DEF: return "FUNCTION DEF";
+            case TokenType::IF: return "IF";
+            case TokenType::ELSE: return "ELSE";
+            case TokenType::LOOP: return "LOOP";
+            case TokenType::AND: return "AND";
+            case TokenType::OR: return "OR";
+            case TokenType::NOT: return "NOT";
+        };
+        throw new Exception("Unsupported token type!");
     };
 
     /**
@@ -114,11 +127,22 @@ namespace dargon {
     */
 	struct Token final {
 	public:
+        /**
+        * @brief The invalid token constructor.
+        */
         Token();
-        Token(const TokenType& type);
+        /**
+        * @brief The normal token constructor.
+        */
         Token(const TokenType& type, const std::string& val);
 
+        /**
+        * @brief Returns if this is a valid token.
+        */
         bool IsValid() const;
+        /**
+        * @brief Returns the token as "<TYPE : VALUE>"
+        */
         std::string ToString() const;
 
         TokenType type;

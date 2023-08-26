@@ -12,11 +12,12 @@
 	"include/Log.h"
 	"include/CLI.h"
 
-1693014188 /home/kylemorris/Desktop/dargon/include/Token.h
+1693071097 /home/kylemorris/Desktop/dargon/include/Token.h
 	<string>
 	<map>
+	"Exception.h"
 
-1692458392 source:/home/kylemorris/Desktop/dargon/src/Token.cpp
+1693070794 source:/home/kylemorris/Desktop/dargon/src/Token.cpp
 	"../include/Token.h"
 
 1692468112 source:/home/kylemorris/Desktop/dargon/src/Utility.cpp
@@ -57,7 +58,7 @@
 	<string>
 	"Utility.h"
 
-1693016886 source:/home/kylemorris/Desktop/dargon/src/CLI.cpp
+1693071202 source:/home/kylemorris/Desktop/dargon/src/CLI.cpp
 	"../include/CLI.h"
 	"../include/Output.h"
 
@@ -70,6 +71,7 @@
 	"Log.h"
 	"Token.h"
 
-1693016603 source:/home/kylemorris/Desktop/dargon/src/Lexer.cpp
+1693071536 source:/home/kylemorris/Desktop/dargon/src/Lexer.cpp
 	"../include/Lexer.h"
+	"../include/Exception.h"
 

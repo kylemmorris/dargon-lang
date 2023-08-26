@@ -11,6 +11,7 @@
  */
 
 #include "../include/Lexer.h"
+#include "../include/Exception.h"
 
 namespace dargon {
 
@@ -57,58 +58,58 @@ namespace dargon {
                     }
                     break;
                 }
-                case ',': _consume(); return Token(TokenType::COMMA);
-                case ';': _consume(); return Token(TokenType::STMT_END);
-                case '(': _consume();return Token(TokenType::LPAREN);
-                case ')': _consume(); return Token(TokenType::RPAREN);
-                case '{': _consume(); return Token(TokenType::LBLOCK);
-                case '}': _consume(); return Token(TokenType::RBLOCK);
-                case '[': _consume(); return Token(TokenType::LBRACK);
-                case ']': _consume(); return Token(TokenType::RBRACK);
-                case '+': _consume(); return Token(TokenType::OP_PLUS);
-                case '-': _consume(); return Token(TokenType::OP_MINUS);
-                case '*': _consume(); return Token(TokenType::OP_MULT);
-                case '=': _consume(); return Token(TokenType::OP_EQ);
+                case ',': _consume(); return Token(TokenType::COMMA, ",");
+                case ';': _consume(); return Token(TokenType::STMT_END, ";");
+                case '(': _consume();return Token(TokenType::LPAREN, "(");
+                case ')': _consume(); return Token(TokenType::RPAREN, ")");
+                case '{': _consume(); return Token(TokenType::LBLOCK, "[");
+                case '}': _consume(); return Token(TokenType::RBLOCK, "]");
+                case '[': _consume(); return Token(TokenType::LBRACK, "{");
+                case ']': _consume(); return Token(TokenType::RBRACK, "}");
+                case '+': _consume(); return Token(TokenType::OP_PLUS, "+");
+                case '-': _consume(); return Token(TokenType::OP_MINUS, "-");
+                case '*': _consume(); return Token(TokenType::OP_MULT, "*");
+                case '=': _consume(); return Token(TokenType::OP_EQ, "=");
                 case '\'': _consume(); return _strLit();
                 case '>': {
                     _consume();
                     if(_char == '=') {
                         _consume();
-                        return Token(TokenType::GTE);
+                        return Token(TokenType::GTE, ">=");
                     }
-                    return Token(TokenType::GT);
+                    return Token(TokenType::GT, ">");
                 }
                 case '<': {
                     _consume();
                     if(_char == '=') {
                         _consume();
-                        return Token(TokenType::LTE);
+                        return Token(TokenType::LTE, "<=");
                     }
-                    return Token(TokenType::LT);
+                    return Token(TokenType::LT, "<");
                 }
                 case ':': {
                     _consume();
                     if(_char == '=') {
                         _consume();
-                        return Token(TokenType::ASSIGN);
+                        return Token(TokenType::ASSIGN, ":=");
                     }
-                    return Token(TokenType::INVALID);
+                    return Token();
                 }
                 case '.': {
                     _consume();
                     if(_char == '.') {
                         _consume();
-                        return Token(TokenType::RANGE);
+                        return Token(TokenType::RANGE, "..");
                     }
-                    return Token(TokenType::PERIOD);
+                    return Token(TokenType::PERIOD, ".");
                 }
                 case '/': {
                     _consume();
                     if(_char == '=') {
                         _consume();
-                        return Token(TokenType::OP_NEQ);
+                        return Token(TokenType::OP_NEQ, "/=");
                     }
-                    return Token(TokenType::OP_DIV);
+                    return Token(TokenType::OP_DIV, "/");
                 }
                 // Anything else must be an identifier/keyword
                 default: {
@@ -120,11 +121,11 @@ namespace dargon {
                     else if(isdigit(_char)) {
                         return _numLit();
                     }
-                    return Token(TokenType::INVALID);
+                    return Token();
                 }
             };
         }
-        return Token(TokenType::EOF_TYPE);
+        return Token(TokenType::EOF_TYPE, "EOF");
 	}
 
 	void Lexer::_consume() {
@@ -173,7 +174,7 @@ namespace dargon {
 		do {
 			if (_char == EOF) {
 				// TODO No end of string literal found error
-				return Token(TokenType::INVALID, "NO END OF STRING LITERAL FOUND");
+				throw new Exception("NO END OF STRING LITERAL FOUND");
 			}
 			buffer += _char;
 			_consume();
