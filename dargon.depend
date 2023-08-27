@@ -6,7 +6,7 @@
 	<cstddef>
 	<string>
 
-1692573909 source:/home/kylemorris/Desktop/dargon/main.cpp
+1693101596 source:/home/kylemorris/Desktop/dargon/main.cpp
 	<vector>
 	"include/Output.h"
 	"include/Log.h"
@@ -40,7 +40,7 @@
 	"../include/Exception.h"
 	"../include/Log.h"
 
-1692477667 /home/kylemorris/Desktop/dargon/include/Log.h
+1693100046 /home/kylemorris/Desktop/dargon/include/Log.h
 	<fstream>
 	<mutex>
 	"Version.h"
@@ -50,19 +50,19 @@
 	"../include/Output.h"
 	"../include/Utility.h"
 
-1692571902 /home/kylemorris/Desktop/dargon/include/Output.h
+1693099992 /home/kylemorris/Desktop/dargon/include/Output.h
 	<iostream>
 	<string>
 
-1692468912 /home/kylemorris/Desktop/dargon/include/Version.h
+1693099664 /home/kylemorris/Desktop/dargon/include/Version.h
 	<string>
 	"Utility.h"
 
-1693071202 source:/home/kylemorris/Desktop/dargon/src/CLI.cpp
+1693099335 source:/home/kylemorris/Desktop/dargon/src/CLI.cpp
 	"../include/CLI.h"
 	"../include/Output.h"
 
-1693016379 /home/kylemorris/Desktop/dargon/include/CLI.h
+1693100824 /home/kylemorris/Desktop/dargon/include/CLI.h
 	<string>
 	"Lexer.h"
 
@@ -71,7 +71,7 @@
 	"Log.h"
 	"Token.h"
 
-1693071536 source:/home/kylemorris/Desktop/dargon/src/Lexer.cpp
+1693100134 source:/home/kylemorris/Desktop/dargon/src/Lexer.cpp
 	"../include/Lexer.h"
 	"../include/Exception.h"
 

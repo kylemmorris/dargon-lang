@@ -26,7 +26,6 @@ namespace dargon {
 		_input = data;
 		_char = _input.at(_index);
 		_inputLen = _input.length();
-		InfoLog("Lexer initialized.");
 	}
 
 	Token Lexer::GetNextToken() {

@@ -18,8 +18,9 @@ int main(int argc, char* argv[]) {
     using namespace dargon;
 
     // Starting up
-    out(Version());
-    InfoLog(Version() + " starting.");
+    out(VersionString());
+    out("(C) Kyle Morris 2023 - See LICENSE.txt for license information.\n");
+    InfoLog(VersionString() + " starting.");
 
     // The Command-Line Interface. To be built upon as we go.
     CLI cli;

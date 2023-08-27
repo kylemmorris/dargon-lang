@@ -21,7 +21,7 @@
 namespace dargon {
 namespace hidden {
 
-    constexpr const char* LogFileName = "Log.txt";
+    constexpr const char* LogFileName = "dargon.log";
     static std::ofstream LogFile;
     static std::mutex LogFileMutex;
 

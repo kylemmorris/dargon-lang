@@ -19,13 +19,14 @@ The full Dargon experience aims to deliver the following:
 - A portable interpreter/REPL.
 - Syntax highlighting for popular text editors (Vim, GEdit, etc.)
 - Full, local documentation that is always available.
+- If possible, a really basic GUI.
 
 See "doc/Dargon Language Specification" for the full documentation.
 
 ## Current Roadmap
 
 Dargon is a learning experience for me as an artistic project.
-As a result, this roadmap is subject to change. I'll try to make use of GitHub's project
+As a result, this roadmap is subject to change. I'll try to make use of GitHub's project system.
 
 - Initial Language Specification.
 - Lexical Analysis.
@@ -35,6 +36,26 @@ As a result, this roadmap is subject to change. I'll try to make use of GitHub's
 - Entry created on RosettaCode (https://rosettacode.org/wiki/Rosetta_Code).
 - Version 0.1.
 
+## Code Example
+
+```
+# This is a simple fibonnaci example. File: fib.dargon
+
+##
+Recursive Fibonnaci sequence.
+Created by Kyle Morris.
+##
+fun fib(uint x -> uint) {
+    -> x if x < 2;
+    -> fib(x-1) + fib(x-2);
+}
+
+assert(fib(10) == 55);
+
+
+```
+
 ## Getting Started
 
 **Under construction**
+

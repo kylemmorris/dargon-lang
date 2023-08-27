@@ -18,17 +18,18 @@
 
 namespace dargon {
 
-    // MACRO JUSTIFICATION: For its usage in Log.h
-
     // The debug flag.
+    // MACRO JUSTIFICATION: For its usage in Log.h
     #define DARGON_DEBUG
 
-    inline std::string Version() {
+    constexpr const char* VersionNum = "v0.0 alpha";
+
+    inline std::string VersionString() {
         std::string r = "Dargon Interpreter ";
         #ifdef DARGON_DEBUG
-        return r +"[DEBUG]" + " v0.1 (" + GetDateTimeString() + ")";
+        return r + "[DEBUG] " + VersionNum + " (" + GetDateTimeString() + ")";
         #else
-        return r + " v0.1 (" + GetDateTimeString() + ")";
+        return r + VersionNum + " (" + GetDateTimeString() + ")";
         #endif
     }
 

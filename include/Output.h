@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <string>
+//#include "Log.h"
 
 namespace dargon {
 
@@ -22,8 +23,8 @@ namespace dargon {
      * @brief Prints to the standard output. Also logs to the log file.
     */
     inline void out(const char* msg) noexcept {
-        std::cout << "** " << msg << std::endl;
-        //InfoLog(msg); ?
+        std::cout << msg << std::endl;
+        //InfoLog(msg);
     }
 
     /**

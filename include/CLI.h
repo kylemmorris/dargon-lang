@@ -44,6 +44,11 @@ namespace dargon {
         void RunREPL();
 	private:
         /**
+         * @brief Displays the help dialogue.
+        */
+        void displayHelp();
+
+        /**
          * @brief Sends a line down the pipeline.
         */
         void runLine(const std::string& line);
