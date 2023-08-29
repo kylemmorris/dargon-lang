@@ -14,9 +14,9 @@
 #ifndef DARGON_TOKEN_H
 #define DARGON_TOKEN_H
 
-#include <string>
 #include <map>
 #include "Exception.h"
+#include "FilePosition.h"
 
 namespace dargon {
 
@@ -37,10 +37,12 @@ namespace dargon {
 		OP_MINUS,				// '-'
 		OP_MULT,				// '*'
 		OP_DIV,					// '/'
-		OP_EQ, OP_NEQ,			// '=' and '/='
+		OP_EQ, OP_NEQ,			// '==' and '~='
 		RANGE,					// '..'
+		TILDE,                  // '~'
 		ESCAPE,					// '\'
-		ASSIGN,					// ':='
+		ASSIGN,					// '='
+		FLOW_L, FLOW_R,         // '<-' and '->'
 		IDENTIFIER,				// Any non-keyword identifier.
 		STR_LITERAL,			// String literal
 		INT_LITERAL,			// Int literal
@@ -96,8 +98,11 @@ namespace dargon {
             case TokenType::OP_EQ: return "OP_EQ";
             case TokenType::OP_NEQ: return "OP_NEW";
             case TokenType::RANGE: return "RANGE";
+            case TokenType::TILDE: return "TILDE";
             case TokenType::ESCAPE: return "ESCAPE";
             case TokenType::ASSIGN: return "ASSIGN";
+            case TokenType::FLOW_L: return "FLOW_L";
+            case TokenType::FLOW_R: return "FLOW_R";
             case TokenType::IDENTIFIER: return "IDENTIFIER";
             case TokenType::STR_LITERAL: return "STRING LITERAL";
             case TokenType::INT_LITERAL: return "INT LITERAL";
@@ -132,9 +137,14 @@ namespace dargon {
         */
         Token();
         /**
-        * @brief The normal token constructor.
+        * @brief The token constructor without metadata.
         */
         Token(const TokenType& type, const std::string& val);
+        /**
+        * @brief The normal token constructor.
+        */
+        Token(const TokenType& type, const std::string& val, const FilePosition& pos);
+
 
         /**
         * @brief Returns if this is a valid token.
@@ -147,6 +157,7 @@ namespace dargon {
 
         TokenType type;
         std::string value;
+        FilePosition location;
 	};
 
 };

@@ -12,12 +12,12 @@
 	"include/Log.h"
 	"include/CLI.h"
 
-1693071097 /home/kylemorris/Desktop/dargon/include/Token.h
-	<string>
+1693273213 /home/kylemorris/Desktop/dargon/include/Token.h
 	<map>
 	"Exception.h"
+	"FilePosition.h"
 
-1693070794 source:/home/kylemorris/Desktop/dargon/src/Token.cpp
+1693272785 source:/home/kylemorris/Desktop/dargon/src/Token.cpp
 	"../include/Token.h"
 
 1692468112 source:/home/kylemorris/Desktop/dargon/src/Utility.cpp
@@ -58,7 +58,7 @@
 	<string>
 	"Utility.h"
 
-1693099335 source:/home/kylemorris/Desktop/dargon/src/CLI.cpp
+1693101977 source:/home/kylemorris/Desktop/dargon/src/CLI.cpp
 	"../include/CLI.h"
 	"../include/Output.h"
 
@@ -66,12 +66,15 @@
 	<string>
 	"Lexer.h"
 
-1693015067 /home/kylemorris/Desktop/dargon/include/Lexer.h
+1693272617 /home/kylemorris/Desktop/dargon/include/Lexer.h
 	<string>
 	"Log.h"
 	"Token.h"
 
-1693100134 source:/home/kylemorris/Desktop/dargon/src/Lexer.cpp
+1693273014 source:/home/kylemorris/Desktop/dargon/src/Lexer.cpp
 	"../include/Lexer.h"
 	"../include/Exception.h"
+
+1693273291 /home/kylemorris/Desktop/dargon/include/FilePosition.h
+	<string>
 

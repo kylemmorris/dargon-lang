@@ -55,7 +55,10 @@ assert(fib(10) == 55);
 
 ```
 
-## Getting Started
+## Technology Used
 
-**Under construction**
+- Code::Blocks IDE (version 20.03)
+- CMake (verison 3.22.1)
+- g++ (using C++17)
+- doxygen (for documentation)
 

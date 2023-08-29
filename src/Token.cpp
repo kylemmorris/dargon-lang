@@ -15,13 +15,17 @@
 namespace dargon {
 
     Token::Token() : type(TokenType::INVALID), value("INVALID") {}
-    Token::Token(const TokenType& type, const std::string& val) : type(type), value(val) {}
+    Token::Token(const TokenType& type, const std::string& val) : type(type), value(val), location(0,0) {}
+    Token::Token(const TokenType& type, const std::string& val, const FilePosition& pos) : type(type), value(val), location(pos) {}
 
     bool Token::IsValid() const {
         return type != TokenType::INVALID && type != TokenType::EOF_TYPE;
     }
 
     std::string Token::ToString() const {
+        if(location.Valid()) {
+            return "<" + TypeName(type) + " : " + value + " " + location.ToString() + ">";
+        }
         return "<" + TypeName(type) + " : " + value + ">";
     }
 

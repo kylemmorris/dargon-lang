@@ -34,6 +34,7 @@
 		</Compiler>
 		<Unit filename="include/CLI.h" />
 		<Unit filename="include/Exception.h" />
+		<Unit filename="include/FilePosition.h" />
 		<Unit filename="include/Lexer.h" />
 		<Unit filename="include/Log.h" />
 		<Unit filename="include/Output.h" />
