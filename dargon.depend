@@ -6,7 +6,7 @@
 	<cstddef>
 	<string>
 
-1693101596 source:/home/kylemorris/Desktop/dargon/main.cpp
+1693680355 source:/home/kylemorris/Desktop/dargon/main.cpp
 	<vector>
 	"include/Output.h"
 	"include/Log.h"
@@ -17,7 +17,7 @@
 	"Exception.h"
 	"FilePosition.h"
 
-1693272785 source:/home/kylemorris/Desktop/dargon/src/Token.cpp
+1693273311 source:/home/kylemorris/Desktop/dargon/src/Token.cpp
 	"../include/Token.h"
 
 1692468112 source:/home/kylemorris/Desktop/dargon/src/Utility.cpp
@@ -28,9 +28,10 @@
 	"../include/Utility.h"
 	"../include/Exception.h"
 
-1692468104 /home/kylemorris/Desktop/dargon/include/Utility.h
+1693679756 /home/kylemorris/Desktop/dargon/include/Utility.h
 	<string>
 	<fstream>
+	<functional>
 
 1692467301 /home/kylemorris/Desktop/dargon/include/Exception.h
 	<stdexcept>
@@ -62,7 +63,8 @@
 	"../include/CLI.h"
 	"../include/Output.h"
 
-1693100824 /home/kylemorris/Desktop/dargon/include/CLI.h
+1693681449 /home/kylemorris/Desktop/dargon/include/CLI.h
+	<vector>
 	<string>
 	"Lexer.h"
 
@@ -75,6 +77,6 @@
 	"../include/Lexer.h"
 	"../include/Exception.h"
 
-1693273291 /home/kylemorris/Desktop/dargon/include/FilePosition.h
+1693273470 /home/kylemorris/Desktop/dargon/include/FilePosition.h
 	<string>
 

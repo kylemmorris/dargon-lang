@@ -22,27 +22,33 @@ int main(int argc, char* argv[]) {
     out("(C) Kyle Morris 2023 - See LICENSE.txt for license information.\n");
     InfoLog(VersionString() + " starting.");
 
-    // The Command-Line Interface. To be built upon as we go.
-    CLI cli;
-
-    // Number of arguments
-    std::string path = "";
-    switch(argc) {
-    case 1:
-        // REPL
-        InfoLog("Starting REPL...");
-        cli.RunREPL();
-        break;
-    case 2:
-        // Input file
-        path = argv[1];
-        InfoLog("Parsing file: " + path);
-        cli.RunFile(path);
-        break;
-    default:
-        out("Usage: dargon [input file]");
-        break;
+    // Collect inputs
+    std::vector<std::string> inputs;
+    for(int i = 1; i < argc; i++) {
+        inputs.push_back(std::string(argv[i]));
     }
 
-    return 0;
+    // The Command-Line Interface. To be built upon as we go.
+    CLI cli = CLI(inputs);
+
+//    // Number of arguments
+//    std::string path = "";
+//    switch(argc) {
+//    case 1:
+//        // REPL
+//        InfoLog("Starting REPL...");
+//        cli.RunREPL();
+//        break;
+//    case 2:
+//        // Input file
+//        path = argv[1];
+//        InfoLog("Parsing file: " + path);
+//        cli.RunFile(path);
+//        break;
+//    default:
+//        out("Usage: dargon [input file]");
+//        break;
+//    }
+
+    return cli.Run();
 }

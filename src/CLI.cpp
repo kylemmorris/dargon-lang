@@ -15,13 +15,37 @@
 
 namespace dargon {
 
-        CLI::CLI() {}
+        CLI::CLI(std::vector<std::string> args) : _args(args) {}
 
         CLI::~CLI() {}
 
-        void CLI::RunFile(const std::string& filePath) {}
+        int CLI::Run() {
+            // 1. If there are no arguments, display help by default
+            if(_args.size() == 0 || _args[0] == "help") {
+                displayHelp();
+                return 0;
+            }
+            // 2. First argument will either be a command, or just a file path.
+            if(_args[0] == "go") {
+                // go = run REPL
+                runREPL();
+                return 0;
+            }
+            if(_args[0] == "config") {
+                // config = Run a configuration ('runfile')
+                // TODO
+                return 0;
+            }
+            else {
+                // otherwise, it's a file path
+                // TODO
+            }
+            return 0;
+        }
 
-        void CLI::RunREPL() {
+        void CLI::runFile(const std::string& filePath) {}
+
+        void CLI::runREPL() {
             // TODO: A better error handeling system!
             out("Type 'help' for help, or 'quit' to quit.");
             std::string line = "";
@@ -32,8 +56,12 @@ namespace dargon {
                 // Read the line
                 getline(std::cin, line);
                 if(line == "quit") { break; }
+                if(line == "commands") {
+                    displayREPLCommands();
+                    continue;
+                }
                 if(line == "help") {
-                    displayHelp();
+                    displayREPLHelp();
                     continue;
                 }
                 // If it doesn't end in ';' or '}', likely means the line continues.
@@ -58,15 +86,31 @@ namespace dargon {
                 if(line == "") { break; }
                 runLine(line);
             }
-            out("Goodbye!");
         }
 
         void CLI::displayHelp() {
+            out("   Usage:");
+            out("       dargon help             - Displays this dialogue.");
+            out("       dargon go               - Begins the Dargon interactive interpreter.");
+            out("       dargon <path>           - Runs a Dargon file (*.dargon or *.dargconf) at the path provided.");
+            out("");
+        }
+
+        void CLI::displayREPLHelp() {
             out("**********");
             out("This is the Dargon Interpreter (DIR).");
             out("Type any Dargon code to have it interpreted for you.");
             out("Note that what you type must be either full statements (ending in a semicolon ';')");
             out("or full block definitions (starting with '{' and ending in '}').");
+            out("");
+            out("To view a list of DIR commands, type \'commands\'");
+            out("**********");
+        }
+
+        void CLI::displayREPLCommands() {
+            out("**********");
+            out("help              -");
+            out("commands          -");
             out("**********");
         }
 

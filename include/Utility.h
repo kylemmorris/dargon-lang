@@ -15,8 +15,14 @@
 
 #include <string>
 #include <fstream>
+#include <functional>
 
 namespace dargon {
+
+    /**
+     * @brief An event short-hand.
+     */
+    typedef std::function<void()> event;
 
 	/**
      * @brief Returns the current date and time in YEAR-MONTH-DAY.TIME form.
