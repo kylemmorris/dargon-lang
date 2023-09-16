@@ -34,3 +34,8 @@
 # Code::Blocks Output Directories
 bin/*
 obj/*
+proj/bin/Debug/dargon
+proj/dargon.depend
+proj/dargon.layout
+proj/bin/Debug/dargon
+proj/bin/Debug/dargon.log

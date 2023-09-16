@@ -1,4 +1,4 @@
-# The Dargon Programming Language - v0.0
+# The Dargon Programming Language - v0.1
 
 **This is still a work in progress - Dargon is not ready!**
 
@@ -15,14 +15,14 @@ Dargon is currently not aiming to be:
 
 The full Dargon experience aims to deliver the following:
 
-- A portable interpreter/REPL
+- The portable Dargon Interpreter (DIR)
 - Syntax highlighting for popular text editors (Vim, Notepad++, etc.)
 - Full, local documentation that is always available
-- A basic text editor GUI, build specifically for Dargon
+- A basic text editor GUI, built specifically for Dargon
 
 ## Where to Start
 
-Dargon is not ready for any form of distribution or usage. I am currently working on gathering initial documentation, including a tutorial on how I think Dargon shuold preform (almost like a requirements document), a language specification, grammar definition, and UML diagrams. All of these can be found in the [doc](doc) directory of this repository.
+Dargon is not ready for any form of distribution or usage. I am currently working on gathering initial documentation, including a tutorial on how I think Dargon should preform (almost like a requirements document), a language specification, grammar definition, and UML diagrams. All of these can be found in the [doc](doc) directory of this repository.
 
 ## Current Roadmap
 
@@ -34,12 +34,8 @@ Dargon is a learning experience for me as an artistic project; I am currently wo
 - LL(1) Recursive-Descent Parser.
 - ... *More here*
 - Example files created (Hello World, Fibbonacci, and 99 Bottels of Beer). 
-- Entry created on RosettaCode (https://rosettacode.org/wiki/Rosetta_Code).
+- Entry created on [RosettaCode]([Rosetta Code](https://rosettacode.org/wiki/Rosetta_Code)).
 - Version 0.1.
-
-## Verison 0.1
-
-0.1 will be the initial, internal release. It will include, at a minimum, an initial stab at a *very basic* Dargon Interpreter (DIR) and Dargon Toolkit (DTK) (whatever that is!). More to come on this front!
 
 ## Basic Code Example
 

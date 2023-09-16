@@ -4,6 +4,8 @@
 # This utility will be used to generate the expression and statement structures.
 # Output: Expr.h
 
+# TODO: Make this a lot cleaner! It'll come with Python experience.
+
 from io import TextIOWrapper
 
 ### ------------###
@@ -38,11 +40,13 @@ def printCopywrite(f: TextIOWrapper):
                  ' */ \n']
     f.writelines(cwrite)
 
-# Prints the base class
-def printBaseClass(f: TextIOWrapper, name: str):
+def printIncludes(f: TextIOWrapper):
     f.write('#ifndef DARGON_EXPR_H\n')
     f.write('#define DARGON_EXPR_H\n\n')
     f.write('#include <string>\n\n')
+
+# Prints the base class
+def printBaseClass(f: TextIOWrapper, name: str):
     f.write('namespace dargon {\n\n')
     comment = ['\t/**\n',\
               '\t * @brief The base class of all Expressions.\n',\
@@ -53,18 +57,23 @@ def printBaseClass(f: TextIOWrapper, name: str):
     f.write(f'\tstruct {name} ')
     f.write('{ };\n\n')
 
-def printGetter(f: TextIOWrapper, type: str, name: str):
-    f.write(f'const {type}& ')
+def defineMembers(f: TextIOWrapper, fields: list[str]):
+    for field in fields:
+        vtype = field.strip().split()[0]
+        vname = field.strip().split()[1]
+        f.write(f'\t\tconst {vtype} {vname};\n')
 
 # Creates a new subtype
 def createExprSubclass(f: TextIOWrapper, base: str, name: str, fields: list[str]):
     f.write(f'\tstruct {name} : public {base} ')
     f.write('{\n\tpublic:\n')
+    defineMembers(f, fields)
     f.write(f'\t\t{name}(')
     firsts = fields[:len(fields)-1]
     end = fields[len(fields)-1]
-    print(firsts)
-    print(end)
+    #print(firsts)
+    #print(end)
+    # Build the constructor parameter list
     for field in firsts:
         vtype = field.strip().split()[0]
         vname = field.strip().split()[1]
@@ -73,12 +82,17 @@ def createExprSubclass(f: TextIOWrapper, base: str, name: str, fields: list[str]
         vtype = end.strip().split()[0]
         vname = end.strip().split()[1]
         f.write(f'{vtype} {vname}')
-    f.write(') {}\n')
-    for field in fields:
+    f.write(')\n\t\t: ')
+    # Build the initializer list
+    for field in firsts:
         vtype = field.strip().split()[0]
         vname = field.strip().split()[1]
-        printGetter(f,vtype, vname)
-    f.write('\t};\n')
+        f.write(f'{vname}({vname}), ')
+    if end != []:
+        vtype = end.strip().split()[0]
+        vname = end.strip().split()[1]
+        f.write(f'{vname}({vname})')
+    f.write('{}\n\t};\n')
 
 # Prints the ending stuff
 def printEnd(f: TextIOWrapper):
@@ -91,9 +105,11 @@ def printEnd(f: TextIOWrapper):
 with open(fname, 'w') as fref:
     printCopywrite(fref)
     base = 'Expr'
+    printIncludes(fref)
     printBaseClass(fref, base)
     for expr in exprs:
         name = expr.split(':')[0]
         fields = expr.split(':')[1].split(',')
         createExprSubclass(fref, base, name, fields)
+        fref.write('\n')
     printEnd(fref)
