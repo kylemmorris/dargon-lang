@@ -10,8 +10,8 @@
  *
  */
 
-#include "../include/Exception.h"
-#include "../include/Log.h"
+#include "Exception.h"
+#include "Log.h"
 
 namespace dargon {
 

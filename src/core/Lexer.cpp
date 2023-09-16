@@ -10,8 +10,8 @@
  *
  */
 
-#include "../include/Lexer.h"
-#include "../include/Exception.h"
+#include "Lexer.h"
+#include "Exception.h"
 
 namespace dargon {
 

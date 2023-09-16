@@ -10,8 +10,8 @@
  *
  */
 
-#include "../include/CLI.h"
-#include "../include/Output.h"
+#include "CLI.h"
+#include "Output.h"
 
 namespace dargon {
 

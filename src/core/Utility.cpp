@@ -14,8 +14,8 @@
 #include <ctime>
 #include <time.h>
 #include <sys/stat.h>
-#include "../include/Utility.h"
-#include "../include/Exception.h"
+#include "Utility.h"
+#include "Exception.h"
 
 namespace dargon {
 

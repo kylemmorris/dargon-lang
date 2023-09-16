@@ -10,9 +10,9 @@
  *
  */
 
-#include "../include/Log.h"
-#include "../include/Output.h"
-#include "../include/Utility.h"
+#include "Log.h"
+#include "Output.h"
+#include "Utility.h"
 
 namespace dargon {
 namespace hidden {

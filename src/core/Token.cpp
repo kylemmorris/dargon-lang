@@ -10,7 +10,7 @@
  *
  */
 
-#include "../include/Token.h"
+#include "Token.h"
 
 namespace dargon {
 

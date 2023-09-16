@@ -32,22 +32,22 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="include/CLI.h" />
-		<Unit filename="include/Exception.h" />
-		<Unit filename="include/FilePosition.h" />
-		<Unit filename="include/Lexer.h" />
-		<Unit filename="include/Log.h" />
-		<Unit filename="include/Output.h" />
-		<Unit filename="include/Token.h" />
-		<Unit filename="include/Utility.h" />
-		<Unit filename="include/Version.h" />
-		<Unit filename="main.cpp" />
-		<Unit filename="src/CLI.cpp" />
-		<Unit filename="src/Exception.cpp" />
-		<Unit filename="src/Lexer.cpp" />
-		<Unit filename="src/Log.cpp" />
-		<Unit filename="src/Token.cpp" />
-		<Unit filename="src/Utility.cpp" />
+		<Unit filename="../src/core/CLI.cpp" />
+		<Unit filename="../src/core/CLI.h" />
+		<Unit filename="../src/core/Exception.cpp" />
+		<Unit filename="../src/core/Exception.h" />
+		<Unit filename="../src/core/FilePosition.h" />
+		<Unit filename="../src/core/Lexer.cpp" />
+		<Unit filename="../src/core/Lexer.h" />
+		<Unit filename="../src/core/Log.cpp" />
+		<Unit filename="../src/core/Log.h" />
+		<Unit filename="../src/core/Output.h" />
+		<Unit filename="../src/core/Token.cpp" />
+		<Unit filename="../src/core/Token.h" />
+		<Unit filename="../src/core/Utility.cpp" />
+		<Unit filename="../src/core/Utility.h" />
+		<Unit filename="../src/core/Version.h" />
+		<Unit filename="../src/main.cpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
