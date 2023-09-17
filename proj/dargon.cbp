@@ -36,6 +36,7 @@
 		<Unit filename="../src/core/CLI.h" />
 		<Unit filename="../src/core/Exception.cpp" />
 		<Unit filename="../src/core/Exception.h" />
+		<Unit filename="../src/core/Expr.h" />
 		<Unit filename="../src/core/FilePosition.h" />
 		<Unit filename="../src/core/Lexer.cpp" />
 		<Unit filename="../src/core/Lexer.h" />

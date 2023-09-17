@@ -6,7 +6,7 @@ If you're unfamilar with BNF or its derivatives (which this is), see [the wikipe
 
 Conventions used are as follows:
 
-- rule = definition ;
+- Rules are formated in the form: rule = definition ;
 
 - terminals are surrounded in quotation marks ( " )
 
@@ -40,5 +40,3 @@ literal = NUMBER | STRING | "true" | "false" ;
 mutability = "const" | "var" ;
 operator = "==" | "!=" | "<" | "<=" | ">" | ">=" | "+" | "-" | "*" | "/" ;
 ```
-
-
