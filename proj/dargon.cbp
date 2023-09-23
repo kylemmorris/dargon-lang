@@ -36,18 +36,20 @@
 		<Unit filename="../src/core/CLI.h" />
 		<Unit filename="../src/core/Exception.cpp" />
 		<Unit filename="../src/core/Exception.h" />
-		<Unit filename="../src/core/Expr.h" />
 		<Unit filename="../src/core/FilePosition.h" />
-		<Unit filename="../src/core/Lexer.cpp" />
-		<Unit filename="../src/core/Lexer.h" />
 		<Unit filename="../src/core/Log.cpp" />
 		<Unit filename="../src/core/Log.h" />
 		<Unit filename="../src/core/Output.h" />
-		<Unit filename="../src/core/Token.cpp" />
-		<Unit filename="../src/core/Token.h" />
 		<Unit filename="../src/core/Utility.cpp" />
 		<Unit filename="../src/core/Utility.h" />
 		<Unit filename="../src/core/Version.h" />
+		<Unit filename="../src/core/ast/ASTPrinter.cpp" />
+		<Unit filename="../src/core/ast/ASTPrinter.h" />
+		<Unit filename="../src/core/ast/Expr.h" />
+		<Unit filename="../src/core/lex/Lexer.cpp" />
+		<Unit filename="../src/core/lex/Lexer.h" />
+		<Unit filename="../src/core/lex/Token.cpp" />
+		<Unit filename="../src/core/lex/Token.h" />
 		<Unit filename="../src/main.cpp" />
 		<Extensions />
 	</Project>

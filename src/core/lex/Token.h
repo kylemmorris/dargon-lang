@@ -15,8 +15,8 @@
 #define DARGON_TOKEN_H
 
 #include <map>
-#include "Exception.h"
-#include "FilePosition.h"
+#include "../Exception.h"
+#include "../FilePosition.h"
 
 namespace dargon {
 

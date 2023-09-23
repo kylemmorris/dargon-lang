@@ -13,9 +13,22 @@
 #include "core/Output.h"
 #include "core/Log.h"
 #include "core/CLI.h"
+#include "core/ast/Expr.h"
+#include "core/ast/ASTPrinter.h"
 
 int main(int argc, char* argv[]) {
     using namespace dargon;
+
+    // TEST
+    //LiteralExpr l1("123");
+    //LiteralExpr l2("45.67");
+    //UnaryExpr neg(Token(TokenType::OP_MINUS, "-"), &l1);
+    //GroupingExpr g(&l2);
+    //BinaryExpr expr(&neg, Token(TokenType::OP_MULT, "*"), &g);
+    //ASTPrinter printer;
+    //out(printer.Print(&expr));
+
+    //return 0;
 
     // Starting up
     out(VersionString());

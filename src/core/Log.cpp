@@ -37,11 +37,13 @@ namespace hidden {
             LogFile.close();
             LogFileMutex.unlock();
         }
-        catch(std::exception e) {
+        catch(const std::exception& e) {
             // Should never get thrown!
             std::string s = "UNEXPECTED ERROR OCCURED: ";
             s += e.what();
             out(s);
+            LogFile.close();
+            LogFileMutex.unlock();
         }
     }
 
