@@ -11,39 +11,47 @@
  */
 
 #include <sstream>
+#include <cstdarg>
 #include "ASTPrinter.h"
 
 namespace dargon {
 
-    std::string ASTPrinter::Print(Expr* expr) {
-        return expr->Accept(this);
+    ASTPrinter::ASTPrinter() {}
+
+    void ASTPrinter::Print(Expr* exp) {
+        exp->Accept(*this);
     }
 
-    std::string ASTPrinter::VisitBinaryExpr(BinaryExpr* binary) {
-        return _parenthesize(binary->op.ToString(), binary->left);
+    void ASTPrinter::VisitBinaryExpr(BinaryExpr& binary) {
+        _parenthesize(binary.op.value, binary.left);
     }
 
-    std::string ASTPrinter::VisitGroupingExpr(GroupingExpr* grouping) {
-        return _parenthesize("group", grouping->expression);
+    void ASTPrinter::VisitGroupingExpr(GroupingExpr& grouping) {
+        _parenthesize("group", grouping.expression);
     }
 
-    std::string ASTPrinter::VisitLiteralExpr(LiteralExpr* literal) {
-        if(!literal->value.has_value()) {
-            return "nil";
+    void ASTPrinter::VisitLiteralExpr(LiteralExpr& literal) {
+        if(literal.value.size() == 0) {
+            std::cout << "nil";
         }
-        return std::any_cast<std::string>(literal->value);
+        else {
+            std::cout << literal.value;
+        }
     }
 
-    std::string ASTPrinter::VisitUnaryExpr(UnaryExpr* unary) {
-        return _parenthesize(unary->op.ToString(), unary->right);
+    void ASTPrinter::VisitUnaryExpr(UnaryExpr& unary) {
+        _parenthesize(unary.op.value, unary.right);
     }
 
-    std::string ASTPrinter::_parenthesize(const std::string& name, Expr* expr) {
+    void ASTPrinter::_parenthesize(const std::string& name, Expr* expr...) {
         std::ostringstream os;
         os << "(" << name;
-        os << " " << expr->Accept(this);
+        //va_list args;
+        //va_start(args, expr);
+
+        expr->Accept(*this);
         os << ")";
-        return os.str();
+        std::cout << os.str();
     }
 
 };

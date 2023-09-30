@@ -13,6 +13,7 @@
 #ifndef DARGON_ASTPRINTER_H
 #define DARGON_ASTPRINTER_H
 
+#include <iostream>
 #include "Expr.h"
 
 namespace dargon {
@@ -24,13 +25,14 @@ namespace dargon {
     */
 	class ASTPrinter : public IVisitor {
 	public:
-        std::string Print(Expr* expr);
-        virtual std::string VisitBinaryExpr(BinaryExpr* binary) override;
-		virtual std::string VisitGroupingExpr(GroupingExpr* grouping) override;
-		virtual std::string  VisitLiteralExpr(LiteralExpr* literal) override;
-		virtual std::string  VisitUnaryExpr(UnaryExpr* unary) override;
+        ASTPrinter();
+        void Print(Expr* exp);
+        virtual void VisitBinaryExpr(BinaryExpr& binary) override;
+		virtual void VisitGroupingExpr(GroupingExpr& grouping) override;
+		virtual void VisitLiteralExpr(LiteralExpr& literal) override;
+		virtual void VisitUnaryExpr(UnaryExpr& unary) override;
 	private:
-        std::string _parenthesize(const std::string& name, Expr* expr);
+        void _parenthesize(const std::string& name, Expr* expr...);
 	};
 
 };
