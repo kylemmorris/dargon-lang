@@ -27,7 +27,7 @@ namespace dargon {
     }
 
     void ASTPrinter::VisitGroupingExpr(GroupingExpr& grouping) {
-        _parenthesize("group", { grouping.expression });
+        _parenthesize("group ", { grouping.expression });
     }
 
     void ASTPrinter::VisitLiteralExpr(LiteralExpr& literal) {
@@ -44,13 +44,11 @@ namespace dargon {
     }
 
     void ASTPrinter::_parenthesize(const std::string& name, std::initializer_list<Expr*> exprs) {
-        std::ostringstream os;
-        os << "(" << name;
+        std::cout << "(" << name;
         for(Expr* e : exprs) {
             e->Accept(*this);
         }
-        os << ")";
-        std::cout << os.str();
+        std::cout << ")";
     }
 
 };

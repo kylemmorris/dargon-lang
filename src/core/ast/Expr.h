@@ -17,20 +17,38 @@
 namespace dargon {
 
 	//Forward declarations:
+
 	class BinaryExpr;
 	class GroupingExpr;
 	class LiteralExpr;
 	class UnaryExpr;
-
-	// ************************
-
 	class IVisitor;
 
+	/**
+	 * @brief Interface for a node being
+	 * visited by an object that implements
+	 * the "IVisitor" interface.
+	 * @author Kyle Morris
+	 * @since v0.1
+	 * @see IVisitor
+	 */
 	class IVisitee {
 	public:
+        /**
+        * @brief Abstract function. Accepts a visitor
+        * object and calls its appropriate "Visit" function
+        * using this object.
+        */
         virtual void Accept(IVisitor& visitor) = 0;
 	};
 
+	/**
+	 * @brief Interface for an object that
+	 * visits nodes in a tree.
+	 * @author Kyle Morris
+	 * @since v0.1
+	 * @see IVisitee
+	 */
 	class IVisitor {
 	public:
 		virtual void VisitBinaryExpr(BinaryExpr& binary) = 0;
@@ -38,8 +56,6 @@ namespace dargon {
 		virtual void VisitLiteralExpr(LiteralExpr& literal) = 0;
 		virtual void VisitUnaryExpr(UnaryExpr& unary) = 0;
 	};
-
-	// ************************
 
 	/**
 	 * @brief The base class of all Expressions.
@@ -49,6 +65,8 @@ namespace dargon {
 	public:
         using IVisitee::Accept;
 	};
+
+	// ************************
 
 	class BinaryExpr : public Expr {
 	public:
