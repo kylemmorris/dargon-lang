@@ -23,11 +23,11 @@ namespace dargon {
     }
 
     void ASTPrinter::VisitBinaryExpr(BinaryExpr& binary) {
-        _parenthesize(binary.op.value, binary.left);
+        _parenthesize(binary.op.value, { binary.left, binary.right });
     }
 
     void ASTPrinter::VisitGroupingExpr(GroupingExpr& grouping) {
-        _parenthesize("group", grouping.expression);
+        _parenthesize("group", { grouping.expression });
     }
 
     void ASTPrinter::VisitLiteralExpr(LiteralExpr& literal) {
@@ -40,16 +40,15 @@ namespace dargon {
     }
 
     void ASTPrinter::VisitUnaryExpr(UnaryExpr& unary) {
-        _parenthesize(unary.op.value, unary.right);
+        _parenthesize(unary.op.value, { unary.right });
     }
 
-    void ASTPrinter::_parenthesize(const std::string& name, Expr* expr...) {
+    void ASTPrinter::_parenthesize(const std::string& name, std::initializer_list<Expr*> exprs) {
         std::ostringstream os;
         os << "(" << name;
-        //va_list args;
-        //va_start(args, expr);
-
-        expr->Accept(*this);
+        for(Expr* e : exprs) {
+            e->Accept(*this);
+        }
         os << ")";
         std::cout << os.str();
     }

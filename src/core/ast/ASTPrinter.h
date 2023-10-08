@@ -14,6 +14,7 @@
 #define DARGON_ASTPRINTER_H
 
 #include <iostream>
+#include <initializer_list>
 #include "Expr.h"
 
 namespace dargon {
@@ -32,7 +33,7 @@ namespace dargon {
 		virtual void VisitLiteralExpr(LiteralExpr& literal) override;
 		virtual void VisitUnaryExpr(UnaryExpr& unary) override;
 	private:
-        void _parenthesize(const std::string& name, Expr* expr...);
+        void _parenthesize(const std::string& name, std::initializer_list<Expr*> exprs);
 	};
 
 };
