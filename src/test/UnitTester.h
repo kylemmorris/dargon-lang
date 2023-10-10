@@ -13,44 +13,52 @@
 #ifndef DARGON_UNIT_TESTER_H
 #define DARGON_UNIT_TESTER_H
 
-#include <memory>
 #include <vector>
-#include "UnitTest.h"
+#include "TokenUnitTest.h"
 
 namespace dargon {
+namespace test {
 
-    class UnitTester;
-
-    /**
-    * @brief Typedef for the unique_ptr.
-    */
-    typedef UnitTesterPtr std::unique_ptr<UnitTester>;
-
-    namespace hidden {
-        static UnitTesterPtr _unitTester;
-    };
 
 	/**
-     * @brief Runs all the unit tests if DARGON_TEST is set.
+     * @brief Singelton that runs all the unit tests.
      * @author Kyle Morris
      * @since v0.1
      * @see UnitTest
     */
 	class UnitTester {
 	public:
-        static UnitTesterPtr Get() {
-            if(hidden::_unitTester == nullptr) {
-                hidden::_unitTester.reset(new UnitTester());
-            }
-            return hidden::_unitTester;
+
+        /**
+        * @brief Initializes all unit tests.
+        */
+        UnitTester()
+        {
+            AddUnitTest(TokenUnitTest);
         }
-        void AddUnitTest(UnitTest* t) {
-            _test.push_back(t);
+
+        /**
+        * @brief Runs all unit tests.
+        */
+        std::string RunUnitTests() {
+            std::ostringstream os;
+            size_t total = _tests.size();
+            for(size_t i = 0; i < total; i++) {
+                os << "[" << i+1 << "/" << total << "] " << _tests[i]().Report() << std::endl;
+            }
+            return os.str();
+        }
+
+        /**
+        * @brief Adds a unit test.
+        */
+        void AddUnitTest(TestFunc t) {
+            _tests.push_back(t);
         }
 	private:
-        std::vector<UnitTest*> _tests;
+        std::vector<TestFunc> _tests;
 	};
 
-};
+}}; // dargon::test
 
 #endif

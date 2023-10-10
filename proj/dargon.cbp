@@ -51,8 +51,8 @@
 		<Unit filename="../src/core/lex/Token.cpp" />
 		<Unit filename="../src/core/lex/Token.h" />
 		<Unit filename="../src/main.cpp" />
+		<Unit filename="../src/test/TestResult.h" />
 		<Unit filename="../src/test/TokenUnitTest.h" />
-		<Unit filename="../src/test/UnitTest.h" />
 		<Unit filename="../src/test/UnitTester.h" />
 		<Extensions />
 	</Project>

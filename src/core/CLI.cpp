@@ -36,6 +36,11 @@ namespace dargon {
                 // TODO
                 return 0;
             }
+            if(_args[0] == "test") {
+                out("RUNNING UNIT TESTS");
+                out(_tester.RunUnitTests());
+                return 0;
+            }
             else {
                 // otherwise, it's a file path
                 // TODO
@@ -92,6 +97,7 @@ namespace dargon {
             out("   Usage:");
             out("       dargon help             - Displays this dialogue.");
             out("       dargon go               - Begins the Dargon interactive interpreter.");
+            out("       dargon test             - Runs Dargon unit tests.");
             out("       dargon <path>           - Runs a Dargon file (*.dargon or *.dargconf) at the path provided.");
             out("");
         }
