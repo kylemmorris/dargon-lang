@@ -10,4 +10,4 @@ These are various tools and utilities used throughout different modules, or used
 
 ### Test:
 
-Contains the testing framework.
+Contains the testing project.

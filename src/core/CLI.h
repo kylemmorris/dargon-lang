@@ -16,7 +16,6 @@
 #include <vector>
 #include <string>
 #include "lex/Lexer.h"
-#include "../test/UnitTester.h"
 
 namespace dargon {
 
@@ -80,11 +79,6 @@ namespace dargon {
          * @brief Arguments.
          */
         std::vector<std::string> _args;
-
-        /**
-        * @brief The Unit tester.
-        */
-        test::UnitTester _tester;
 
         /**
          * @brief The lexical-analyzer.

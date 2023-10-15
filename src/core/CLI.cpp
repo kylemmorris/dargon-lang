@@ -36,11 +36,6 @@ namespace dargon {
                 // TODO
                 return 0;
             }
-            if(_args[0] == "test") {
-                out("RUNNING UNIT TESTS");
-                out(_tester.RunUnitTests());
-                return 0;
-            }
             else {
                 // otherwise, it's a file path
                 // TODO

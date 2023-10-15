@@ -2,25 +2,24 @@
  * Dargon Programming Language
  * (C) Kyle Morris 2023 - See LICENSE.txt for license information.
  *
- * FILE: NAME.h
+ * FILE: UnitTest.h
  *
- * DESCRIPTION:
+ * DESCRIPTION: Represents a single Unit Test. All Unit Tests have one test method,
+ *              but can share functionalty such as assert and comparison.
  *
  * SINCE: v0.1
  *
  */
 
-#ifndef DARGON_TEST_RESULT_H
-#define DARGON_TEST_RESULT_H
+#ifndef DARGON_UNIT_TEST_H
+#define DARGON_UNIT_TEST_H
 
-#include <functional>
 #include <string>
-#include <sstream>
+#include "../core/FilePosition.h"
 
 namespace dargon {
-namespace test {
 
-	/**
+    /**
      * @brief Struct representing a test result.
      * @author Kyle Morris
      * @since v0.1
@@ -51,27 +50,12 @@ namespace test {
         * @brief Asserts that a given expression is true.
         * If not, a reason for failure is provided.
         */
-        inline void Assert(bool inp, const std::string& errstr) {
+        inline void Assert(bool inp, const std::string& errstr, const FilePosition& pos) {
             if(inp) {
                 passed++;
             }
             else {
-                reason = errstr + "; " + reason;
-            }
-            total++;
-        }
-
-        /**
-        * @brief Checks if two values are equal. If not,
-        * a reason for failure is provided.
-        */
-        template<typename T>
-        inline void CheckEq(const T& lhs, const T& rhs, const std::string& errstr) {
-            if(lhs == rhs) {
-                passed++;
-            }
-            else {
-                reason = errstr + "; " + reason;
+                reason = errstr + "at " + pos.ToString() + "; " + reason;
             }
             total++;
         }
@@ -82,24 +66,18 @@ namespace test {
         std::string reason = "";
     };
 
-    /**
-    * @brief Test function type.
+	/**
+     * @brief Represents a single Unit Test.
+     * @author Kyle Morris
+     * @since v0.1
     */
-    typedef  std::function<TestResult()> TestFunc;
+	class UnitTest {
+	public:
+        virtual TestResult Test() = 0;
+    protected:
+        TestResult _result;
+	};
 
-
-// Marker for a Dargon unit test function.
-#define DARGON_UNIT_TEST static TestResult
-
-#define DARGON_UNIT_TEST_BEGIN(str) \
-    TestResult result(str);
-
-#define DARGON_UNIT_TEST_ASSERT(expr, issue_if_wrong) \
-    result.Assert(expr, issue_if_wrong);
-
-#define DARGON_UNIT_TEST_END \
-    return result;
-
-}}; // dargon::test
+};
 
 #endif

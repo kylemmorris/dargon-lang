@@ -51,9 +51,9 @@
 		<Unit filename="../src/core/lex/Token.cpp" />
 		<Unit filename="../src/core/lex/Token.h" />
 		<Unit filename="../src/main.cpp" />
-		<Unit filename="../src/test/TestResult.h" />
-		<Unit filename="../src/test/TokenUnitTest.h" />
-		<Unit filename="../src/test/UnitTester.h" />
+		<Unit filename="../src/test/LexerTests.h" />
+		<Unit filename="../src/test/TestingMacros.h" />
+		<Unit filename="../src/test/UnitTest.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

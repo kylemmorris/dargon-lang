@@ -46,14 +46,10 @@ namespace dargon {
         int  _inputLen;
         // The current index of the lexer in the char stream.
         int  _index;
-        // The position in the file, to be passed to each token as metadata.
-        FilePosition _pos;
-        // The line number, to be passed along as metadata.
-        //int  _lineNum;
-        // The line column, to be passed along as metadata.
-        //int  _lineColumn;
         // The current character.
         char _char;
+        // The position in the file, to be passed to each token as metadata.
+        FilePosition _pos;
 
         /**
 	    * "Consumes" the character, i.e., advances the index.
