@@ -86,6 +86,35 @@ Variable 'code' is 0
 ~/home/demo$ 
 ```
 
+All declarations (excluding some functions) follow this syntax, where its **mutability** is defined, then its **name**, and then its **type**. Dargon is *statically-typed*, meaning the type of each variable must be given (i.e. Dargon does not "guess" what the type is).
 
+The one case where a type is *not* required is in these kinds of declarations. While the mutability and name is always required, its type is optional *only if* a valid literal is present. The following change to "Declare.dargon" is valid:
 
+*File: Declare.dargon*
 
+```
+# Allowed
+const pi = 3.14;
+var code = 0;
+print("Variable 'code' is {code});
+```
+
+Finally, to wrap this section up, when something is declared, if it is not given a value, it uses its *default* value. Note that for these kinds of declarations, the type is required. For integers and reals, this is 0 and 0.0 respectively, for booleans this is false, and for strings this is the empty string (""). Everything always has a value in Dargon - no nulls are allowed.
+
+*File: Declare.dargon*
+
+```
+const pi :real;
+var code :int;
+const name = "Hey";
+# Not allowed
+# const something;
+```
+
+ In Dargon, the rule of thumb is: if you, the programmer, cannot deduce the type of a declaration, then Dargon cannot and will not allow it.
+
+## Functions
+
+## Scope
+
+"Scope" is a term that refers to the lifetime and accessability of a programming element (variable/constant/function/etc.). An "inner scope" refers to a scope that is inside another scope. In general, an inner scope has access to all of the elements in its outer scope. In Dargon, we call scopes *blocks*, like other languages do. In fact, a Dargon file is itself a scope, sometimes called the *global scope*.
