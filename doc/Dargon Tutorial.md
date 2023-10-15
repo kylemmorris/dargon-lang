@@ -111,9 +111,74 @@ const name = "Hey";
 # const something;
 ```
 
- In Dargon, the rule of thumb is: if you, the programmer, cannot deduce the type of a declaration, then Dargon cannot and will not allow it.
+**In Dargon, the rule of thumb is: if you, the programmer, cannot deduce the type of a declaration, then Dargon cannot and will not allow it.**
+
+Finally, Dargon also allows multiple declarations per line:
+
+*File: Declare.dargon*
+
+```
+const one, two, three = 1, 2, 3;
+var name, nickname :string = "Robert", "Bob";
+const myName :string, myAge :int = "Kyle", 24;
+const x :int, var err :bool = 12, false;
+```
 
 ## Functions
+
+*Functions* are blocks of code that take any number of inputs and produce any number of outputs. Dargon provides a few neat features, for example: any number of different outputs, named output variables, and *first-class functions*. In layman's terms, this means functions can be passed around, just like any other variable (in fact, a function that is declared as a variable can "change" its implementation - more on that later). 
+
+Create a file named "Functions.dargon" and let's explore what Dargon's functions look like:
+
+*File: Functions.dargon*
+
+```
+# Returns input^2
+fun square(input :int -> int) [
+    -> (input * input);
+]
+```
+
+The above code is a *function declaration*, It declares a function named "square" that takes 1 integer input, named "input", and returns an integer result. denoted by the arrow syntax. Anything to the left of the arrow is the inputs to the function, and anything to the right is its outputs. Then, the brackets denote the *body* of the function and, since this function returns something, that is denoted with the arrow syntax as well.
+
+Now that this is declared, we call is like this:
+
+*File: Functions.dargon*
+
+```
+const myNumber = 8;
+const sixtyFour = square(myNumber);
+assert(sixtyFour == 64);
+print("8^2 = {sixtyFour});
+```
+
+The previous code snippet is also using another built-in function, *assert*. This function makes sure, or "asserts" its input expression and, if it's not true, it throws an error. In this case, 8*8 is 64, so this assertion should pass.
+
+While functions can become complicated and include multiple inputs and outputs, Dargon emphasizes readability. Take the following example:
+
+*File: Functions.dargon*
+
+```
+# Safely divides x by y, includes error for div by zero.
+fun safeDivide(x :int, y :int -> real, bool) [
+    ...
+]
+```
+
+Just from reading the function declaration, you can see that it takes in two integer numbers, x and y, and returns a real number and a boolean (true or false), where if this is true, there was an error. This could be better though.
+
+In Dargon, function inputs can be split by type using the comma (",") operator (operators will be described in more detail later). In addition, outputs can be named. In this case, instead of using the arrow (->) to "return" the value, the function must set each named output. See the following, new declaration, as well as how functions with multiple outputs are used:
+
+*File: Functions.dargon*
+
+```
+# Safely divides x by y, includes error for div by zero.
+fun safeDivide(x, y :int -> output :real, error :bool) [
+    ...
+]
+const a, b :int = 12, 0;
+const c :real, er :bool = safeDivide(a,b);
+```
 
 ## Scope
 
