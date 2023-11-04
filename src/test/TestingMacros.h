@@ -28,6 +28,7 @@ public:\
     }\
     virtual TestResult Test() override
 
+
 #define DARGON_TEST_ASSERT(boolExpr) \
     _result.Assert(boolExpr, ##boolExpr##, DARGON_FILE_POSITION)
 

@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <initializer_list>
+#include <sstream>
 #include "Expr.h"
 
 namespace dargon {
@@ -29,15 +30,20 @@ namespace dargon {
 	public:
         ASTPrinter();
         /**
-        * @brief Prints the expression to std::cout
+        * @brief Returns the expression
         * in polish notation.
         */
-        void Print(Expr* exp);
+        std::string Print(Expr* exp);
         virtual void VisitBinaryExpr(BinaryExpr& binary) override;
 		virtual void VisitGroupingExpr(GroupingExpr& grouping) override;
 		virtual void VisitLiteralExpr(LiteralExpr& literal) override;
 		virtual void VisitUnaryExpr(UnaryExpr& unary) override;
 	private:
+        /**
+        * @brief The result of the print.
+        */
+        std::ostringstream _result;
+
         /**
         * @brief Helper function, equivalent to: std::cout << "(" << name << foreach(expr) { exprs->Accept(this); } << ")";
         */

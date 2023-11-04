@@ -31,10 +31,9 @@ namespace dargon {
                 runREPL();
                 return 0;
             }
-            if(_args[0] == "config") {
-                // config = Run a configuration ('runfile')
+            if(_args[0] == "test") {
+                // test = Runs all unit tests
                 // TODO
-                return 0;
             }
             else {
                 // otherwise, it's a file path
@@ -110,8 +109,9 @@ namespace dargon {
 
         void CLI::displayREPLCommands() {
             out("**********");
-            out("help              -");
-            out("commands          -");
+            out("help          - Displays the help dialogue.");
+            out("commands      - Displays this dialogue.");
+            out("memory        - Displays the items currently in memory.");
             out("**********");
         }
 

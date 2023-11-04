@@ -16,10 +16,12 @@
 
 namespace dargon {
 
-    ASTPrinter::ASTPrinter() {}
+    ASTPrinter::ASTPrinter() : _result() {}
 
-    void ASTPrinter::Print(Expr* exp) {
+    std::string ASTPrinter::Print(Expr* exp) {
+        _result.str("");
         exp->Accept(*this);
+        return _result.str();
     }
 
     void ASTPrinter::VisitBinaryExpr(BinaryExpr& binary) {
@@ -32,10 +34,10 @@ namespace dargon {
 
     void ASTPrinter::VisitLiteralExpr(LiteralExpr& literal) {
         if(literal.value.size() == 0) {
-            std::cout << "nil";
+            _result << "nil";
         }
         else {
-            std::cout << literal.value;
+            _result << literal.value;
         }
     }
 
@@ -44,11 +46,11 @@ namespace dargon {
     }
 
     void ASTPrinter::_parenthesize(const std::string& name, std::initializer_list<Expr*> exprs) {
-        std::cout << "(" << name;
+        _result << "(" << name;
         for(Expr* e : exprs) {
             e->Accept(*this);
         }
-        std::cout << ")";
+        _result << ")";
     }
 
 };

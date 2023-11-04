@@ -51,6 +51,7 @@
 		<Unit filename="../src/core/lex/Token.cpp" />
 		<Unit filename="../src/core/lex/Token.h" />
 		<Unit filename="../src/main.cpp" />
+		<Unit filename="../src/test/ASTTests.h" />
 		<Unit filename="../src/test/LexerTests.h" />
 		<Unit filename="../src/test/TestingMacros.h" />
 		<Unit filename="../src/test/UnitTest.h" />
