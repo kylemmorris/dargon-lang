@@ -1,0 +1,18 @@
+##
+    Declare.dargon
+    Part of the Dargon Tutorial
+    Created by Kyle Morris
+##
+
+# Normal declarations
+const pi :real = 3.14
+var code :int = 12
+print("Variable 'code' is: {code}")
+
+# Not allowed
+# const something
+
+# Multiple declarations
+const one, two, three = 1, 2, 3
+var name, nickname :string = "Robert", "Bob"
+const myName :string, myAge :int = "Kyle", 24

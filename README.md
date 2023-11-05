@@ -1,6 +1,6 @@
 # The Dargon Programming Language - v0.1
 
-**This is still a work in progress - Dargon is not ready!**
+**This is still a huge work in progress - Dargon is not ready!**
 
 Dargon is a small toy language and (for now) solo project with a focus on being:
 
@@ -22,35 +22,53 @@ The full Dargon experience aims to deliver the following:
 
 ## Where to Start
 
-Dargon is not ready for any form of distribution or usage. I am currently working on gathering initial documentation, including a tutorial on how I think Dargon should preform (almost like a requirements document), a language specification, grammar definition, and UML diagrams. All of these can be found in the [doc](doc) directory of this repository.
+Dargon is not ready for any form of distribution or usage. I am currently working on gathering initial documentation, including a tutorial on how I think Dargon should preform (almost like a requirements document), a language specification, grammar definition, and UML diagrams. All of these can be found in the [doc](doc) directory of this repository. Some [example](example) programs are also available.
 
 ## Current Roadmap
 
 Dargon is a learning experience for me as an artistic project; I am currently working on this project by myself and during my free time. As a result, this roadmap is not 100% fleshed out and is subject to change.
 
-- Initial documentation
+- Full definition of language
 - Lexer
-- Abstract Syntax Tree (AST) generation
-- LL(1) Recursive-Descent Parser.
-- ... *More here*
-- Example files created (Hello World, Fibbonacci, and 99 Bottels of Beer). 
-- Entry created on [RosettaCode]([Rosetta Code](https://rosettacode.org/wiki/Rosetta_Code)).
-- Version 0.1.
+- AST generation
+- LL(1) Parser (might be sufficient)
+- Core engine and memory management
+- Testing framework
+- ... *Much more here* ...
+- Entry created on [RosettaCode](https://rosettacode.org/wiki/Rosetta_Code)
+- Version 0.1
 
 ## Basic Code Example
 
 ```
-# This is a simple fibonnaci example. File: fib.dargon
+##
+File: fib.dargon
+Recursive Fibonnaci sequence command line program.
+@Author Kyle Morris.
+##
 
-##
-Recursive Fibonnaci sequence.
-Created by Kyle Morris.
-##
-fun fib(x :int -> int) [
-    -> x if(x < 2) else fib(x-1) + fib(x-2);
+fun fib(x :uint -> uint) [
+    -> x if(x < 2) else fib(x-1) + fib(x-2)
 ]
 
-assert(fib(10) == 55);
+var inp :string = ""
+var value :uint = 0
+loop [
+    print("Fibonnaci calculator (enter 'q' or 'quit' to exit)")
+    inp = input("Enter a number between 0 and 10: ")    
+    if(inp == "q"|"quit") [
+        stop
+    ]
+    else [
+        value = inp to uint;
+        if(value?) [
+            print("fib({value}) = {fib(value)}")
+        ]
+        else [
+            print("Enter a number silly!")
+        ]
+    ]
+]
 ```
 
 ## Technology Used
@@ -58,5 +76,5 @@ assert(fib(10) == 55);
 - Code::Blocks IDE (version 20.03)
 - CMake (verison 3.22.1)
 - g++ (using C++17)
-- Umbrello (UML editor)
+- draw.io (UML editor)
 - doxygen (for documentation)

@@ -1,0 +1,26 @@
+##
+    Functions.dargon
+    Part of the Dargon Tutorial
+    Created by Kyle Morris
+##
+
+# Returns input^2
+fun square(input :int -> int) [
+    -> (input * input)
+]
+
+# Safely divides x by y, includes error for div by zero
+fun safeDivide(x, y :int -> output :real, error :bool) [
+    error = (y == 0)
+    output = (x / y) if(not error) else 0
+]
+
+# Usage
+const myNumber = 8
+const sixyFour = square(myNumber)
+assert(sixtyFour == 64)
+print("8^2 = {sixtyFour}")
+
+const a, b :int = 12, 0
+const c, er = safeDivide(a,b)
+

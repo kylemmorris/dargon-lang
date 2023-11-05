@@ -2,7 +2,7 @@
 
 Dargon is a lightweight, simple interpreted programming language aimed at being fun and intuitive. It tries to balance the thin line of pushing the boundaries of language design while also being desirable and enjoyable to use. It adds a lot of cool features and syntactic sugar, but it's also cozy and familiar. 
 
-This tutorial will go through the basics of the language, and assumes you have the Dargon Interpreter (DIR) setup. A  number of different files will be created throughout this tutorial. For those who would rather learn by example, these files can all be accessed []("Here").
+This tutorial will go through the basics of the language, and assumes you have the Dargon Interpreter (DIR) setup. A  number of different files will be created throughout this tutorial. For those who would rather learn by example, these files can all be accessed [here](../examples/tutorial).
 
 ## Audience
 
@@ -26,7 +26,7 @@ Let's jump right in starting with an established tradition with our own little t
 *File: Hello.dargon*
 
 ```
-print("Hello Dargon!");
+print("Hello Dargon!")
 ```
 
 The Dargon Interpreter (DIR) comes with a set of pre-defined *functions*, one of which is "print". This function takes a string and outputs it to the console. Let's use DIR's "run" command to execute this file:
@@ -60,7 +60,7 @@ The third type of comment is the *conditional comment*. The conditional comment 
 ```
 ##<DEBUG>
 # Yes, this is a comment inside a conditional comment block.
-print("Debugging!");
+print("Debugging!")
 ##
 ```
 
@@ -73,9 +73,9 @@ In programming languages, a **declaration** is a statement which declares a cons
 *File: Declare.dargon*
 
 ```
-const pi :real = 3.14;
-var code :int = 0;
-print("Variable 'code' is: {code}");
+const pi :real = 3.14
+var code :int = 0
+print("Variable 'code' is: {code}")
 ```
 
 This file so far declares two things: a constant **real** number named "pi", and a variable **integer** named "code". It also assigns each one a value. It then prints the contents of the "code" variable to the screen by *insterting* its value into the string via the curly brace syntax (described later). Run this via DIR:
@@ -94,9 +94,9 @@ The one case where a type is *not* required is in these kinds of declarations. W
 
 ```
 # Allowed
-const pi = 3.14;
-var code = 0;
-print("Variable 'code' is {code});
+const pi = 3.14
+var code = 0
+print("Variable 'code' is {code})
 ```
 
 Finally, to wrap this section up, when something is declared, if it is not given a value, it uses its *default* value. Note that for these kinds of declarations, the type is required. For integers and reals, this is 0 and 0.0 respectively, for booleans this is false, and for strings this is the empty string (""). Everything always has a value in Dargon - no nulls are allowed.
@@ -104,11 +104,11 @@ Finally, to wrap this section up, when something is declared, if it is not given
 *File: Declare.dargon*
 
 ```
-const pi :real;
-var code :int;
-const name = "Hey";
+const pi :real
+var code :int
+const name = "Hey"
 # Not allowed
-# const something;
+# const something
 ```
 
 **In Dargon, the rule of thumb is: if you, the programmer, cannot deduce the type of a declaration, then Dargon cannot and will not allow it.**
@@ -118,10 +118,9 @@ Finally, Dargon also allows multiple declarations per line:
 *File: Declare.dargon*
 
 ```
-const one, two, three = 1, 2, 3;
-var name, nickname :string = "Robert", "Bob";
-const myName :string, myAge :int = "Kyle", 24;
-const x :int, var err :bool = 12, false;
+const one, two, three = 1, 2, 3
+var name, nickname :string = "Robert", "Bob"
+const myName :string, myAge :int = "Kyle", 24
 ```
 
 ## Functions
@@ -135,7 +134,7 @@ Create a file named "Functions.dargon" and let's explore what Dargon's functions
 ```
 # Returns input^2
 fun square(input :int -> int) [
-    -> (input * input);
+    -> (input * input)
 ]
 ```
 
@@ -146,10 +145,10 @@ Now that this is declared, we call is like this:
 *File: Functions.dargon*
 
 ```
-const myNumber = 8;
-const sixtyFour = square(myNumber);
-assert(sixtyFour == 64);
-print("8^2 = {sixtyFour});
+const myNumber = 8
+const sixtyFour = square(myNumber)
+assert(sixtyFour == 64)
+print("8^2 = {sixtyFour})
 ```
 
 The previous code snippet is also using another built-in function, *assert*. This function makes sure, or "asserts" its input expression and, if it's not true, it throws an error. In this case, 8*8 is 64, so this assertion should pass.
@@ -176,10 +175,58 @@ In Dargon, function inputs can be split by type using the comma (",") operator (
 fun safeDivide(x, y :int -> output :real, error :bool) [
     ...
 ]
-const a, b :int = 12, 0;
-const c :real, er :bool = safeDivide(a,b);
+const a, b :int = 12, 0
+const c :real, er :bool = safeDivide(a,b)
 ```
 
 ## Scope
 
 "Scope" is a term that refers to the lifetime and accessability of a programming element (variable/constant/function/etc.). An "inner scope" refers to a scope that is inside another scope. In general, an inner scope has access to all of the elements in its outer scope. In Dargon, we call scopes *blocks*, like other languages do. In fact, a Dargon file is itself a scope, sometimes called the *global scope*.
+
+A new scope, or block, can be created by surrounding an area by two brackets "[" and "]". Create a file named "Scope.dargon":
+
+*File: Scope.dargon*
+
+```
+myBlock = [
+    var a = 12
+    const b = "Hello" 
+]
+```
+
+"myBlock" is now a valid scope, and contains some declarations. When DIR runs this code however, nothing really happens. In fact, DIR might just skip over this block, since there's no use in reserving memory that's not used. So let's use it below:
+
+```
+print("Inside a block: {myBlock.b}")
+const plus12 = myBlock.a + 12
+print("12 + 12 = {plus12}")
+```
+
+This is the introductions of the *access operator*, which can be used via the period ("."). It takes a scope and searches within it for the values desired. You can also have scopes within scopes:
+
+*File: Scope.dargon*
+
+```fence
+myBlock [
+    var a = 12
+    const b = "Hello"
+    innerBlock [
+        const greet :string = b + " Kyle"
+    ]
+]
+```
+
+Notice that "innerBlock" can access the value "b" in its enclosing block - it's perfectly valid.
+
+A question may arrise: what is the lifetime of all of these variables in the block? All of these declarations will be available for as long as the program is running - this is different from a *function's* scope, with which all of its memory will be deleted once the function exits. The blocks above are also called "namespaces", and can be used to organize different declarations and avoid name-clashing. See the following example:
+
+```
+block1 [
+    var a = 12
+    block2 [
+        var a = 234    
+    ]
+]
+print("The first 'a': {block1.a}")    # The first 'a': 12
+print("The second 'a': {block1.block2.a}")    # The second 'a': 234
+```
