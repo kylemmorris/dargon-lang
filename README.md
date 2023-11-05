@@ -22,7 +22,7 @@ The full Dargon experience aims to deliver the following:
 
 ## Where to Start
 
-Dargon is not ready for any form of distribution or usage. I am currently working on gathering initial documentation, including a tutorial on how I think Dargon should preform (almost like a requirements document), a language specification, grammar definition, and UML diagrams. All of these can be found in the [doc](doc) directory of this repository. Some [example](example) programs are also available.
+Dargon is not ready for any form of distribution or usage. I am currently working on gathering initial documentation, including a tutorial on how I think Dargon should preform (almost like a requirements document), a language specification, grammar definition, and UML diagrams. All of these can be found in the [doc](doc) directory of this repository. Some [example](examples) programs are also available.
 
 ## Current Roadmap
 
