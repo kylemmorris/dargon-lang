@@ -1,13 +1,13 @@
-/*
+/**
  * Dargon Programming Language
  * (C) Kyle Morris 2023 - See LICENSE.txt for license information.
  *
- * FILE: Token.h
- *
- * DESCRIPTION: A 'token' is what the source program is converted into by the lexer, and
- *              it can represent any number of characters in a sequence (identifiers, keywords, etc.).
- *
- * SINCE: v0.1
+ * @file Token.h
+ * @author Kyle Morris
+ * @since v0.1
+ * @section Description
+ * A 'token' is what the source program is converted into by the lexer, and
+ * it can represent any number of characters in a sequence (identifiers, keywords, etc.).
  *
  */
 
@@ -20,146 +20,57 @@
 
 namespace dargon {
 
-    /**
-     * @brief Enumeration of the types of tokens.
-    */
-    enum class TokenType {
-		EOF_TYPE, 				// End-Of-File
-		INVALID,				// An invalid token
-		COMMA,					// ','
-		STMT_END,				// ';'
-		PERIOD,					// '.'
-		LPAREN, RPAREN,			// ( and )
-		LBRACK, RBRACK,			// [ and ]
-		LBLOCK, RBLOCK,         // { and }
-		GT, LT, GTE, LTE,		// >, <, >=, <=
-		OP_PLUS,				// '+'
-		OP_MINUS,				// '-'
-		OP_MULT,				// '*'
-		OP_DIV,					// '/'
-		OP_EQ, OP_NEQ,			// '==' and '~='
-		RANGE,					// '..'
-		TILDE,                  // '~'
-		ESCAPE,					// '\'
-		ASSIGN,					// '='
-		FLOW_L, FLOW_R,         // '<-' and '->'
-		IDENTIFIER,				// Any non-keyword identifier.
-		STR_LITERAL,			// String literal
-		INT_LITERAL,			// Int literal
-		REAL_LITERAL,			// Real literal
-		RESERVED,				// Anything below this is a reserved word
-		BOOL_LIT_T,             // 'true'
-		BOOL_LIT_F,             // 'false'
-		FUNCTION_DEF,			// 'fun'
-		IF,						// 'if'
-		ELSE,					// 'else'
-		LOOP,					// 'loop'
-		AND, OR, NOT            // 'and', 'or', and 'not'.
-    };
-
-    /**
-     * @brief The set of all keywords.
-    */
-    static const std::map<std::string, TokenType> Keywords = {
-        {"fun", TokenType::FUNCTION_DEF},
-        {"if", TokenType::IF},
-        {"else", TokenType::ELSE},
-        {"loop", TokenType::LOOP},
-        {"and", TokenType::AND},
-        {"or", TokenType::OR},
-        {"not", TokenType::NOT}
-    };
-
-    /**
-     * @brief Returns a string representation
-     * of each type.
-    */
-    static std::string TypeName(const TokenType& type) {
-        switch(type) {
-            case TokenType::EOF_TYPE: return "EOF";
-            case TokenType::INVALID: return "INVALID";
-            case TokenType::COMMA: return "COMMA";
-            case TokenType::STMT_END: return "STMT_END";
-            case TokenType::PERIOD: return "PERIOD";
-            case TokenType::LPAREN: return "LPAREN";
-            case TokenType::RPAREN: return "RPAREN";
-            case TokenType::LBRACK: return "LBRACK";
-            case TokenType::RBRACK: return "RBRACK";
-            case TokenType::LBLOCK: return "LBLOCK";
-            case TokenType::RBLOCK: return "RBLOCK";
-            case TokenType::GT: return "GT";
-            case TokenType::LT: return "LT";
-            case TokenType::GTE: return "GTE";
-            case TokenType::LTE: return "LTE";
-            case TokenType::OP_PLUS: return "OP_PLUS";
-            case TokenType::OP_MINUS: return "OP_MINUS";
-            case TokenType::OP_MULT: return "OP_MULT";
-            case TokenType::OP_DIV: return "OP_DIV";
-            case TokenType::OP_EQ: return "OP_EQ";
-            case TokenType::OP_NEQ: return "OP_NEW";
-            case TokenType::RANGE: return "RANGE";
-            case TokenType::TILDE: return "TILDE";
-            case TokenType::ESCAPE: return "ESCAPE";
-            case TokenType::ASSIGN: return "ASSIGN";
-            case TokenType::FLOW_L: return "FLOW_L";
-            case TokenType::FLOW_R: return "FLOW_R";
-            case TokenType::IDENTIFIER: return "IDENTIFIER";
-            case TokenType::STR_LITERAL: return "STRING LITERAL";
-            case TokenType::INT_LITERAL: return "INT LITERAL";
-            case TokenType::REAL_LITERAL: return "REAL LITERAL";
-            case TokenType::BOOL_LIT_T: return "BOOL LITERAL TRUE";
-            case TokenType::BOOL_LIT_F: return "BOOL LITERAL FALSE";
-            case TokenType::FUNCTION_DEF: return "FUNCTION DEF";
-            case TokenType::IF: return "IF";
-            case TokenType::ELSE: return "ELSE";
-            case TokenType::LOOP: return "LOOP";
-            case TokenType::AND: return "AND";
-            case TokenType::OR: return "OR";
-            case TokenType::NOT: return "NOT";
-            default: break;
+    /// @brief A lexical token.
+    /// @since v0.1
+    class Token final {
+    public:
+        /// @brief The kind of token.
+        enum class Kind {
+            END_OF_FILE = 0,    ///< End-of-File (EOF)
+            INVALID,            ///< An invalid token
+            NEWLINE,            ///< The newline character
+            ID,                 ///< Identifier
+            __KEYWORDS__,       ///< Anything past this line is a keyword
+            CONST_MUT,          ///< Constant mutability (const)
+            VAR_MUT,            ///< Variable mutability (var)
+            __OPERATORS__,      ///< Anything past this is an operator
+            ASSIGNMENT,         ///< Assignment (=)
+            __LITERALS__,       ///< Anything past this is a literal
+            NUMBER_LIT,         ///< Numeric literal
+            FRACTIONAL_LIT,     ///< Numeric literal with decimal point
+            BOOL_T_LIT,         ///< The boolean literal 'true'
+            BOOL_F_LIT,         ///< The boolean literal 'false'
+            STRING_LIT          ///< String literal "blablabla"
         };
-        throw new Exception("Unsupported token type!");
-    };
 
-    /**
-	 * Returns if the inputted text is a keyword or not.
-	 * Will return TokenType::INVALID if it is not, and the
-	 * appropriate type otherwise.
-	 */
-    TokenType IsKeyword(const std::string& input);
+        /// @brief The general constructor.
+        Token(const Kind& kind = Kind::INVALID, const FilePosition& pos);
 
-	/**
-     * @brief A lexical token.
-    */
-	struct Token final {
-	public:
-        /**
-        * @brief The invalid token constructor.
-        */
-        Token();
-        /**
-        * @brief The token constructor without metadata.
-        */
-        Token(const TokenType& type, const std::string& val);
-        /**
-        * @brief The normal token constructor.
-        */
-        Token(const TokenType& type, const std::string& val, const FilePosition& pos);
+        /// @brief Constructor for tokens that contain values.
+        /// This is reserved for literals and identifiers.
+        Token(const Kind& kind, const std::string& value, const FilePosition& pos);
 
+        /// @brief Returns if this token is valid or not.
+        /// An invalid token is defined as either INVALID or EOF.
+        bool Valid() const;
 
-        /**
-        * @brief Returns if this is a valid token.
-        */
-        bool IsValid() const;
-        /**
-        * @brief Returns the token as "<TYPE : VALUE>"
-        */
+        /// @brief Returns the string representation of this token.
         std::string ToString() const;
 
-        TokenType type;
-        std::string value;
-        FilePosition location;
-	};
+        /// @brief Static function for returning a type's string representation.
+        static std::string GetKindName(const Kind& type);
+    private:
+
+        /// @brief The map of keywords.
+        static const std::map<std::string, Kind> _keywords = {
+            {"const", Kind::CONST_MUT},
+            {"var", Kind::VAR_MUT}
+        };
+
+        Kind _type;
+        std::string _value;
+        FilePosition _location;
+    };
 
 };
 

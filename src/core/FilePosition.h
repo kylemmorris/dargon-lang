@@ -30,7 +30,7 @@ namespace dargon {
         FilePosition(int line, int pos, const std::string& fName) : line(line), col(pos), fileName(fName) {}
         bool Valid() const { return line != 0 && col != 0; }
         std::string ToString() const {
-            return "[" + fileName + " Line " + std::to_string(line) + " Col " + std::to_string(col) + "]";
+            return "@" + fileName + " Line " + std::to_string(line) + " Col " + std::to_string(col);
         }
         // The line number.
         int line;

@@ -1,40 +1,67 @@
-/*
+/**
  * Dargon Programming Language
  * (C) Kyle Morris 2023 - See LICENSE.txt for license information.
  *
- * FILE: Token.cpp
- *
- * DESCRIPTION: Implementation of Token.h
- *
- * SINCE: v0.1
+ * @file Token.cpp
+ * @author Kyle Morris
+ * @since v0.1
+ * @section Description
+ * A 'token' is what the source program is converted into by the lexer, and
+ * it can represent any number of characters in a sequence (identifiers, keywords, etc.).
  *
  */
 
-#include "Token.h"
+ #include "Token.h"
 
-namespace dargon {
+ namespace dargon {
 
-    Token::Token() : type(TokenType::INVALID), value("INVALID") {}
-    Token::Token(const TokenType& type, const std::string& val) : type(type), value(val), location(0,0) {}
-    Token::Token(const TokenType& type, const std::string& val, const FilePosition& pos) : type(type), value(val), location(pos) {}
+    Token::Token(const Token::Kind& kind, const FilePosition& pos)
+    : _type(kind), _value(""), _location(pos)
+    {}
 
-    bool Token::IsValid() const {
-        return type != TokenType::INVALID && type != TokenType::EOF_TYPE;
-    }
-
-    std::string Token::ToString() const {
-        if(location.Valid()) {
-            return "<" + TypeName(type) + " : " + value + " " + location.ToString() + ">";
+    Token::Token(const Token::Kind& kind, const std::string& value, const FilePosition& pos)
+    : _type(kind), _value(value), _location(pos)
+    {
+        // If it's an ID, check if it's not a keyword.
+        if(_type == Kind::ID) {
+            auto ret = _keywords.find(_value);
+            if(ret != _keywords.cend()) {
+                _type = ret->second;
+            }
         }
-        return "<" + TypeName(type) + " : " + value + ">";
     }
 
-    TokenType IsKeyword(const std::string& input) {
-        TokenType ret = TokenType::INVALID;
-        auto t = Keywords.find(input);
-        if(t != Keywords.cend()) {
-            ret = t->second;
-        }
-        return ret;
+    bool Token::IsValid() const
+    {
+        return _type != Kind::END_OF_FILE && _type != Kind::INVALID;
     }
-};
+
+    std::string Token::ToString() const
+    {
+        std::string val = (_type > Kind::__LITERALS__) ? ("," + _value) : "";
+        return GetKindName(_type) + val + (_location.Valid() ? _location.ToString() : "");
+    }
+
+    std::string Token::GetKindName(const Token::Kind& type)
+    {
+        switch(type) {
+        case Kind::END_OF_FILE: return "EOF";
+        case Kind::INVALID: return "(!?)";
+        case Kind::NEWLINE: return "NEWLINE";
+        case Kind::ID: return "ID";
+        case Kind::CONST_MUT: return "const";
+        case Kind::VAR_MUT: return "var";
+        case Kind::ASSIGNMENT: return "ASSIGN";
+        case Kind::NUMBER_LIT: return "NUMBER LITERAL";
+        case Kind::FRACTIONAL_LIT: return "FRACTIONAL LITERAL";
+        case Kind::BOOL_T_LIT: return "true";
+        case Kind::BOOL_F_LIT: return "false";
+        case Kind::STRING_LIT: return "STRING LITERAL";
+        default:
+            std::string err = "Unhandled Token::Kind in GetKindName(): ";
+            err += std::to_string((int)type);
+            throw new Exception(err);
+        }
+    }
+
+ };
