@@ -32,7 +32,7 @@ Dargon is not ready for any form of distribution or usage. I am currently workin
 
 - [proj](proj): This contains the Code::Blocks project I am using.
 
-- [src](src): The source code. This is split up into different sections, and as a separate [readme](src/README.md).
+- [src](src): The source code, split up into different sections. It has its own [readme](src/README.md).
 
 ## Basic Code Example
 
