@@ -1,13 +1,12 @@
-/*
+/**
  * Dargon Programming Language
  * (C) Kyle Morris 2023 - See LICENSE.txt for license information.
  *
- * FILE: Log.h
- *
- * DESCRIPTION: General-purpose logging utilities.
- *              Contains the preferred macros.
- *
- * SINCE: v0.1
+ * @file Log.h
+ * @author Kyle Morris
+ * @since v0.1
+ * @section Description
+ * A place for general-purpose logging utilities.
  *
  */
 
@@ -21,31 +20,32 @@
 namespace dargon {
 namespace hidden {
 
+    /// @brief The log file name.
     constexpr const char* LogFileName = "dargon.log";
+    /// @brief The log file used throughout.
     static std::ofstream LogFile;
+    /// @brief The mutex used.
     static std::mutex LogFileMutex;
 
-    /**
-     * @brief Underlying Log function for macros.
-     * Use the macros 'InfoLog', 'WarnLog', and 'ErrorLog' instead.
-    */
+    /// @brief Underlying log function. Use macros instead.
     void Log(const std::string& type, const std::string& msg, int lineNum = 0, const char* fileName = "", bool includeLoc = false) noexcept;
 
-}}; // dargon::hidden
+}};
 
 // MACRO JUSTIFICATION: The utility of the dynamic macros '__FILE__' and '__LINE__'.
 
-// Prints "Time - [INFO]: msg" to the log file.
-#define InfoLog(msg) dargon::hidden::Log("INFO", msg, __LINE__, __FILE__, false)
-// Prints "Time - [WARN]: msg (at FILE line LINENUM)" to the log file.
-#define WarnLog(msg) dargon::hidden::Log("WARN", msg, __LINE__, __FILE__, true)
-// Prints "Time - [ERROR]: msg (at FILE line LINENUM)" to the log file.
-#define ErroLog(msg) dargon::hidden::Log("ERROR", msg, __LINE__, __FILE__, true)
-// Prints "Time - [DEBUG]: msg (at FILE line LINENUM)" to the log file but ONLY in debug mode.
+/// @brief Prints "Time - [INFO]: msg" to the log file.
+#define DARGON_LOG_INFO(msg) dargon::hidden::Log("INFO", msg, __LINE__, __FILE__, false)
+/// @brief Prints "Time - [WARN]: msg (at FILE line LINENUM)" to the log file.
+#define DARGON_LOG_WARN(msg) dargon::hidden::Log("WARN", msg, __LINE__, __FILE__, true)
+/// @brief Prints "Time - [ERROR]: msg (at FILE line LINENUM)" to the log file.
+#define DARGON_LOG_ERROR(msg) dargon::hidden::Log("ERROR", msg, __LINE__, __FILE__, true)
 #ifdef DARGON_DEBUG
-#define DebugLog(msg) dargon::hidden::Log("DEBUG", msg, __LINE__, __FILE__, true)
+/// @brief Prints "Time - [DEBUG]: msg (at FILE line LINENUM)" to the log file but ONLY in debug mode.
+#define DARGON_LOG_DEBUG(msg) dargon::hidden::Log("DEBUG", msg, __LINE__, __FILE__, true)
 #else
-#define DebugLog(msg)
+/// @brief Prints "Time - [DEBUG]: msg (at FILE line LINENUM)" to the log file but ONLY in debug mode.
+#define DARGON_LOG_DEBUG(msg)
 #endif // DARGON_DEBUG
 
 #endif

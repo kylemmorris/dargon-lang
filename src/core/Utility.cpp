@@ -1,12 +1,12 @@
-/*
+/**
  * Dargon Programming Language
  * (C) Kyle Morris 2023 - See LICENSE.txt for license information.
  *
- * FILE: Utility.cpp
- *
- * DESCRIPTION: Implementation of Utility.h
- *
- * SINCE: v0.1
+ * @file Utility.cpp
+ * @author Kyle Morris
+ * @since v0.1
+ * @section Description
+ * A place for general-purpose utility functions.
  *
  */
 

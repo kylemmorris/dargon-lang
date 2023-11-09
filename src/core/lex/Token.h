@@ -21,6 +21,7 @@
 namespace dargon {
 
     /// @brief A lexical token.
+    /// @author Kyle Morris
     /// @since v0.1
     class Token final {
     public:
@@ -67,9 +68,9 @@ namespace dargon {
             {"var", Kind::VAR_MUT}
         };
 
-        Kind _type;
-        std::string _value;
-        FilePosition _location;
+        Kind _type;                 ///< Token's type
+        std::string _value;         ///< Token's value, if any
+        FilePosition _location;     ///< Location of the token in the file
     };
 
 };

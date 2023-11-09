@@ -1,12 +1,12 @@
-/*
+/**
  * Dargon Programming Language
  * (C) Kyle Morris 2023 - See LICENSE.txt for license information.
  *
- * FILE: Log.cpp
- *
- * DESCRIPTION: Implementation of Logging functions.
- *
- * SINCE: v0.1
+ * @file Log.cpp
+ * @author Kyle Morris
+ * @since v0.1
+ * @section Description
+ * A place for general-purpose logging utilities.
  *
  */
 

@@ -32,8 +32,6 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="../src/core/CLI.cpp" />
-		<Unit filename="../src/core/CLI.h" />
 		<Unit filename="../src/core/Exception.cpp" />
 		<Unit filename="../src/core/Exception.h" />
 		<Unit filename="../src/core/FilePosition.h" />

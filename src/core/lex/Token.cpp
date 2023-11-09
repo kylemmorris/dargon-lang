@@ -11,6 +11,7 @@
  *
  */
 
+ #include <sstream>
  #include "Token.h"
 
  namespace dargon {
@@ -38,8 +39,15 @@
 
     std::string Token::ToString() const
     {
-        std::string val = (_type > Kind::__LITERALS__) ? ("," + _value) : "";
-        return GetKindName(_type) + val + (_location.Valid() ? _location.ToString() : "");
+        // Returns [TYPE], [TYPE,value], or [TYPE,value @Line X Col Y]
+        std::ostringstream os;
+        os << "[" << GetKindName(_type);
+        os << (_type > Kind::__LITERALS__) ? ("," + _value) : "";
+        if(_location.Valid()) {
+            os << " " << _location.ToString();
+        }
+        os << "]";
+        return os.str();
     }
 
     std::string Token::GetKindName(const Token::Kind& type)
