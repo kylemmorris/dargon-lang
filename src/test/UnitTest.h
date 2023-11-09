@@ -1,29 +1,26 @@
-/*
+/**
  * Dargon Programming Language
  * (C) Kyle Morris 2023 - See LICENSE.txt for license information.
  *
- * FILE: UnitTest.h
- *
- * DESCRIPTION: Represents a single Unit Test. All Unit Tests have one test method,
- *              but can share functionalty such as assert and comparison.
- *
- * SINCE: v0.1
+ * @file UnitTest.h
+ * @author Kyle Morris
+ * @since v0.1
+ * @section Description
+ * Contains the Unit Test class.
  *
  */
 
-#ifndef DARGON_UNIT_TEST_H
-#define DARGON_UNIT_TEST_H
+#ifndef DARGON_HEADER_UNIT_TEST
+#define DARGON_HEADER_UNIT_TEST
 
 #include <string>
 #include "../core/FilePosition.h"
 
 namespace dargon {
 
-    /**
-     * @brief Struct representing a test result.
-     * @author Kyle Morris
-     * @since v0.1
-    */
+    /// @brief Represents a test result. Tracks its own status.
+    /// @author Kyle Morris
+    /// @since v0.1
     class TestResult {
     public:
         /**
@@ -66,11 +63,9 @@ namespace dargon {
         std::string reason = "";
     };
 
-	/**
-     * @brief Represents a single Unit Test.
-     * @author Kyle Morris
-     * @since v0.1
-    */
+    /// @brief Represents a single Unit Test.
+    /// @author Kyle Morris
+    /// @since v0.1
 	class UnitTest {
 	public:
         virtual TestResult Test() = 0;

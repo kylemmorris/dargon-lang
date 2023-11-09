@@ -1,27 +1,23 @@
-/*
+/**
  * Dargon Programming Language
  * (C) Kyle Morris 2023 - See LICENSE.txt for license information.
  *
- * FILE: FilePosition.h
- *
- * DESCRIPTION: A struct that represents a position in the file.
- *              This piece of metadata is stored in Tokens.
- *
- * SINCE: v0.1
+ * @file FilePosition.h
+ * @author Kyle Morris
+ * @since v0.1
+ * @section Description
+ * A struct used to represent a position in a Dargon file.
  *
  */
 
-#ifndef DARGON_FILEPOS_H
-#define DARGON_FILEPOS_H
+#ifndef DARGON_HEADER_FILEPOS
+#define DARGON_HEADER_FILEPOS
 
 #include <string>
 
 namespace dargon {
 
-	/**
-     * @brief A struct that represents a position
-     *        in a Dargon file.
-    */
+    /// @brief Represents a position in a Dargon file.
 	struct FilePosition {
 	public:
         FilePosition() : line(0), col(0), fileName("") {}
@@ -40,7 +36,7 @@ namespace dargon {
         std::string fileName;
 	};
 
-// Macro for building a file positon from this source code
+/// @brief Macro for building a file positon from this source code
 #define DARGON_FILE_POSITION FilePosition(__LINE__, 0, __FILE__)
 
 };

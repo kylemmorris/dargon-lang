@@ -11,8 +11,8 @@
  *
  */
 
-#ifndef DARGON_TOKEN_H
-#define DARGON_TOKEN_H
+#ifndef DARGON_HEADER_TOKEN
+#define DARGON_HEADER_TOKEN
 
 #include <map>
 #include "../Exception.h"
@@ -23,7 +23,7 @@ namespace dargon {
     /// @brief A lexical token.
     /// @author Kyle Morris
     /// @since v0.1
-    class Token final {
+    class Token {
     public:
         /// @brief The kind of token.
         enum class Kind {
@@ -31,6 +31,7 @@ namespace dargon {
             INVALID,            ///< An invalid token
             NEWLINE,            ///< The newline character
             ID,                 ///< Identifier
+            COLON,              ///< Colon (:)
             __KEYWORDS__,       ///< Anything past this line is a keyword
             CONST_MUT,          ///< Constant mutability (const)
             VAR_MUT,            ///< Variable mutability (var)
@@ -44,16 +45,28 @@ namespace dargon {
             STRING_LIT          ///< String literal "blablabla"
         };
 
+        /// @brief The invalid token constructor.
+        Token();
+
         /// @brief The general constructor.
-        Token(const Kind& kind = Kind::INVALID, const FilePosition& pos);
+        Token(const Kind& kind = Kind::INVALID, const FilePosition& pos = FilePosition());
 
         /// @brief Constructor for tokens that contain values.
         /// This is reserved for literals and identifiers.
         Token(const Kind& kind, const std::string& value, const FilePosition& pos);
 
+        /// @brief Returns the token type.
+        Kind GetKind() const { return _type; }
+
+        /// @brief Returns the token's value, if any.
+        std::string GetValue() const { return _value; }
+
+        /// @brief Returns the token's file position.
+        FilePosition GetPosition() const { return _location; }
+
         /// @brief Returns if this token is valid or not.
         /// An invalid token is defined as either INVALID or EOF.
-        bool Valid() const;
+        bool IsValid() const;
 
         /// @brief Returns the string representation of this token.
         std::string ToString() const;
@@ -61,16 +74,15 @@ namespace dargon {
         /// @brief Static function for returning a type's string representation.
         static std::string GetKindName(const Kind& type);
     private:
-
-        /// @brief The map of keywords.
-        static const std::map<std::string, Kind> _keywords = {
-            {"const", Kind::CONST_MUT},
-            {"var", Kind::VAR_MUT}
-        };
-
         Kind _type;                 ///< Token's type
         std::string _value;         ///< Token's value, if any
         FilePosition _location;     ///< Location of the token in the file
+    };
+
+    /// @brief The map of keywords.
+    static const std::map<std::string, Token::Kind> Keywords = {
+        {"const", Token::Kind::CONST_MUT},
+        {"var", Token::Kind::VAR_MUT}
     };
 
 };

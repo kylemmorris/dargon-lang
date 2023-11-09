@@ -25,7 +25,7 @@ namespace dargon {
     }
 
     void ASTPrinter::VisitBinaryExpr(BinaryExpr& binary) {
-        _parenthesize(binary.op.value, { binary.left, binary.right });
+        _parenthesize(binary.op.GetValue(), { binary.left, binary.right });
     }
 
     void ASTPrinter::VisitGroupingExpr(GroupingExpr& grouping) {
@@ -42,7 +42,7 @@ namespace dargon {
     }
 
     void ASTPrinter::VisitUnaryExpr(UnaryExpr& unary) {
-        _parenthesize(unary.op.value, { unary.right });
+        _parenthesize(unary.op.GetValue(), { unary.right });
     }
 
     void ASTPrinter::_parenthesize(const std::string& name, std::initializer_list<Expr*> exprs) {

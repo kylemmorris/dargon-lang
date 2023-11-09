@@ -10,8 +10,8 @@
  *
  */
 
-#ifndef DARGON_UTILITY_H
-#define DARGON_UTILITY_H
+#ifndef DARGON_HEADER_UTIL
+#define DARGON_HEADER_UTIL
 
 #include <string>
 #include <fstream>

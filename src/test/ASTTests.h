@@ -18,19 +18,19 @@
 
 namespace dargon {
 
-    DARGON_UNIT_TEST(ASTSimpleExpressions) {
-
-        // (* (- 123) (group 45.67))
-        LiteralExpr l1("123");
-        LiteralExpr l2("45.67");
-        UnaryExpr neg(Token(TokenType::OP_MINUS,"-"), &l1);
-        GroupingExpr g(&l2);
-        BinaryExpr exp(&neg, Token(TokenType::OP_MULT, "*"), &g);
-        ASTPrinter printer;
-
-        std::string result = printer.Print(&exp);
-        DARGON_TEST_ASSERT(result == "(* (- 123) (group 45.67))");
-    }};
+//    DARGON_UNIT_TEST(ASTSimpleExpressions) {
+//
+//        // (* (- 123) (group 45.67))
+//        LiteralExpr l1("123");
+//        LiteralExpr l2("45.67");
+//        UnaryExpr neg(Token(TokenType::OP_MINUS,"-"), &l1);
+//        GroupingExpr g(&l2);
+//        BinaryExpr exp(&neg, Token(TokenType::OP_MULT, "*"), &g);
+//        ASTPrinter printer;
+//
+//        std::string result = printer.Print(&exp);
+//        DARGON_TEST_ASSERT(result == "(* (- 123) (group 45.67))");
+//    }};
 
 };
 

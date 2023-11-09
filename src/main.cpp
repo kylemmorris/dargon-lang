@@ -13,9 +13,11 @@
 #include <vector>
 #include "core/Output.h"
 #include "core/Log.h"
+#include "core/lex/Lexer.h"
 
 /// @brief Displays the help dialogue.
 void help() {
+    using namespace dargon;
     out("   Usage:");
     out("       dargon help             - Displays this dialogue.");
     out("       dargon go               - Begins the Dargon interactive interpreter.");
@@ -26,6 +28,8 @@ void help() {
 
 /// @brief A basic REPL implementation.
 void runBasicREPL() {
+    using namespace dargon;
+    Lexer lex;
     out("Welcome! For help, type 'help'");
     std::string line = "";
     while(true) {
@@ -33,24 +37,30 @@ void runBasicREPL() {
         // Read line
         getline(std::cin, line);
         if(line == "quit") { break; }
-        if(line == "commands") {
-            out("**********");
-            out("help          - Displays the help dialogue.");
-            out("commands      - Displays this dialogue.");
-            out("memory        - Displays the items currently in memory.");
-            out("**********");
-            continue;
-        }
         if(line == "help") {
+            out("");
             out("**********");
             out("This is the Dargon Interpreter (DIR).");
-            out("Type any Dargon code to have it interpreted for you.");
+            out("Type any code to have it be interpreted.");
             out("");
-            out("To view a list of DIR commands, type \'commands\'");
+            out("The following is a list of commands:");
+            out("quit          - Exits the interpreter.");
+            out("help          - Displays this dialogue.");
+            out("memory        - Displays the items currently in memory.");
             out("**********");
+            out("");
             continue;
         }
-        // TODO
+        // For now, just report the line from the lexer.
+        out("");
+        lex.Buffer(line);
+        Token t = lex.Next();
+        do {
+            out(t.ToString());
+            t = lex.Next();
+        }
+        while(t.GetKind() != Token::Kind::END_OF_FILE);
+        out("");
     }
 }
 

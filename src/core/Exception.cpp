@@ -16,7 +16,7 @@
 namespace dargon {
 
     const char* Exception::what() const noexcept {
-            ErroLog(_msg);
+            DARGON_LOG_ERROR(_msg);
             return _msg.c_str();
     }
 
