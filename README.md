@@ -22,21 +22,17 @@ The full Dargon experience aims to deliver the following:
 
 ## Where to Start
 
-Dargon is not ready for any form of distribution or usage. I am currently working on gathering initial documentation, including a tutorial on how I think Dargon should preform (almost like a requirements document), a language specification, grammar definition, and UML diagrams. All of these can be found in the [doc](doc) directory of this repository. Some [example](examples) programs are also available.
+Dargon is not ready for any form of distribution or usage. I am currently working on gathering initial documentation, including a tutorial on how I think Dargon should preform (almost like a requirements document), and grammar definition. These can be found in the [doc](doc) directory of this repository. Some [example](examples) programs are also available for preview.
 
-## Current Roadmap
+## Repository Layout
 
-Dargon is a learning experience for me as an artistic project; I am currently working on this project by myself and during my free time. As a result, this roadmap is not 100% fleshed out and is subject to change.
+- [doc](doc): Documentation lives here.
 
-- Full definition of language
-- Lexer
-- AST generation
-- LL(1) Parser (might be sufficient)
-- Core engine and memory management
-- Testing framework
-- ... *Much more here* ...
-- Entry created on [RosettaCode](https://rosettacode.org/wiki/Rosetta_Code)
-- Version 0.1
+- [examples](examples): Some example Dargon files which will be used as the basis for end-to-end testing. It also includes the files from the [tutorial](examples/tutorial).
+
+- [proj](proj): This contains the Code::Blocks project I am using.
+
+- [src](src): The source code. This is split up into different sections, and as a separate [readme](src/README.md).
 
 ## Basic Code Example
 
@@ -53,19 +49,19 @@ fun fib(x :uint -> uint) [
 
 var inp :string = ""
 var value :uint = 0
+print("Fibonnaci calculator (enter 'q' or 'quit' to exit)")
 loop [
-    print("Fibonnaci calculator (enter 'q' or 'quit' to exit)")
     inp = input("Enter a number between 0 and 10: ")    
     if(inp == "q"|"quit") [
         stop
     ]
     else [
-        value = inp to uint;
+        value = inp to uint
         if(value?) [
             print("fib({value}) = {fib(value)}")
         ]
         else [
-            print("Enter a number silly!")
+            print("Enter a valid number silly!")
         ]
     ]
 ]

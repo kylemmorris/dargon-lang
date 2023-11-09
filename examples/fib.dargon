@@ -10,19 +10,19 @@ fun fib(x :uint -> uint) [
 
 var inp :string = ""
 var value :uint = 0
+print("Fibonnaci calculator (enter 'q' or 'quit' to exit)")
 loop [
-    print("Fibonnaci calculator (enter 'q' or 'quit' to exit)")
     inp = input("Enter a number between 0 and 10: ")    
     if(inp == "q"|"quit") [
         stop
     ]
     else [
-        value = inp to uint;
+        value = inp to uint
         if(value?) [
             print("fib({value}) = {fib(value)}")
         ]
         else [
-            print("Enter a number silly!")
+            print("Enter a valid number silly!")
         ]
     ]
 ]
