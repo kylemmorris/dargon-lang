@@ -1,0 +1,65 @@
+
+const thing :type = value
+const thing = value
+const thing :type?
+
+
+fun fib(input :uint -> uint) [
+    # ...
+]
+
+
+# Type definition
+# Upper-case is all public.
+type GPIB.Settings [    
+    var ReadWriteDelay = 0
+    var InterfaceID = ""
+    var PrimaryAddress = 0
+    var SecondaryAddress :int?
+    var SystemController = false
+]
+
+# Uses default settings
+const defaultSettings :GPIB.Settings = []
+
+# Customized settings - no need to set all settings
+const rsgSettings :GPIB.Settings = [
+    ReadWriteDelay = 1k
+    InterfaceID = "GPIB0"
+    PrimaryAddress = 15
+]
+
+# Another type and example with functions + custom operators
+# Lower-case and/or underscore denotes private things.
+# Also introduction to a "port" (<- output, -> input).
+type FileStream [
+    
+    <- Empty :bool = false
+
+    const name :string?
+    fun Open(inp :string -> bool) [ ... ]
+    # Custom infix operator
+    operator (string $>>$ FileStream) [ ... ]
+    # Custom postfix operator
+    operator (FileStream $!$) [ ... ]
+    # Custom prefix operator
+    operator ($~$ FileStream) [ ... ]
+]
+
+var aFile :FileStream = []
+const res = aFile.Open("MyFile.txt")
+defer aFile.Close()
+if(res) [
+    # Writes to the file
+    "Hello" >> aFile;
+    # Outputs to the screen
+    aFile!
+    # Clears the file
+    ~aFile
+]
+
+
+
+
+
+

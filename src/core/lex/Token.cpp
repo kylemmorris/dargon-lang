@@ -36,13 +36,11 @@
         }
     }
 
-    bool Token::IsValid() const
-    {
+    bool Token::IsValid() const {
         return _type != Kind::END_OF_FILE && _type != Kind::INVALID;
     }
 
-    std::string Token::ToString() const
-    {
+    std::string Token::ToString() const {
         // Returns [TYPE], [TYPE,value], or [TYPE,value @Line X Col Y]
         std::ostringstream os;
         os << "[" << GetKindName(_type);
@@ -56,8 +54,7 @@
         return os.str();
     }
 
-    std::string Token::GetKindName(const Token::Kind& type)
-    {
+    std::string Token::GetKindName(const Token::Kind& type) {
         switch(type) {
         case Kind::END_OF_FILE: return "EOF";
         case Kind::INVALID: return "(!?)";

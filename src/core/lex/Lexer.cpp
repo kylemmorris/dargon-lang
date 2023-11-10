@@ -24,8 +24,7 @@ namespace dargon {
     Lexer::~Lexer()
     {}
 
-    void Lexer::Buffer(const std::string& data)
-    {
+    void Lexer::Buffer(const std::string& data) {
         // Re-initialize all data.
         _data.clear();
         _index = 0;
@@ -35,8 +34,7 @@ namespace dargon {
         _len = _data.length();
     }
 
-    Token Lexer::Next()
-    {
+    Token Lexer::Next() {
         // While we're not at the end of file
         while(_curr != EOF) {
             // Depends on character
@@ -87,8 +85,7 @@ namespace dargon {
         return Token(Token::Kind::END_OF_FILE, _pos);
     }
 
-    void Lexer::consume()
-    {
+    void Lexer::consume() {
         // Update metadata
         if(_curr == '\n' || _curr == '\r') {
             _pos.line++;
@@ -101,23 +98,20 @@ namespace dargon {
         _curr = (_index >= _len ? EOF : _data[_index]);
     }
 
-    void Lexer::whitespace()
-    {
+    void Lexer::whitespace() {
         do {
             consume();
         }
         while(_curr == ' ' || _curr == '\t');
     }
 
-    void Lexer::commentLine()
-    {
+    void Lexer::commentLine() {
         while(_curr != '\n' && _curr != EOF) {
 			consume();
 		}
     }
 
-    void Lexer::commentBlock()
-    {
+    void Lexer::commentBlock() {
         // Look for the next '##" pair.
         // TODO More sophistication here.
         while(_curr != '#' && _curr != EOF) {
@@ -129,8 +123,7 @@ namespace dargon {
 		}
     }
 
-    Token Lexer::numLit()
-    {
+    Token Lexer::numLit() {
         bool decimalUsed = false;
 		std::string buffer = "";
 		do {
@@ -143,8 +136,7 @@ namespace dargon {
 		return Token((decimalUsed ? Token::Kind::FRACTIONAL_LIT : Token::Kind::NUMBER_LIT), buffer, _pos);
     }
 
-    Token Lexer::strLit()
-    {
+    Token Lexer::strLit() {
         std::string buffer = "";
 		do {
 			if (_curr == EOF) {
@@ -158,8 +150,7 @@ namespace dargon {
 		return Token(Token::Kind::STRING_LIT, buffer, _pos);
     }
 
-    Token Lexer::identifier()
-    {
+    Token Lexer::identifier() {
         std::string buffer = "";
 		do {
 			buffer += _curr;

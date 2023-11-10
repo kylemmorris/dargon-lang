@@ -1,0 +1,37 @@
+##
+File: guessing_game.dargon
+Simple guessing game.
+@Author Kyle Morris
+##
+
+from drg use random
+
+print("I'm thinking of a number between 1 and 100. Can you guess it?")
+print("(Enter 'q' to quit)")
+
+const secret :int = random(1..100)
+var guess :string = ""
+
+loop [
+    
+    guess = input("Guess: ")
+    if(guess == "q") [
+        print("Goodbye!")
+        stop
+    ]
+
+    # If the guess was able to be converted to an unsigned integer
+    if((guess to uint)? as num) [
+        when(num) [
+            is < secret: print("Higher!")
+            is > secret: print("Lower!")
+            else:
+                print("Congrats! You figured it out!")
+                stop
+        ]
+    ]
+    else [
+        print("Please enter a positive integer between 1 and 100.")
+    ]
+
+]
