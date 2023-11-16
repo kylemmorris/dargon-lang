@@ -10,23 +10,21 @@ fun fib(input :uint -> uint) [
 
 
 # Type definition
-# Upper-case is all public.
-type GPIB.Settings [    
-    var ReadWriteDelay = 0
-    var InterfaceID = ""
-    var PrimaryAddress = 0
-    var SecondaryAddress :int?
-    var SystemController = false
+# Upper-case means public, lower case or underscore means private
+type Protocol.Header [
+    var Version = 0
+    var MsgSize = 0
+    var Action = MsgType.NONE
+    var Payload :int?
 ]
 
 # Uses default settings
-const defaultSettings :GPIB.Settings = []
+const defaultSettings :Protocol.Header = []
 
 # Customized settings - no need to set all settings
-const rsgSettings :GPIB.Settings = [
-    ReadWriteDelay = 1k
-    InterfaceID = "GPIB0"
-    PrimaryAddress = 15
+const customSettings :Protocol.Header = [
+    Version = 1
+    Action = MsgType.PING
 ]
 
 # Another type and example with functions + custom operators
@@ -38,10 +36,13 @@ type FileStream [
 
     const name :string?
     fun Open(inp :string -> bool) [ ... ]
+
     # Custom infix operator
     operator (string $>>$ FileStream) [ ... ]
+
     # Custom postfix operator
     operator (FileStream $!$) [ ... ]
+
     # Custom prefix operator
     operator ($~$ FileStream) [ ... ]
 ]
