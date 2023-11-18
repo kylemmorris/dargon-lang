@@ -39,10 +39,15 @@ function_header = "fun" "(" (inputs ("->" outputs)?) ")" ;
 block = "[" (declaration | expression)* "]" ;
 def_block = "[" (declaration)* "]" ;
 value = literal | expression ;
-expression = literal | unary | binary | exprGroup ;
-unary = ( "-" | "!" ) expression ;
-binary = expression operator expression ;
-exprGroup = "(" expression ")" ;
+
+(* Expressions *)
+expression = equality ;
+equality = comparison ( ("!=" | "==") comparison )* ;
+comparison = term ( (">" | ">=" | "<" | "<=") term)* ;
+term = factor ( ("-" | "+") factor)* ;
+factor = unary ( ("/" | "*") factor)* ;
+unary = ("!" | "-") unary | primary ;
+primary = NUMBER | STRING | "true" | "false" | "(" expression ")" ;
 
 (* Below are rules produced throughout the grammar *)
 literal = NUMBER | STRING | "true" | "false" ;
@@ -104,3 +109,13 @@ not
 to
 as
 ```
+
+### Operator Precedence
+
+| Name           | Operators | Associates |
+|:-------------- | --------- | ---------- |
+| Value Equality | == !=     | Left       |
+| Comparison     | > >= < <= | Left       |
+| Term           | - +       | Left       |
+| Factor         | / *       | Left       |
+| Unary          | ! -       | Right      |

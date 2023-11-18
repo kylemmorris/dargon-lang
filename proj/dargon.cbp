@@ -48,6 +48,8 @@
 		<Unit filename="../src/core/lex/Lexer.h" />
 		<Unit filename="../src/core/lex/Token.cpp" />
 		<Unit filename="../src/core/lex/Token.h" />
+		<Unit filename="../src/core/parser/Parser.cpp" />
+		<Unit filename="../src/core/parser/Parser.h" />
 		<Unit filename="../src/main.cpp" />
 		<Unit filename="../src/test/ASTTests.h" />
 		<Unit filename="../src/test/LexerTests.h" />

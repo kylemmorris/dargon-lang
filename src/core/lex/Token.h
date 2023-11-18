@@ -79,6 +79,9 @@ namespace dargon {
         FilePosition _location;     ///< Location of the token in the file
     };
 
+    /// @brief A Token vector.
+    typedef std::vector<Token> TokenList;
+
     /// @brief The map of keywords.
     static const std::map<std::string, Token::Kind> Keywords = {
         {"const", Token::Kind::CONST_MUT},
