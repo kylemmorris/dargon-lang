@@ -1,8 +1,8 @@
-##
-File: fib.dargon
-Recursive Fibonnaci sequence command line program.
-@Author Kyle Morris.
-##
+(# 
+    File: fib.dargon
+    Fibonnaci calculator.
+    Created by Kyle Morris
+#)
 
 fun fib(x :uint -> uint) [
     -> x if(x < 2) else fib(x-1) + fib(x-2)

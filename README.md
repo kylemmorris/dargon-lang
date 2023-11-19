@@ -36,36 +36,9 @@ Dargon is not ready for any form of distribution or usage. I am currently workin
 
 ## Basic Code Example
 
-```
-##
-File: fib.dargon
-Recursive Fibonnaci sequence command line program.
-@Author Kyle Morris.
-##
+![](res/img/main_example.png)
 
-fun fib(x :uint -> uint) [
-    -> x if(x < 2) else fib(x-1) + fib(x-2)
-]
-
-var inp :string = ""
-var value :uint = 0
-print("Fibonnaci calculator (enter 'q' or 'quit' to exit)")
-loop [
-    inp = input("Enter a number between 0 and 10: ")    
-    if(inp == "q"|"quit") [
-        stop
-    ]
-    else [
-        value = inp to uint
-        if(value?) [
-            print("fib({value}) = {fib(value)}")
-        ]
-        else [
-            print("Enter a valid number silly!")
-        ]
-    ]
-]
-```
+*Opened with xed, using custom sytax highlighting (see [here](res/text_highlighting))*
 
 ## Technology Used
 

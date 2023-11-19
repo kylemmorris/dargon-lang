@@ -1,8 +1,8 @@
-##
+(#
     Functions.dargon
     Part of the Dargon Tutorial
     Created by Kyle Morris
-##
+#)
 
 # Returns input^2
 fun square(input :int -> int) [

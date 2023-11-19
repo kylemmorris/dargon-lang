@@ -1,8 +1,8 @@
-##
+(#
     Declare.dargon
     Part of the Dargon Tutorial
     Created by Kyle Morris
-##
+#)
 
 # Normal declarations
 const pi :real = 3.14

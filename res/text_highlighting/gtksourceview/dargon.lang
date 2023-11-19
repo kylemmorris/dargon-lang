@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+XML Syntax highlighting for the Dargon programming language, v0.1 
+Created by Kyle Morris.
+
+-->
+
+<language id="dargon" name="Dargon" version="2.0" _section="Source">
+<metadata>
+    <!-- Dargon's file extension -->
+    <property name="globs">*.dargon</property>
+</metadata>
+
+<styles>
+    <!-- Style definitions -->
+    <style id="comment" name="Comment" map-to="def:comment"/>
+    <style id="keyword" name="Keyword" map-to="def:keyword"/>
+    <style id="escaped-character" name="Escaped Character" map-to="def:special-char"/>
+    <style id="string" name="String Literal" map-to="def:string"/>
+    <style id="type" name="Built-in Data Types" map-to="def:type"/>
+    <style id="preprocessor" name="Predefined Functions" map-to="def:preprocessor"/>
+    
+</styles>
+
+<definitions>
+    <!-- Main Context -->
+    <context id="dargon">
+        <include>
+            <!-- Line comment definition, starts with # and goes to EOL-->
+            <context id="comment" style-ref="comment">
+                <start>#</start>
+                <end>$</end>
+            </context>
+
+            <!-- Block comment -->
+            <context id="comment-multiline" style-ref="comment">
+                <start>\(#</start>
+                <end>#\)</end>
+                <include>
+                    <context ref="def:in-comment"/>
+                </include>
+            </context>
+
+            <!-- String literal -->
+            <context id="string" end-at-line-end="true" style-ref="string">
+                <start>"</start>
+                <end>"</end>
+                <include>
+                    <context id="escape" style-ref="escaped-character">
+                        <match>\\.</match>
+                    </context>
+                </include>
+            </context>
+
+            <!-- Numeric literals -->
+            <context ref="def:decimal"/>
+            <context ref="def:float"/>
+
+            <!-- Keywords -->
+            <context id="keywords" style-ref="keyword">
+                <keyword>type</keyword>
+                <keyword>if</keyword>
+                <keyword>else</keyword>
+                <keyword>when</keyword>
+                <keyword>is</keyword>
+                <keyword>loop</keyword>
+                <keyword>continue</keyword>
+                <keyword>stop</keyword>
+                <keyword>defer</keyword>
+                <keyword>to</keyword>
+                <keyword>as</keyword>
+                <keyword>with</keyword>
+                <keyword>use</keyword>
+                <keyword>and</keyword>
+                <keyword>or</keyword>
+                <keyword>not</keyword>
+            </context>
+
+            <!-- Built-in Types -->
+            <context id="types" style-ref="type">
+                <keyword>var</keyword>
+                <keyword>const</keyword>
+                <keyword>fun</keyword>
+                <keyword>int</keyword>
+                <keyword>uint</keyword>
+                <keyword>string</keyword>
+                <keyword>bool</keyword>
+            </context>
+
+            <!-- Built-in Functions -->
+            <context id="preprocessor" style-ref="preprocessor">
+                <keyword>print</keyword>
+                <keyword>assert</keyword>
+                <keyword>input</keyword>
+            </context>
+
+        </include>
+    </context>
+</definitions>
+
+</language>
