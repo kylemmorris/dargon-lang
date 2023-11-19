@@ -41,27 +41,27 @@ Great! But this is not all that Dargon is capable of. Before we go too much furt
 
 ## Comments
 
-A "comment" refers to a piece of code that is set to be intentionally ignored, which is useful for documenting your code for yourself and others. In Dargon, there are 3 kinds of comments. Lines that start with the pound ("#") character are *line comments*, in which the entire line is ignored. If two pound characters are next to eachother, it creates a *block comment* that can extend as many lines as you want, given the end is also marked. See below for some examples:
+A "comment" refers to a piece of code that is set to be intentionally ignored, which is useful for documenting your code for yourself and others. In Dargon, there are 3 kinds of comments. Lines that start with the pound ("#") character are *line comments*, in which the entire line is ignored. If a pair of parenthesis surround two pounds,, it creates a *block comment* that can extend as many lines as you want, given the end is also marked. See below for some examples:
 
 ```
 # This is a line comment and therefore ignored
 Dargon code...
 
-##
+(#
 Here's a block comment that
 can extend multiple lines.
 Wow!
-##
+#)
 Dargon code...
 ```
 
 The third type of comment is the *conditional comment*. The conditional comment marks a line/block of code as valid **only if** the associated Dargon flag (explained later) is configured. For example, there is a Dargon flag named "DEBUG", and below, the following block will become valid code when that flag is "true":
 
 ```
-##<DEBUG>
+(#<DEBUG>
 # Yes, this is a comment inside a conditional comment block.
 print("Debugging!")
-##
+#)
 ```
 
 The conditional comment might not seem amazing right now, but its use cases will be described in future chapters.
