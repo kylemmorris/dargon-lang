@@ -17,17 +17,48 @@ namespace dargon {
     Parser::Parser(const TokenList& tokens)
     : _tokens(tokens)
     {
-        _current = _tokens.cbegin();
+        _current = _tokens.begin();
     }
 
-    bool _match(std::initializer_list<Token::Kind> _tKinds) {
+    /// ---- GENERAL PURPOSE FUNCTIONS ----
 
+    bool Parser::_match(std::initializer_list<Token::Kind> kinds) {
+        for(Token::Kind t : kinds) {
+            if(_check(t)) { _next(); return true; }
+        }
+        return false;
     }
 
+    bool Parser::_check(const Token::Kind& kind) {
+        if(_end()) { return false; }
+        return _peek().GetKind() == kind;
+    }
+
+    Token Parser::_next() {
+        if(!_end()) { _current++; }
+        return _prev();
+    }
+
+    bool Parser::_end() const {
+        return _current == _tokens.end();
+    }
+
+    Token Parser::_peek() const {
+        return *_current;
+    }
+
+    Token Parser::_prev() const {
+        return *(_current - 1);
+    }
+
+    /// ---- GRAMMAR RULES ----
+
+    /// expression -> equality
     Expr* Parser::_expression() {
         return _equality();
     }
 
+    /// equality -> comparison ( ("!="|"==") comparison )* ;
     Expr* Parser::_equality() {
         Expr* exp = _comparison();
 

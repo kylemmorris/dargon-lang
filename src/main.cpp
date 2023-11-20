@@ -11,6 +11,7 @@
  */
 
 #include <vector>
+#include <sstream>
 #include "core/Output.h"
 #include "core/Log.h"
 #include "core/lex/Lexer.h"
@@ -32,6 +33,7 @@ void runBasicREPL() {
     Lexer lex;
     out("Welcome! For help, type 'help'");
     std::string line = "";
+    std::ostringstream os;
     while(true) {
         std::cout << "DIR> ";
         // Read line
@@ -54,12 +56,17 @@ void runBasicREPL() {
         // For now, just report the line from the lexer.
         out("");
         lex.Buffer(line);
+        os << "INPUT: " << line << std::endl;
+        os << "OUTPUT: " << std::endl;
         Token t = lex.Next();
         do {
-            out(t.ToString());
+            os << "    " << t.ToString() << std::endl;
             t = lex.Next();
         }
         while(t.GetKind() != Token::Kind::END_OF_FILE);
+        out(os.str());
+        DARGON_LOG_INFO(os.str());
+        os.str("");
         out("");
     }
 }

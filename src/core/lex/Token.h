@@ -15,6 +15,7 @@
 #define DARGON_HEADER_TOKEN
 
 #include <map>
+#include <vector>
 #include "../Exception.h"
 #include "../FilePosition.h"
 
@@ -32,11 +33,15 @@ namespace dargon {
             NEWLINE,            ///< The newline character
             ID,                 ///< Identifier
             COLON,              ///< Colon (:)
+            PAREN_OPEN,         ///< Open Parenthesis (
+            PAREN_CLOSE,        ///< Close Paranthesis )
             __KEYWORDS__,       ///< Anything past this line is a keyword
             CONST_MUT,          ///< Constant mutability (const)
             VAR_MUT,            ///< Variable mutability (var)
             __OPERATORS__,      ///< Anything past this is an operator
             ASSIGNMENT,         ///< Assignment (=)
+            EQUALITY,           ///< Equality (==)
+            NEQUALITY,          ///< Negated Equality (!=)
             __LITERALS__,       ///< Anything past this is a literal
             NUMBER_LIT,         ///< Numeric literal
             FRACTIONAL_LIT,     ///< Numeric literal with decimal point

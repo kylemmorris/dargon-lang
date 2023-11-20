@@ -61,9 +61,13 @@
         case Kind::NEWLINE: return "NEWLINE";
         case Kind::ID: return "ID";
         case Kind::COLON: return "COLON";
+        case Kind::PAREN_OPEN: return "OPEN PARENTHESIS";
+        case Kind::PAREN_CLOSE: return "CLOSE PARENTHESIS";
         case Kind::CONST_MUT: return "const";
         case Kind::VAR_MUT: return "var";
         case Kind::ASSIGNMENT: return "ASSIGN";
+        case Kind::EQUALITY: return "EQUALITY";
+        case Kind::NEQUALITY: return "NEGATED EQUALITY";
         case Kind::NUMBER_LIT: return "NUMBER LITERAL";
         case Kind::FRACTIONAL_LIT: return "FRACTIONAL LITERAL";
         case Kind::BOOL_T_LIT: return "true";

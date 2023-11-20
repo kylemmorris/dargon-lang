@@ -30,9 +30,14 @@ namespace dargon {
         /// The input of the Parser.
         TokenList _tokens;
         /// Iterator to the current token.
-        std::vector::const_iterator _current;
+        TokenList::iterator _current;
 
-        bool _match(std::initializer_list<Token::Kind> _tKinds);
+        inline bool _match(std::initializer_list<Token::Kind> kinds);
+        inline bool _check(const Token::Kind& kind);
+        inline Token _next();
+        inline bool _end() const;
+        inline Token _peek() const;
+        inline Token _prev() const;
 
         // ---- GRAMMER RULE DEFINITIONS ----
 

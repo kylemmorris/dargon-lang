@@ -49,22 +49,43 @@ namespace dargon {
                     whitespace();
                     break;
                 }
-                // Either line comment or block comment
+                // Line Comment
                 case '#': {
+                    consume();
+                    commentLine();
+                    break;
+                }
+                // Parenthesis OR block comment
+                case ')': consume(); return Token(Token::Kind::PAREN_CLOSE, _pos);
+                case '(': {
                     consume();
                     if(_curr == '#') {
                         consume();
                         commentBlock();
+                        break;
                     }
-                    else {
-                        commentLine();
-                    }
-                    break;
+                    return Token(Token::Kind::PAREN_OPEN, _pos);
                 }
                 // Colon
                 case ':': consume(); return Token(Token::Kind::COLON, _pos);
-                // Assignment
-                case '=': consume(); return Token(Token::Kind::ASSIGNMENT, _pos);
+                // Assignment or equality
+                case '=': {
+                    consume();
+                    if(_curr == '=') {
+                        consume();
+                        return Token(Token::Kind::EQUALITY, _pos);
+                    }
+                    return Token(Token::Kind::ASSIGNMENT, _pos);
+                }
+                // Inequality
+                case '!': {
+                    consume();
+                    if(_curr == '=') {
+                        consume();
+                        return Token(Token::Kind::NEQUALITY, _pos);
+                    }
+                    return Token(Token::Kind::INVALID, _pos);
+                }
                 // Defualt - alphanumerics and keywords.
                 default: {
                     // Identifiers mauy start with underscore
@@ -112,15 +133,15 @@ namespace dargon {
     }
 
     void Lexer::commentBlock() {
-        // Look for the next '##" pair.
-        // TODO More sophistication here.
-        while(_curr != '#' && _curr != EOF) {
-			consume();
-		}
-		if(_curr != EOF) {
-			// Should be '##' syntax
-			consume(); consume();
-		}
+        // Look for the pair '#)' to terminate the block comment
+        while(_curr != EOF) {
+            while(_curr != '#' && _curr != EOF) { consume(); }
+            consume(); // Consume the '#'
+            if(_curr == ')') {
+                consume(); // Consume the ')'
+                break;
+            }
+        }
     }
 
     Token Lexer::numLit() {
