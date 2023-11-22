@@ -38,6 +38,11 @@ namespace dargon {
             __KEYWORDS__,       ///< Anything past this line is a keyword
             CONST_MUT,          ///< Constant mutability (const)
             VAR_MUT,            ///< Variable mutability (var)
+            FUN_DECL,           ///< Function declaration (fun)
+            TYPE_DECL,          ///< Type declaration (type)
+            IF, ELIF, ELSE,     ///< if, elif, and else
+            WHEN,               ///< Pattern matching 'when'
+            LOOP,               ///< Loop construct 'loop'
             __OPERATORS__,      ///< Anything past this is an operator
             ASSIGNMENT,         ///< Assignment (=)
             EQUALITY,           ///< Equality (==)
@@ -48,7 +53,8 @@ namespace dargon {
             PLUS,               ///< Minus (-)
             SLASH,              ///< Division (/)
             STAR,               ///< Multiplication (*)
-            NOT,                ///< Negation (not)
+            BANG,               ///< Negation
+            EXISTS,             ///< Existence
             __LITERALS__,       ///< Anything past this is a literal
             NUMBER_LIT,         ///< Numeric literal
             FRACTIONAL_LIT,     ///< Numeric literal with decimal point

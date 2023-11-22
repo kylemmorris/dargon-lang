@@ -40,6 +40,10 @@ namespace dargon {
         /// @brief Provides the next token from the input data.
         /// @returns A Token object.
         Token Next();
+
+        /// @brief Provides all the tokens from the input.
+        /// @returns The token stream.
+        TokenList GetAllTokens();
     private:
         std::string _data;          ///< The input data.
         FilePosition _pos;          ///< The current file position.

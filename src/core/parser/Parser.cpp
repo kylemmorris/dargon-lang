@@ -14,48 +14,60 @@
 
 namespace dargon {
 
-    Parser::Parser(const TokenList& tokens)
-    : _tokens(tokens)
-    {
+    Parser::Parser() {}
+
+    Parser::~Parser() {}
+
+    void Parser::Buffer(const TokenList& tokens) {
+        _tokens = tokens;
         _current = _tokens.begin();
+    }
+
+    Expr* Parser::Parse() {
+        try {
+            return expression();
+        }
+        catch(ParsingException e) {
+            return nullptr;
+        }
     }
 
     /// ---- GENERAL PURPOSE FUNCTIONS ----
 
-    bool Parser::_match(std::initializer_list<Token::Kind> kinds) {
+    bool Parser::match(std::initializer_list<Token::Kind> kinds) {
         for(Token::Kind t : kinds) {
-            if(_check(t)) { _next(); return true; }
+            if(check(t)) { next(); return true; }
         }
         return false;
     }
 
-    bool Parser::_check(const Token::Kind& kind) {
-        if(_end()) { return false; }
-        return _peek().GetKind() == kind;
+    bool Parser::check(const Token::Kind& kind) {
+        if(atEnd()) { return false; }
+        return peek().GetKind() == kind;
     }
 
-    Token Parser::_next() {
-        if(!_end()) { _current++; }
-        return _prev();
+    Token Parser::next() {
+        if(!atEnd()) { _current++; }
+        return prev();
     }
 
-    bool Parser::_end() const {
+    bool Parser::atEnd() const {
         return _current == _tokens.end();
     }
 
-    Token Parser::_peek() const {
+    Token Parser::peek() const {
         return *_current;
     }
 
-    Token Parser::_prev() const {
+    Token Parser::prev() const {
         return *(_current - 1);
     }
 
-    Token Parser::_consume(const Token::Kind& type, const std::string& msg) {
-        if(_check(type)) {
-            return _next();
+    Token Parser::consume(const Token::Kind& type, const std::string& msg) {
+        if(check(type)) {
+            return next();
         }
-
+        throw error(peek(), msg);
     }
 
     ParsingException Parser::error(const Token& token, const std::string& msg) {
@@ -63,85 +75,117 @@ namespace dargon {
         return ParsingException(msg);
     }
 
+    void Parser::synchronize() {
+        // This method satisfied the following logic:
+        // We discard tokens until we're at the beginning of
+        // the next statement. After a newline (we don't have semicolons),
+        // the statement is finished. Most statements start with keywords.
+        // Therefore, when the next token is one of those, we are probably
+        // starting a new statement.
+        next();
+        while(!atEnd()) {
+            // TODO: Figure out how to make this more sophisticated
+            if(prev().GetKind() == Token::Kind::NEWLINE) {
+                return;
+            }
+            // If we are starting a new statement
+            switch(peek().GetKind()) {
+                case Token::Kind::CONST_MUT:
+                case Token::Kind::VAR_MUT:
+                case Token::Kind::FUN_DECL:
+                case Token::Kind::TYPE_DECL:
+                case Token::Kind::IF:
+                case Token::Kind::ELIF:
+                case Token::Kind::ELSE:
+                case Token::Kind::LOOP:
+                case Token::Kind::WHEN:
+                    return;
+            }
+            next();
+        }
+    }
+
     /// ---- GRAMMAR RULES ----
 
     /// expression = equality
-    Expr* Parser::_expression() {
-        return _equality();
+    Expr* Parser::expression() {
+        return equality();
     }
 
     /// equality = comparison ( ("!="|"==") comparison )* ;
-    Expr* Parser::_equality() {
-        Expr* comp = _comparison();
-        while(_match({Token::Kind::EQUALITY, Token::Kind::NEQUALITY})) {
-            Token op = _prev();
-            Expr* right = _comparison();
+    Expr* Parser::equality() {
+        Expr* comp = comparison();
+        while(match({Token::Kind::EQUALITY, Token::Kind::NEQUALITY})) {
+            Token op = prev();
+            Expr* right = comparison();
             comp = new BinaryExpr(comp, op, right);
         }
         return comp;
     }
 
     /// comparison = term ( (">" | ">=" | "<" | "<=" ) term)* ;
-    Expr* Parser::_comparison() {
-        Expr* term = _term();
-        while(_match({Token::Kind::LT, Token::Kind::GT, Token::Kind::LTE, Token::Kind::GTE})) {
-            Token op = _prev();
-            Expr* right = _term();
-            term = new BinaryExpr(term, op, right);
+    Expr* Parser::comparison() {
+        Expr* expr = term();
+        while(match({Token::Kind::LT, Token::Kind::GT, Token::Kind::LTE, Token::Kind::GTE})) {
+            Token op = prev();
+            Expr* right = term();
+            expr = new BinaryExpr(expr, op, right);
         }
-        return term;
+        return expr;
     }
 
     /// term = factor ( ("-" | "+") factor)* ;
-    Expr* Parser::_term() {
-        Expr* fac = _factor();
-        while(_match({Token::Kind::MINUS, Token::Kind::PLUS})) {
-            Token op = _prev();
-            Expr* right = _factor();
+    Expr* Parser::term() {
+        Expr* fac = factor();
+        while(match({Token::Kind::MINUS, Token::Kind::PLUS})) {
+            Token op = prev();
+            Expr* right = factor();
             fac = new BinaryExpr(fac, op, right);
         }
         return fac;
     }
 
     /// factor = unary ( ("/" | "*") unary)* ;
-    Expr* Parser::_factor() {
-        Expr* fac = _unary();
-        while(_match({Token::Kind::SLASH, Token::Kind::STAR})) {
-            Token op = _prev();
-            Expr* right = _unary();
+    Expr* Parser::factor() {
+        Expr* fac = unary();
+        while(match({Token::Kind::SLASH, Token::Kind::STAR})) {
+            Token op = prev();
+            Expr* right = unary();
             fac = new BinaryExpr(fac, op, right);
         }
         return fac;
     }
 
-    /// unary = ("not" | "-") unary | primary ;
-    Expr* Parser::_unary() {
-        if(_match({Token::Kind::NOT, Token::Kind::MINUS})) {
-            Token op = _prev();
-            Expr* right = _unary();
+    /// unary = ("!" | "-") unary | primary ;
+    Expr* Parser::unary() {
+        if(match({Token::Kind::BANG, Token::Kind::MINUS})) {
+            Token op = prev();
+            Expr* right = unary();
             return new UnaryExpr(op, right);
         }
-        return _primary();
+        return primary();
     }
 
     /// primary = NUMBER | STRING | "true" | "false" | "(" expression ")" ;
-    Expr* Parser::_primary() {
+    Expr* Parser::primary() {
         // We just use switch instead of if(_match() {} if(_match()) {} ...
-        const Token t = _peek();
+        Expr* exp = nullptr;
+        const Token t = peek();
         switch(t.GetKind()) {
             case Token::Kind::BOOL_F_LIT:
             case Token::Kind::BOOL_T_LIT:
             case Token::Kind::NUMBER_LIT:
             case Token::Kind::STRING_LIT:
-                _next();
+                next();
                 return new LiteralExpr(t.GetValue());
             case Token::Kind::PAREN_OPEN:
-                _next();
-                Expr* exp = _expression();
-                _consume(Token::Kind::PAREN_CLOSE, "Expected ')' after expression");
+                next();
+                exp = expression();
+                consume(Token::Kind::PAREN_CLOSE, "Expected ')' after expression");
                 return new GroupingExpr(exp);
             default:
-                return nullptr;
+                throw error(peek(), "Expected expression");
+                //return nullptr;
         }
     }
 

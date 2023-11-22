@@ -69,6 +69,13 @@
         case Kind::PAREN_CLOSE: return "CLOSE PARENTHESIS";
         case Kind::CONST_MUT: return "const";
         case Kind::VAR_MUT: return "var";
+        case Kind::FUN_DECL: return "fun";
+        case Kind::TYPE_DECL: return "type";
+        case Kind::IF: return "if";
+        case Kind::ELIF: return "elif";
+        case Kind::ELSE: return "else";
+        case Kind::WHEN: return "when";
+        case Kind::LOOP: return "loop";
         case Kind::ASSIGNMENT: return "ASSIGN";
         case Kind::EQUALITY: return "EQUALITY";
         case Kind::NEQUALITY: return "NEGATED EQUALITY";
@@ -80,7 +87,8 @@
         case Kind::MINUS: return "MINUS";
         case Kind::STAR: return "STAR";
         case Kind::SLASH: return "SLASH";
-        case Kind::NOT: return "not";
+        case Kind::BANG: return "BANG";
+        case Kind::EXISTS: return "EXISTS";
         case Kind::NUMBER_LIT: return "NUMBER LITERAL";
         case Kind::FRACTIONAL_LIT: return "FRACTIONAL LITERAL";
         case Kind::BOOL_T_LIT: return "true";

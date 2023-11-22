@@ -15,6 +15,7 @@
 #define DARGON_HEADER_PARSER
 
 #include "../ast/Expr.h"
+#include "../Log.h"
 
 namespace dargon {
 
@@ -23,9 +24,19 @@ namespace dargon {
 	/// @since v0.1
 	class Parser {
 	public:
-        /// @brief Constructor. Accepts a
-        /// list of Tokens.
-        Parser(const TokenList& tokens);
+        /// @brief Constructor
+        Parser();
+
+        /// @brief Destructor
+        ~Parser();
+
+        /// @brief Buffers the parser with a sequential list of tokens.
+        void Buffer(const TokenList& tokens);
+
+        /// @brief Parses the token stream and returns the heap-allocated expression.
+        /// @return Heap-allocated expression. Make sure to call 'delete'!
+        Expr* Parse();
+
 	private:
         /// The input of the Parser.
         TokenList _tokens;
@@ -33,50 +44,53 @@ namespace dargon {
         TokenList::iterator _current;
 
         /// @brief Matches a token with an expected list of tokens, and consumes it.
-        inline bool _match(std::initializer_list<Token::Kind> kinds);
+        inline bool match(std::initializer_list<Token::Kind> kinds);
         /// @brief Checks if a token is of the kind shown. Does not consume.
-        inline bool _check(const Token::Kind& kind);
+        inline bool check(const Token::Kind& kind);
         /// @brief Consumes a token.
-        inline Token _next();
+        inline Token next();
         /// @brief Returns true if there are no more tokens to consume.
-        inline bool _end() const;
+        inline bool atEnd() const;
         /// @brief Returns the current token without consuming.
-        inline Token _peek() const;
+        inline Token peek() const;
         /// @brief Returns the last-consumed token.
-        inline Token _prev() const;
+        inline Token prev() const;
         /// @brief Tries to consume a token, and will throw a parsing exception if it's not expected.
         /// @throw ParsingException
-        inline Token _consume(const Token::Kind& type, const std::string& msg);
+        inline Token consume(const Token::Kind& type, const std::string& msg);
         /// @brief Used in all parts of the parser to throw the ParsingException.
         /// @throw ParsingException
         inline ParsingException error(const Token& token, const std::string& msg);
+        /// @brief After an error is thrown, this method is used to synchronize
+        /// the Parser back to a stable state.
+        inline void synchronize();
 
         // ---- GRAMMER RULE DEFINITIONS ----
 
         /// @brief The starting expression rule.
         /// Maps to: expression = equality
-        Expr* _expression();
+        Expr* expression();
 
         /// @brief equality = comparison ( ("!="|"==") comparison )* ;
         /// This essentially handles equality of any order.
         /// e.g. a == b, a == b == c, etc.
-        Expr* _equality();
+        Expr* equality();
 
         /// @brief comparison = term ( (">"|">="|"<"|"<=") term)* ;
         /// Handles value comparison of any order.
-        Expr* _comparison();
+        Expr* comparison();
 
         /// @brief term = factor ( ("-" | "+") factor)* ;
-        Expr* _term();
+        Expr* term();
 
         /// @brief factor = unary ( ("/" | "*") factor)* ;
-        Expr* _factor();
+        Expr* factor();
 
         /// @brief unary = ("!" | "-") unary | primary ;
-        Expr* _unary();
+        Expr* unary();
 
         /// @brief primary = NUMBER | STRING | "true" | "false" | "(" expression ")" ;
-        Expr* _primary();
+        Expr* primary();
 
 	};
 

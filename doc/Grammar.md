@@ -67,6 +67,7 @@ fun        Function declaration
 type       Type declaration
 operator   Custom operator declaration
 if
+elif
 else
 when       Pattern-matching
 is         Pattern-matching case; type comparison

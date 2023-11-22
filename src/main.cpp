@@ -53,11 +53,11 @@ void runBasicREPL() {
             out("");
             continue;
         }
-        // For now, just report the line from the lexer.
+        // Report the line from the lexer.
         out("");
         lex.Buffer(line);
-        os << "INPUT: " << line << std::endl;
-        os << "OUTPUT: " << std::endl;
+        os << "LEXER INPUT: " << line << std::endl;
+        os << "LEXER OUTPUT: " << std::endl;
         Token t = lex.Next();
         do {
             os << "    " << t.ToString() << std::endl;
@@ -68,6 +68,7 @@ void runBasicREPL() {
         DARGON_LOG_INFO(os.str());
         os.str("");
         out("");
+
     }
 }
 

@@ -66,8 +66,6 @@ namespace dargon {
                     }
                     return Token(Token::Kind::PAREN_OPEN, _pos);
                 }
-                // Colon
-                case ':': consume(); return Token(Token::Kind::COLON, _pos);
                 // Assignment or equality
                 case '=': {
                     consume();
@@ -84,7 +82,37 @@ namespace dargon {
                         consume();
                         return Token(Token::Kind::NEQUALITY, _pos);
                     }
-                    return Token(Token::Kind::INVALID, _pos);
+                    return Token(Token::Kind::BANG, _pos);
+                }
+                // Colon
+                case ':': consume(); return Token(Token::Kind::COLON, _pos);
+                case '+': consume(); return Token(Token::Kind::PLUS, _pos);
+                case '*': consume(); return Token(Token::Kind::STAR, _pos);
+                case '/': consume(); return Token(Token::Kind::SLASH, _pos);
+                case '?': consume(); return Token(Token::Kind::EXISTS, _pos);
+                case '-': {
+                    consume();
+                    //if(_curr == '>') {
+                        //consume();
+                        // TODO
+                    //}
+                    return Token(Token::Kind::MINUS, _pos);
+                }
+                case '>': {
+                    consume();
+                    if(_curr == '=') {
+                        consume();
+                        return Token(Token::Kind::GTE, _pos);
+                    }
+                    return Token(Token::Kind::GT, _pos);
+                }
+                case '<': {
+                    consume();
+                    if(_curr == '=') {
+                        consume();
+                        return Token(Token::Kind::LTE, _pos);
+                    }
+                    return Token(Token::Kind::LT, _pos);
                 }
                 // Defualt - alphanumerics and keywords.
                 default: {
@@ -104,6 +132,17 @@ namespace dargon {
         }
         // Reached end-of-file
         return Token(Token::Kind::END_OF_FILE, _pos);
+    }
+
+    TokenList Lexer::GetAllTokens() {
+        TokenList lst;
+        Token t = Next();
+        do {
+            lst.push_back(t);
+            t = Next();
+        }
+        while(!t.IsEOF());
+        return lst;
     }
 
     void Lexer::consume() {
@@ -180,121 +219,5 @@ namespace dargon {
 		while(isalpha(_curr) || isdigit(_curr) || _curr == '_');
 		return Token(Token::Kind::ID, buffer, _pos);
     }
-
-//
-//	Token Lexer::GetNextToken() {
-//        // Given the current character, produce a token.
-//        while(_char != EOF) {
-//            switch(_char) {
-//                case '\n': case '\r': { // Increment line number & ignore
-//                    _consume();
-//                    break;
-//                }
-//                case ' ': { // Ignore whitespace
-//                    _whitespace();
-//                    break;
-//                }
-//                case '\t': {  // Ignore whitespace
-//                    _whitespace();
-//                    break;
-//                }
-//                case '#': { // All types of comments live here
-//                    _consume();
-//                    if(_char != EOF) {
-//                        if(_char == '#') { // Block comment
-//                            _consume();
-//                            _blockComment();
-//                        }
-//                        else if(_char == '>') { // Conditional comment
-//                            // TODO
-//                        }
-//                        else { // Line comment
-//                            _lineComment();
-//                        }
-//                    }
-//                    break;
-//                }
-//                case ',': _consume(); return Token(TokenType::COMMA, ",", _pos);
-//                case ';': _consume(); return Token(TokenType::STMT_END, ";", _pos);
-//                case '(': _consume(); return Token(TokenType::LPAREN, "(", _pos);
-//                case ')': _consume(); return Token(TokenType::RPAREN, ")", _pos);
-//                case '{': _consume(); return Token(TokenType::LBLOCK, "[", _pos);
-//                case '}': _consume(); return Token(TokenType::RBLOCK, "]", _pos);
-//                case '[': _consume(); return Token(TokenType::LBRACK, "{", _pos);
-//                case ']': _consume(); return Token(TokenType::RBRACK, "}", _pos);
-//                case '+': _consume(); return Token(TokenType::OP_PLUS, "+", _pos);
-//                case '*': _consume(); return Token(TokenType::OP_MULT, "*", _pos);
-//                case '/': _consume(); return Token(TokenType::OP_DIV, "/", _pos);
-//                case '\'': _consume(); return _strLit();
-//                case '-': {
-//                    _consume();
-//                    if(_char == '>') {
-//                        _consume();
-//                        return Token(TokenType::FLOW_R, "->", _pos);
-//                    }
-//                    return Token(TokenType::OP_MINUS, "-", _pos);
-//                }
-//                case '=': {
-//                    _consume();
-//                    if(_char == '=') {
-//                        _consume();
-//                        return Token(TokenType::OP_EQ, "==",_pos);
-//                    }
-//                    return Token(TokenType::OP_EQ, "=", _pos);
-//                }
-//                case '~': {
-//                    _consume();
-//                    if(_char == '=') {
-//                        _consume();
-//                        return Token(TokenType::OP_NEQ, "~=", _pos);
-//                    }
-//                    return Token(TokenType::TILDE, "~", _pos);
-//                }
-//                case '>': {
-//                    _consume();
-//                    if(_char == '=') {
-//                        _consume();
-//                        return Token(TokenType::GTE, ">=", _pos);
-//                    }
-//                    return Token(TokenType::GT, ">", _pos);
-//                }
-//                case '<': {
-//                    _consume();
-//                    if(_char == '=') {
-//                        _consume();
-//                        return Token(TokenType::LTE, "<=", _pos);
-//                    }
-//                    else if(_char == '-') {
-//                        _consume();
-//                        return Token(TokenType::FLOW_L, "<-", _pos);
-//                    }
-//                    return Token(TokenType::LT, "<", _pos);
-//                }
-//                case '.': {
-//                    _consume();
-//                    if(_char == '.') {
-//                        _consume();
-//                        return Token(TokenType::RANGE, "..", _pos);
-//                    }
-//                    return Token(TokenType::PERIOD, ".", _pos);
-//                }
-//                // Anything else must be an identifier/keyword
-//                default: {
-//                    // Identifier
-//                    if(isalpha(_char) || _char == '_') {
-//                        return _identifier();
-//                    }
-//                    // Number literal
-//                    else if(isdigit(_char)) {
-//                        return _numLit();
-//                    }
-//                    return Token();
-//                }
-//            };
-//        }
-//        return Token(TokenType::EOF_TYPE, "EOF");
-//	}
-//
-
 
 };

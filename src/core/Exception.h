@@ -35,7 +35,7 @@ namespace dargon {
     /// @brief Exception thrown during parsing.
     class ParsingException : public Exception {
         using Exception::Exception;
-    }
+    };
 
 };
 
