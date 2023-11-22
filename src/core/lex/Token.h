@@ -42,6 +42,13 @@ namespace dargon {
             ASSIGNMENT,         ///< Assignment (=)
             EQUALITY,           ///< Equality (==)
             NEQUALITY,          ///< Negated Equality (!=)
+            LT, GT,             ///< Comparisons < and >
+            LTE, GTE,           ///< Comparisons <= and >=
+            MINUS,              ///< Plus (+)
+            PLUS,               ///< Minus (-)
+            SLASH,              ///< Division (/)
+            STAR,               ///< Multiplication (*)
+            NOT,                ///< Negation (not)
             __LITERALS__,       ///< Anything past this is a literal
             NUMBER_LIT,         ///< Numeric literal
             FRACTIONAL_LIT,     ///< Numeric literal with decimal point
@@ -72,6 +79,9 @@ namespace dargon {
         /// @brief Returns if this token is valid or not.
         /// An invalid token is defined as either INVALID or EOF.
         bool IsValid() const;
+
+        /// @brief Returns if this token is the EOF token.
+        bool IsEOF() const;
 
         /// @brief Returns the string representation of this token.
         std::string ToString() const;

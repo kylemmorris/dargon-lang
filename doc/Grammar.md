@@ -46,7 +46,7 @@ equality = comparison ( ("!=" | "==") comparison )* ;
 comparison = term ( (">" | ">=" | "<" | "<=") term)* ;
 term = factor ( ("-" | "+") factor)* ;
 factor = unary ( ("/" | "*") factor)* ;
-unary = ("!" | "-") unary | primary ;
+unary = ("not" | "-") unary | primary ;
 primary = NUMBER | STRING | "true" | "false" | "(" expression ")" ;
 
 (* Below are rules produced throughout the grammar *)

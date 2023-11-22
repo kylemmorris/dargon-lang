@@ -30,7 +30,14 @@ namespace hidden {
     /// @brief Underlying log function. Use macros instead.
     void Log(const std::string& type, const std::string& msg, int lineNum = 0, const char* fileName = "", bool includeLoc = false) noexcept;
 
-}};
+}
+
+    /// @brief Reports any and all errors to the user.
+    /// @param token The token the error occured at.
+    /// @param msg The message to display and log.
+    void ReportError(const Token& token, const std::string& msg) noexcept;
+
+};
 
 // MACRO JUSTIFICATION: The utility of the dynamic macros '__FILE__' and '__LINE__'.
 

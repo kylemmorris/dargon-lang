@@ -32,6 +32,11 @@ namespace dargon {
         using Exception::Exception;
     };
 
+    /// @brief Exception thrown during parsing.
+    class ParsingException : public Exception {
+        using Exception::Exception;
+    }
+
 };
 
 #endif

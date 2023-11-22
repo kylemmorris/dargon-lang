@@ -40,6 +40,10 @@
         return _type != Kind::END_OF_FILE && _type != Kind::INVALID;
     }
 
+    bool Token::IsEOF() const {
+        return _type == Kind::END_OF_FILE;
+    }
+
     std::string Token::ToString() const {
         // Returns [TYPE], [TYPE,value], or [TYPE,value @Line X Col Y]
         std::ostringstream os;
@@ -68,6 +72,15 @@
         case Kind::ASSIGNMENT: return "ASSIGN";
         case Kind::EQUALITY: return "EQUALITY";
         case Kind::NEQUALITY: return "NEGATED EQUALITY";
+        case Kind::LT: return "LESS THAN";
+        case Kind::GT: return "GREATER THAN";
+        case Kind::LTE: return "LESS THAN OR EQUAL";
+        case Kind::GTE: return "GREATER THAN OR EQUAL";
+        case Kind::PLUS: return "PLUS";
+        case Kind::MINUS: return "MINUS";
+        case Kind::STAR: return "STAR";
+        case Kind::SLASH: return "SLASH";
+        case Kind::NOT: return "not";
         case Kind::NUMBER_LIT: return "NUMBER LITERAL";
         case Kind::FRACTIONAL_LIT: return "FRACTIONAL LITERAL";
         case Kind::BOOL_T_LIT: return "true";
