@@ -15,6 +15,8 @@
 #include "core/Output.h"
 #include "core/Log.h"
 #include "core/lex/Lexer.h"
+#include "core/parser/Parser.h"
+#include "core/ast/ASTPrinter.h"
 
 /// @brief Displays the help dialogue.
 void help() {
@@ -31,6 +33,7 @@ void help() {
 void runBasicREPL() {
     using namespace dargon;
     Lexer lex;
+    Parser parser;
     out("Welcome! For help, type 'help'");
     std::string line = "";
     std::ostringstream os;
@@ -53,22 +56,33 @@ void runBasicREPL() {
             out("");
             continue;
         }
-        // Report the line from the lexer.
+        // Begin interpreter
         out("");
         lex.Buffer(line);
-        os << "LEXER INPUT: " << line << std::endl;
-        os << "LEXER OUTPUT: " << std::endl;
-        Token t = lex.Next();
-        do {
+        os << "INPUT: " << line << std::endl;
+        os << "LEXER: " << std::endl;
+        TokenList toks = lex.GetAllTokens();
+        for(Token t : toks) {
             os << "    " << t.ToString() << std::endl;
-            t = lex.Next();
         }
-        while(t.GetKind() != Token::Kind::END_OF_FILE);
         out(os.str());
         DARGON_LOG_INFO(os.str());
         os.str("");
         out("");
-
+        // Optionally for now, parser
+        std::cout << "Continue to parser? [Y/n]: ";
+        getline(std::cin, line);
+        if(line == "Y" || line == "y") {
+            parser.Buffer(toks);
+            Expr* expression = parser.Parse();
+            // If it was valid
+            if(expression != nullptr) {
+                ASTPrinter printer;
+                os << "    " << printer.Print(expression) << std::endl;
+                delete expression;
+            }
+            out("");
+        }
     }
 }
 

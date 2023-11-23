@@ -64,6 +64,7 @@ namespace dargon {
 	class Expr : public IVisitee {
 	public:
         using IVisitee::Accept;
+        virtual ~Expr() {}
 	};
 
 	// ************************

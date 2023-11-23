@@ -27,7 +27,8 @@ namespace dargon {
         try {
             return expression();
         }
-        catch(ParsingException e) {
+        catch(ParsingException* e) {
+            delete e;
             return nullptr;
         }
     }
@@ -70,9 +71,9 @@ namespace dargon {
         throw error(peek(), msg);
     }
 
-    ParsingException Parser::error(const Token& token, const std::string& msg) {
+    ParsingException* Parser::error(const Token& token, const std::string& msg) {
         ReportError(token, msg);
-        return ParsingException(msg);
+        return new ParsingException(msg);
     }
 
     void Parser::synchronize() {
@@ -100,6 +101,8 @@ namespace dargon {
                 case Token::Kind::LOOP:
                 case Token::Kind::WHEN:
                     return;
+                default:
+                    break;
             }
             next();
         }
