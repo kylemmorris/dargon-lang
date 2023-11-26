@@ -20,14 +20,20 @@
 namespace dargon {
 
     /// @brief Prints to the standard output.
-    inline void out(const char* msg) noexcept {
-        std::cout << msg << std::endl;
+    inline void out(const char* msg, bool include_endl = true) noexcept {
+        if(include_endl) {
+            std::cout << msg << std::endl;
+        }
+        else {
+            std::cout << msg;
+        }
+
         //InfoLog(msg);
     }
 
     /// @brief Prints to the standard output (string overload).
-    inline void out(const std::string& msg) noexcept {
-        out(msg.c_str());
+    inline void out(const std::string& msg, bool include_endl = true) noexcept {
+        out(msg.c_str(), include_endl);
     }
 
 };

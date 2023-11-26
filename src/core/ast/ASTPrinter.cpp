@@ -37,7 +37,7 @@ namespace dargon {
             _result << "nil";
         }
         else {
-            _result << literal.value;
+            _result << " " << literal.value;
         }
     }
 

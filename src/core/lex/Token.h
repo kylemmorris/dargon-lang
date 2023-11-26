@@ -30,19 +30,12 @@ namespace dargon {
         enum class Kind {
             END_OF_FILE = 0,    ///< End-of-File (EOF)
             INVALID,            ///< An invalid token
+            __CONSTRUCTS__,     ///< Constructs that the language uses
             NEWLINE,            ///< The newline character
             ID,                 ///< Identifier
             COLON,              ///< Colon (:)
             PAREN_OPEN,         ///< Open Parenthesis (
             PAREN_CLOSE,        ///< Close Paranthesis )
-            __KEYWORDS__,       ///< Anything past this line is a keyword
-            CONST_MUT,          ///< Constant mutability (const)
-            VAR_MUT,            ///< Variable mutability (var)
-            FUN_DECL,           ///< Function declaration (fun)
-            TYPE_DECL,          ///< Type declaration (type)
-            IF, ELIF, ELSE,     ///< if, elif, and else
-            WHEN,               ///< Pattern matching 'when'
-            LOOP,               ///< Loop construct 'loop'
             __OPERATORS__,      ///< Anything past this is an operator
             ASSIGNMENT,         ///< Assignment (=)
             EQUALITY,           ///< Equality (==)
@@ -55,6 +48,14 @@ namespace dargon {
             STAR,               ///< Multiplication (*)
             BANG,               ///< Negation
             EXISTS,             ///< Existence
+            __KEYWORDS__,       ///< Anything past this line is a keyword
+            CONST_MUT,          ///< Constant mutability (const)
+            VAR_MUT,            ///< Variable mutability (var)
+            FUN_DECL,           ///< Function declaration (fun)
+            TYPE_DECL,          ///< Type declaration (type)
+            IF, ELIF, ELSE,     ///< if, elif, and else
+            WHEN,               ///< Pattern matching 'when'
+            LOOP,               ///< Loop construct 'loop'
             __LITERALS__,       ///< Anything past this is a literal
             NUMBER_LIT,         ///< Numeric literal
             FRACTIONAL_LIT,     ///< Numeric literal with decimal point
@@ -66,7 +67,8 @@ namespace dargon {
         /// @brief The invalid token constructor.
         Token();
 
-        /// @brief The general constructor.
+        /// @brief The general constructor. This will auto-populate
+        /// the value of operators.
         Token(const Kind& kind = Kind::INVALID, const FilePosition& pos = FilePosition());
 
         /// @brief Constructor for tokens that contain values.

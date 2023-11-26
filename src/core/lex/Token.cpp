@@ -22,7 +22,11 @@
 
     Token::Token(const Token::Kind& kind, const FilePosition& pos)
     : _type(kind), _value(""), _location(pos)
-    {}
+    {
+        if(_type > Kind::__CONSTRUCTS__ && _type < Kind::__KEYWORDS__) {
+            _value = GetKindName(_type);
+        }
+    }
 
     Token::Token(const Token::Kind& kind, const std::string& value, const FilePosition& pos)
     : _type(kind), _value(value), _location(pos)
@@ -61,21 +65,12 @@
     std::string Token::GetKindName(const Token::Kind& type) {
         switch(type) {
         case Kind::END_OF_FILE: return "EOF";
-        case Kind::INVALID: return "(!?)";
+        case Kind::INVALID: return "!!! INVALID !!!";
         case Kind::NEWLINE: return "NEWLINE";
         case Kind::ID: return "ID";
         case Kind::COLON: return "COLON";
         case Kind::PAREN_OPEN: return "OPEN PARENTHESIS";
         case Kind::PAREN_CLOSE: return "CLOSE PARENTHESIS";
-        case Kind::CONST_MUT: return "const";
-        case Kind::VAR_MUT: return "var";
-        case Kind::FUN_DECL: return "fun";
-        case Kind::TYPE_DECL: return "type";
-        case Kind::IF: return "if";
-        case Kind::ELIF: return "elif";
-        case Kind::ELSE: return "else";
-        case Kind::WHEN: return "when";
-        case Kind::LOOP: return "loop";
         case Kind::ASSIGNMENT: return "ASSIGN";
         case Kind::EQUALITY: return "EQUALITY";
         case Kind::NEQUALITY: return "NEGATED EQUALITY";
@@ -89,6 +84,15 @@
         case Kind::SLASH: return "SLASH";
         case Kind::BANG: return "BANG";
         case Kind::EXISTS: return "EXISTS";
+        case Kind::CONST_MUT: return "const";
+        case Kind::VAR_MUT: return "var";
+        case Kind::FUN_DECL: return "fun";
+        case Kind::TYPE_DECL: return "type";
+        case Kind::IF: return "if";
+        case Kind::ELIF: return "elif";
+        case Kind::ELSE: return "else";
+        case Kind::WHEN: return "when";
+        case Kind::LOOP: return "loop";
         case Kind::NUMBER_LIT: return "NUMBER LITERAL";
         case Kind::FRACTIONAL_LIT: return "FRACTIONAL LITERAL";
         case Kind::BOOL_T_LIT: return "true";

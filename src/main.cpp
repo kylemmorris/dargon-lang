@@ -35,10 +35,11 @@ void runBasicREPL() {
     Lexer lex;
     Parser parser;
     out("Welcome! For help, type 'help'");
+    out("");
     std::string line = "";
     std::ostringstream os;
     while(true) {
-        std::cout << "DIR> ";
+        out("DIR> ",false);
         // Read line
         getline(std::cin, line);
         if(line == "quit") { break; }
@@ -59,8 +60,8 @@ void runBasicREPL() {
         // Begin interpreter
         out("");
         lex.Buffer(line);
-        os << "INPUT: " << line << std::endl;
-        os << "LEXER: " << std::endl;
+        out("INPUT: " + line);
+        out("LEXER:");
         TokenList toks = lex.GetAllTokens();
         for(Token t : toks) {
             os << "    " << t.ToString() << std::endl;
@@ -69,20 +70,18 @@ void runBasicREPL() {
         DARGON_LOG_INFO(os.str());
         os.str("");
         out("");
-        // Optionally for now, parser
-        std::cout << "Continue to parser? [Y/n]: ";
-        getline(std::cin, line);
-        if(line == "Y" || line == "y") {
-            parser.Buffer(toks);
-            Expr* expression = parser.Parse();
-            // If it was valid
-            if(expression != nullptr) {
-                ASTPrinter printer;
-                os << "    " << printer.Print(expression) << std::endl;
-                delete expression;
-            }
-            out("");
+        out("PARSER: ");
+        os.str("");
+        parser.Buffer(toks);
+        Expr* expression = parser.Parse();
+        // If it was valid
+        if(expression != nullptr) {
+            ASTPrinter printer;
+            out("   " + printer.Print(expression));
+            delete expression;
         }
+        out("");
+        out("");
     }
 }
 
@@ -92,7 +91,7 @@ int main(int argc, char* argv[]) {
 
     // Starting up
     out(VersionString());
-    out("(C) Kyle Morris 2023 - See LICENSE.txt for license information.\n");
+    out("(C) Kyle Morris 2023 - See LICENSE.txt for license information.");
     DARGON_LOG_INFO(VersionString() + " starting.");
 
     // If no inputs were provided, display help
