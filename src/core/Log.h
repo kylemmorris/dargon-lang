@@ -48,7 +48,8 @@ namespace hidden {
 #define DARGON_LOG_WARN(msg) dargon::hidden::Log("WARN", msg, __LINE__, __FILE__, true)
 /// @brief Prints "Time - [ERROR]: msg (at FILE line LINENUM)" to the log file.
 #define DARGON_LOG_ERROR(msg) dargon::hidden::Log("ERROR", msg, __LINE__, __FILE__, true)
-#ifdef DARGON_DEBUG
+
+#ifdef DARGON_VERSION_DEBUG
 /// @brief Prints "Time - [DEBUG]: msg (at FILE line LINENUM)" to the log file but ONLY in debug mode.
 #define DARGON_LOG_DEBUG(msg) dargon::hidden::Log("DEBUG", msg, __LINE__, __FILE__, true)
 #else

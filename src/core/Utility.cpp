@@ -25,7 +25,7 @@ namespace dargon {
         char       buf[80];
         tstruct = *localtime(&now);
         // "%Y-%m-%d.%X"
-        strftime(buf, sizeof(buf), "%m.%d.%Y.%X", &tstruct);
+        strftime(buf, sizeof(buf), "%m.%d.%Y %X", &tstruct);
         return buf;
     }
 
