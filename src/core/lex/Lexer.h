@@ -44,12 +44,19 @@ namespace dargon {
         /// @brief Provides all the tokens from the input.
         /// @returns The token stream.
         TokenList GetAllTokens();
+
+        /// @brief Returns true if an error occured while tokenizing.
+        bool ErrorOccured() const { return _error; }
     private:
         std::string _data;          ///< The input data.
         FilePosition _pos;          ///< The current file position.
         int _index;                 ///< Current index into the data.
         int _len;                   ///< Lenght of the input data.
         char _curr;                 ///< The current character.
+        bool _error;                ///< True if an error occured.
+
+        /// @brief Reports an error
+        inline LexerException* error(const std::string& msg);
 
         /// @brief Consumes a character.
         void consume();

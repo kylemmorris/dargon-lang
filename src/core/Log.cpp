@@ -52,13 +52,14 @@ namespace hidden {
 
     void ReportError(const Token& token, const std::string& msg) noexcept {
         std::ostringstream os;
+        os << "DIR_ERROR> ";
         if(token.IsEOF()) {
-            os << token.GetPosition().line << " at end: " << msg << std::endl;
+            os << "Line " << token.GetPosition().line << " at end: " << msg << std::endl;
             out(os.str());
             DARGON_LOG_ERROR(os.str());
         }
         else {
-            os << token.GetPosition().line << " at '" << token.GetValue() << "': " << msg << std::endl;
+            os << "Line " << token.GetPosition().line << " at '" << token.GetValue() << "': " << msg << std::endl;
             out(os.str());
             DARGON_LOG_ERROR(os.str());
         }

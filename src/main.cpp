@@ -61,8 +61,11 @@ void runBasicREPL() {
         out("");
         lex.Buffer(line);
         out("INPUT: " + line);
-        out("LEXER:");
         TokenList toks = lex.GetAllTokens();
+        if(lex.ErrorOccured()) {
+            continue;
+        }
+        out("LEXER:");
         for(Token t : toks) {
             os << "    " << t.ToString() << std::endl;
         }

@@ -72,6 +72,7 @@ namespace dargon {
     }
 
     ParsingException* Parser::error(const Token& token, const std::string& msg) {
+        // TODO: Commonize 'DIR ERROR>' output between Lexer and Parser.
         ReportError(token, msg);
         return new ParsingException(msg);
     }
