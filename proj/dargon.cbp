@@ -35,6 +35,7 @@
 		</Compiler>
 		<Unit filename="../src/core/Exception.cpp" />
 		<Unit filename="../src/core/Exception.h" />
+		<Unit filename="../src/core/File.cpp" />
 		<Unit filename="../src/core/File.h" />
 		<Unit filename="../src/core/FilePosition.h" />
 		<Unit filename="../src/core/Log.cpp" />

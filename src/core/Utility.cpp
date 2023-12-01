@@ -29,20 +29,44 @@ namespace dargon {
         return buf;
     }
 
-    bool TryOpenFile(const std::string& filePath, std::fstream& file) {
+    bool FileExists(const std::string& filePath) {
 		// Check file status before anything else.
 		struct stat st = { 0 };
 		if (stat(filePath.c_str(), &st) == -1) {
-            throw Exception("Could not find file: " + filePath);
+            //throw Exception("Could not find file: " + filePath);
 			return false;
 		}
-		file.open(filePath, std::ios::out | std::ios::out);
+		std::ifstream file;
+		file.open(filePath);
 		if (!file.is_open()) {
-            throw Exception("Could not open file: " + filePath);
+            //throw Exception("Could not open file: " + filePath);
 			file.close();
 			return false;
 		}
+		file.close()
 		return true;
+	}
+
+	std::string GetFilename(const std::string& path, bool include_extension) {
+        // Go from "home/kmorris/Desktop/test.dargon" to "test.dargon"
+        std::string ret = path;
+        if(!ret.empty()) {
+            // "home/kmorris/Desktop/test.dargon"
+            size_t slash = ret.find('/');
+            while(slash != std::string::npos) {
+                ret.erase(0, ret.begin() + slash);
+                slash = ret.find('/');
+            }
+            // Is now "test.dargon"
+            if(!include_extension) {
+                size_t ext = ret.find('.');
+                while(ext != std::string::npos) {
+                    ret.erase(ret.begin() + ext, ret.end()-1);
+                    ext = ret.find('.');
+                }
+            }
+        }
+        return ret;
 	}
 
 };

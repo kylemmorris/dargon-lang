@@ -21,11 +21,15 @@ namespace dargon {
     /// @brief Returns the current date and time in YEAR-MONTH-DAY.TIME form.
     const std::string GetDateTimeString();
 
-    /// @brief Attempts to open the file specified at filePath.
-    /// @param filePath Path to the file.
-    /// @param file The file stream being outputted.
+    /// @brief Checks if a file exists.
     /// @returns True if okay, false if not.
-    bool TryOpenFile(const std::string& filePath, std::fstream& file);
+    bool FileExists(const std::string& filePath);
+
+    /// @brief Given a path properly delimitted, returns the name of that file.
+    /// @param path The path.
+    /// @param include_extension If true, will include file extension. True by default.
+    /// @param The name of the file without or without extension.
+    std::string GetFilename(const std::string& path, bool include_extension = true);
 
 };
 

@@ -62,11 +62,11 @@ namespace dargon {
         DARGON_TEST_ASSERT( s.ShowPosition() == "TEST.dargon @ Line 1 Col 1" );
 
         // Go down two lines and confirm
-        s.MoveDown(1);
+        s.MoveDown();
         std::string l1 = s.ReadLine();
         DARGON_TEST_ASSERT( s.ShowPosition() == "TEST.dargon @ Line 2 Col 1" );
 
-        s.MoveDown(1);
+        s.MoveDown();
         std::string l2 = s.ReadLine();
         DARGON_TEST_ASSERT( s.ShowPosition() == "TEST.dargon @ Line 3 Col 1" );
 
@@ -88,6 +88,7 @@ namespace dargon {
         s.Close();
     )
 
+    /// @brief Test case for moving in both directions
     DARGON_UNIT_TEST(MultilateralMovement,
         /*
         TEST.dargon
@@ -107,11 +108,14 @@ namespace dargon {
         // Move to line 3 column 5 in two different ways
         FilePosition f = FilePosition(3, 5);
 
-        s.MoveDown(2); s.MoveRight(4);
+        DARGON_TEST_ASSERT( s.MoveDown(2) );
+        DARGON_TEST_ASSERT( s.MoveRight(4) );
         DARGON_TEST_ASSERT( s.CurrentPosition().Equals(f) );
 
         s.Reset();
-        s.GotoLine(3); s.GotoColumn(5);
+
+        DARGON_TEST_ASSERT( s.GotoLine(3) );
+        DARGON_TEST_ASSERT( s.GotoColumn(4) );
         DARGON_TEST_ASSERT( s.CurrentPosition().Equals(f) );
 
         // Print it out
@@ -138,8 +142,77 @@ namespace dargon {
         s.Close();
     )
 
+    /// @brief Test case for wierd edge cases
     DARGON_UNIT_TEST(EdgeCases,
+        /*
+        TEST.dargon
 
+        1 # A comment line
+        2
+        3 const a :int = 1
+        4 const b :int = 2
+        5
+        6 print(a + b)
+
+        */
+        // Open file
+        Script s;
+        DARGON_TEST_ASSERT( s.OpenRelative("TEST.dargon") );
+
+        // Try to go to line 100
+        DARGON_TEST_ASSERT( !s.MoveDown(100) );
+        DARGON_TEST_ASSERT( !s.GotoLine(100) );
+
+        // Go to line 6 and then try to go down another line
+        DARGON_TEST_ASSERT( s.GotoLine(6) );
+        DARGON_TEST_ASSERT( !s.MoveDown() );
+        s.Reset(); // Go back to start (1,1)
+
+        // Go to the last line again, and this time make sure
+        // it's not technically EOF.
+        DARGON_TEST_ASSERT( s.GotoLine(6) );
+
+        // Now go to the very last column, still not out of bounds
+        DARGON_TEST_ASSERT( s.GotoColumn(12) );
+
+        // Move right, now out of bounds
+        DARGON_TEST_ASSERT( !s.MoveRight(10) );
+
+        // Try to go up one
+        s.Reset();
+        DARGON_TEST_ASSERT( !s.MoveUp() );
+
+        s.Close();
+    )
+
+    /// @brief Test case for the EOF logic
+    DARGON_UNIT_TEST(EndOfFileCase,
+        /*
+        TEST.dargon
+
+        1 # A comment line
+        2
+        3 const a :int = 1
+        4 const b :int = 2
+        5
+        6 print(a + b)
+
+        */
+        // Open file
+        Script s;
+        DARGON_TEST_ASSERT( s.OpenRelative("TEST.dargon") );
+
+        // Go to the last (visible) character
+        DARGON_TEST_ASSERT( s.GotoLine(6) );
+        DARGON_TEST_ASSERT( s.GotoColumn(12) );
+
+        DARGON_TEST_ASSERT( s.ReadChar() == ')' );
+
+        // Should be able to move one (now EOF)
+        DARGON_TEST_ASSERT( s.MoveRight() );
+        DARGON_TEST_ASSERT( s.ReadChar() == EOF );
+
+        s.Close();
     )
 
 };
