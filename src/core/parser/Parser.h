@@ -16,13 +16,14 @@
 
 #include "../ast/Expr.h"
 #include "../Log.h"
+#include "../Module.h"
 
 namespace dargon {
 
 	/// @brief LL(1) Recursive Descent Parser
 	/// @author Kyle Morris
 	/// @since v0.1
-	class Parser {
+	class Parser : public Module {
 	public:
         /// @brief Constructor
         Parser();

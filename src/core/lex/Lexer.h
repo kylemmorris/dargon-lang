@@ -18,6 +18,7 @@
 #include <string>
 #include "../Log.h"
 #include "Token.h"
+#include "../Module.h"
 
 namespace dargon {
 
@@ -25,7 +26,7 @@ namespace dargon {
     /// @author Kyle Morris
     /// @since v0.1
     /// @throws LexerException
-    class Lexer {
+    class Lexer : public Module {
     public:
         /// @brief Constructor.
         Lexer();

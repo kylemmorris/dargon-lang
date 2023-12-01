@@ -10,8 +10,8 @@
  *
  */
 
-#ifndef DARGON_LEXER_TESTS_H
-#define DARGON_LEXER_TESTS_H
+#ifndef DARGON_HEADER_LEXER_TESTS
+#define DARGON_HEADER_LEXER_TESTS
 
 #include "TestingMacros.h"
 #include "../core/lex/Lexer.h"

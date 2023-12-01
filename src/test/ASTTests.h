@@ -10,8 +10,8 @@
  *
  */
 
-#ifndef DARGON_AST_TESTS_H
-#define DARGON_AST_TESTS_H
+#ifndef DARGON_HEADER_AST_TESTS
+#define DARGON_HEADER_AST_TESTS
 
 #include "TestingMacros.h"
 #include "../core/ast/ASTPrinter.h"

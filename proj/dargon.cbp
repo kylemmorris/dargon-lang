@@ -35,9 +35,11 @@
 		</Compiler>
 		<Unit filename="../src/core/Exception.cpp" />
 		<Unit filename="../src/core/Exception.h" />
+		<Unit filename="../src/core/File.h" />
 		<Unit filename="../src/core/FilePosition.h" />
 		<Unit filename="../src/core/Log.cpp" />
 		<Unit filename="../src/core/Log.h" />
+		<Unit filename="../src/core/Module.h" />
 		<Unit filename="../src/core/Output.h" />
 		<Unit filename="../src/core/Utility.cpp" />
 		<Unit filename="../src/core/Utility.h" />
@@ -53,6 +55,7 @@
 		<Unit filename="../src/core/parser/Parser.h" />
 		<Unit filename="../src/main.cpp" />
 		<Unit filename="../src/test/ASTTests.h" />
+		<Unit filename="../src/test/FileTests.h" />
 		<Unit filename="../src/test/LexerTests.h" />
 		<Unit filename="../src/test/TestingMacros.h" />
 		<Unit filename="../src/test/UnitTest.h" />
