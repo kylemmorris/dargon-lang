@@ -28,8 +28,18 @@ namespace dargon {
         virtual ~File();
         bool OpenAbsolute(const std::string& path);
         bool OpenRelative(const std::string& relPath); //, const Workspace& workspace);
+        void Close();
         FilePosition CurrentPosition() const;
-        std::string DisplayPosition() const;
+        std::string ShowPosition() const;
+        std::string ShowExactPosition() const;
+        void Reset();
+        void MoveDown(int pos = -1);
+        void MoveUp(int pos = -1);
+        void MoveRight(int pos = -1);
+        void MoveLeft(int pos = -1);
+        bool GotoLine(int exactLine);
+        bool GotoColumn(int exactColumn);
+        std::string ReadLine() const;
 	private:
 	};
 
