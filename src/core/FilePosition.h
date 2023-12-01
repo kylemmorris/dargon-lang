@@ -30,6 +30,7 @@ namespace dargon {
         bool Equals(const FilePosition& other) {
             return line == other.line && col == other.col;
         }
+        void Set(int inLine, int inCol) { line = inLine; col = inCol; }
         // The line number.
         int line;
         // The position (column) in that line.

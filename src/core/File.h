@@ -17,6 +17,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include "FilePosition.h"
 
 namespace dargon {
@@ -58,7 +59,7 @@ namespace dargon {
         /// @brief Provides a more detailed position string:
         ///     filename @ Line x Col y
         ///     some line here, column pointer below
-        ///     ~~~~~~~~~~~~~~^
+        ///     --------------^
         std::string ShowExactPosition() const;
 
         /// @brief Resets the file position to (1,1)
@@ -107,12 +108,24 @@ namespace dargon {
         /// @returns The contents of the line, regarless of column.
         std::string ReadLine() const;
 	private:
-        /// @brief The file stream.
-        std::ifstream _file;
+        /*
+        This class reads the entire file, and stores is on disk like so:
+          vector contents {
+            string line,
+            string line,
+            ...
+            string line
+          }
+        */
+
         /// @brief Filename (w/ extension)
         std::string _fname;
+        /// @brief The entire file contents
+        std::vector<std::string> _contents;
         /// @brief The file position (tracked).
         FilePosition _pos;
+        /// @brief The current line
+        std::string _line;
 	};
 
 	/// @brief A Dargon script, interpreted by DIR.
