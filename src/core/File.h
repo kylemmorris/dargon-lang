@@ -69,36 +69,36 @@ namespace dargon {
         /// @param spaces The spaces to move. Default 1.
         /// @returns True if okay, false if the position would be out
         /// of the bounds of the file.
-        bool MoveUp(unsigned int spaces = 1);
+        bool MoveUp(int spaces = 1);
 
         /// @brief Moves the file pointer down.
         /// @param spaces The spaces to move. Default 1.
         /// @returns True if okay, false if the position would be out
         /// of the bounds of the file.
-        bool MoveDown(unsigned int spaces = 1);
+        bool MoveDown(int spaces = 1);
 
         /// @brief Moves the file pointer left.
         /// @param spaces The spaces to move. Default 1.
         /// @returns True if okay, false if the position would be out
         /// of the bounds of the file.
-        bool MoveLeft(unsigned int spaces = 1);
+        bool MoveLeft(int spaces = 1);
 
         /// @brief Moves the file pointer right.
         /// @param spaces The spaces to move. Default 1.
         /// @returns True if okay, false if the position would be out
         /// of the bounds of the file.
-        bool MoveRight(unsigned int spaces = 1);
+        bool MoveRight(int spaces = 1);
 
         /// @brief Goes directly to a specific line, resetting the
         /// column to 0.
         /// @returns True if okay, false if the position would be out
         /// of bounds of the file.
-        bool GotoLine(unsigned int exactLine);
+        bool GotoLine(int exactLine);
 
         /// @brief Goes directly to a specific column in the current line.
         /// @returns True if okay, false if the position would be out
         /// of bounds of the file
-        bool GotoColumn(unsigned int exactColumn);
+        bool GotoColumn(int exactColumn);
 
         /// @brief Reads the character currently pointed to.
         /// @returns The character (including EOF).
@@ -107,6 +107,9 @@ namespace dargon {
         /// @brief Returns the contents of the current line.
         /// @returns The contents of the line, regarless of column.
         std::string ReadLine() const;
+
+        /// @brief Returns the contents of the entire file, pretty-printed.
+        std::string PrintAllContents() const;
 	private:
         /*
         This class reads the entire file, and stores is on disk like so:
@@ -116,16 +119,14 @@ namespace dargon {
             ...
             string line
           }
-        */
 
-        /// @brief Filename (w/ extension)
-        std::string _fname;
+        */
         /// @brief The entire file contents
         std::vector<std::string> _contents;
-        /// @brief The file position (tracked).
+        /// @brief Filename (w/ extension)
+        std::string _fname;
+        /// @brief The file position (tracked). Line = index in _contents, col = index in that line.
         FilePosition _pos;
-        /// @brief The current line
-        std::string _line;
 	};
 
 	/// @brief A Dargon script, interpreted by DIR.

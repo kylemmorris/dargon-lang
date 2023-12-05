@@ -30,6 +30,7 @@ namespace hidden {
                 LogFile.open(LogFileName, std::ios::out | std::ios::app);
             }
             LogFile << GetDateTimeString() << " - " << "[" << type << "]: " << msg;
+            out(msg);
             if(includeLoc) {
                 std::string s(fileName);
                 LogFile << " (at " << s.substr(s.find_last_of("/\\") + 1) << " line " << lineNum << ")";

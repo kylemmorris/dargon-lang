@@ -18,6 +18,8 @@
 #include "core/parser/Parser.h"
 #include "core/ast/ASTPrinter.h"
 
+#include "core/File.h"
+
 /// @brief Displays the help dialogue.
 void help() {
     using namespace dargon;
@@ -65,26 +67,44 @@ void runBasicREPL() {
         if(lex.ErrorOccured()) {
             continue;
         }
-        out("LEXER:");
+        DARGON_LOG_INFO("LEXER:");
         for(Token t : toks) {
             os << "    " << t.ToString() << std::endl;
         }
-        out(os.str());
         DARGON_LOG_INFO(os.str());
         os.str("");
         out("");
-        out("PARSER: ");
+        DARGON_LOG_INFO("PARSER: ");
         os.str("");
         parser.Buffer(toks);
         Expr* expression = parser.Parse();
         // If it was valid
         if(expression != nullptr) {
             ASTPrinter printer;
-            out("   " + printer.Print(expression));
+            DARGON_LOG_INFO("   " + printer.Print(expression));
             delete expression;
         }
         out("");
         out("");
+    }
+}
+
+/// @brief A temporary function.
+void TEST() {
+    using namespace dargon;
+    dargon::Script s;
+    if(s.OpenAbsolute("/home/kylemorris/Desktop/dargon/examples/fib.dargon")) {
+        dargon::out(s.PrintAllContents());
+        out("");
+        out("");
+        out(s.ShowExactPosition());
+        s.MoveDown(6);
+        out(s.ShowExactPosition());
+        s.MoveRight(4);
+        out(s.ShowExactPosition());
+    }
+    else {
+        dargon::out("Could not open file.");
     }
 }
 
@@ -93,9 +113,10 @@ int main(int argc, char* argv[]) {
     using namespace dargon;
 
     // Starting up
-    out(VersionString());
-    out("(C) Kyle Morris 2023 - See LICENSE.txt for license information.");
-    DARGON_LOG_INFO(VersionString() + " starting.");
+    DARGON_LOG_INFO(VersionString());
+    DARGON_LOG_INFO("(C) Kyle Morris 2023 - See LICENSE.txt for license information.");
+    out("");
+    //DARGON_LOG_INFO(VersionString() + " starting.");
 
     // If no inputs were provided, display help
     if(argc == 1) {
@@ -120,7 +141,13 @@ int main(int argc, char* argv[]) {
     }
     else {
         // It's a file path... TODO
-        out("Not implemented yet...");
+        Script s;
+        if(s.OpenAbsolute(inputs[0])) {
+            DARGON_LOG_INFO(s.PrintAllContents());
+        }
+        else {
+            DARGON_LOG_ERROR("Could not open file: " + inputs[0]);
+        }
     }
 
     return 0;

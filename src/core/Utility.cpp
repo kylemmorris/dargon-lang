@@ -43,7 +43,7 @@ namespace dargon {
 			file.close();
 			return false;
 		}
-		file.close()
+		file.close();
 		return true;
 	}
 
@@ -54,7 +54,7 @@ namespace dargon {
             // "home/kmorris/Desktop/test.dargon"
             size_t slash = ret.find('/');
             while(slash != std::string::npos) {
-                ret.erase(0, ret.begin() + slash);
+                ret.erase(ret.begin(), ret.begin() + slash + 1);
                 slash = ret.find('/');
             }
             // Is now "test.dargon"
