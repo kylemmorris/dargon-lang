@@ -1,8 +1,6 @@
-# The Dargon Programming Language - v0.1
+# The Dargon Programming Language - v0.0
 
-**This is still a huge work in progress - Dargon is not ready!**
-
-Dargon is a small toy language and (for now) solo project with a focus on being:
+Dargon is a small passion project and toy language with a focus on being:
 
 - Fun
 - Artistic and "always experimental"
@@ -22,7 +20,15 @@ The full Dargon experience aims to deliver the following:
 
 ## Where to Start
 
-Dargon is not ready for any form of distribution or usage. I am currently working on gathering initial documentation, including a tutorial on how I think Dargon should preform (almost like a requirements document), and grammar definition. These can be found in the [doc](doc) directory of this repository. Some [example](examples) programs are also available for preview.
+**Dargon is not ready for any form of distribution or usage. It's still large work-in-progress.** There is some initial documentation, including a tutorial on how I think Dargon should perform (almost like a requirements document), and grammar definition. These can be found in the [doc](doc) directory of this repository. Some [example](examples) programs are also available for preview. 
+
+Dargon is currently using the CMake build system, so this must be installed on your machin. It is recommended to follow this set of bash commands (for windows users, use powershell): 
+
+```bash
+dargon$ mkdir build && cd build
+dargon/build$ cmake ..
+dargon/build$ cmake --build .
+```
 
 ## Repository Layout
 
@@ -46,4 +52,5 @@ Dargon is not ready for any form of distribution or usage. I am currently workin
 - CMake (verison 3.22.1)
 - g++ (using C++17)
 - draw.io (UML editor)
-- doxygen (for documentation)
+- doxygen (for auto-documentation)
+- MarkText (for documentation)

@@ -42,6 +42,8 @@
 		<Unit filename="../src/core/Log.h" />
 		<Unit filename="../src/core/Module.h" />
 		<Unit filename="../src/core/Output.h" />
+		<Unit filename="../src/core/Path.cpp" />
+		<Unit filename="../src/core/Path.h" />
 		<Unit filename="../src/core/Utility.cpp" />
 		<Unit filename="../src/core/Utility.h" />
 		<Unit filename="../src/core/Version.h" />

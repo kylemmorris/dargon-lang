@@ -1,4 +1,0 @@
-
-1. Modify CMakeLists.txt
-2. Run "cmake .."
-3. Run "cmake --build ."
