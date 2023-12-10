@@ -163,7 +163,6 @@ namespace dargon {
         // TODO: Commonize 'DIR ERROR>' output between Lexer and Parser.
         std::ostringstream os;
         os << "DIR ERROR> " << msg << " at line " << _pos.line << ": " << _curr;
-        out(os.str());
         DARGON_LOG_ERROR(os.str());
         _error = true;
         throw new LexerException(msg);

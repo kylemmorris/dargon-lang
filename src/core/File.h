@@ -19,6 +19,7 @@
 #include <fstream>
 #include <vector>
 #include "FilePosition.h"
+#include "Path.h"
 
 namespace dargon {
 
@@ -36,12 +37,12 @@ namespace dargon {
         /// @brief Opens a file using an absolute path.
         /// @param path The absolute path.
         /// @returns True if okay, false if file not found.
-        bool OpenAbsolute(const std::string& path);
+        bool OpenAbsolute(const Path& path);
 
         /// @brief Opens a file using a path relative to the Dargon workspace.
         /// @param path The relative path.
         /// @returns True if okay, false if file not found.
-        bool OpenRelative(const std::string& relPath); //, const Workspace& workspace);
+        bool OpenRelative(const Path& relPath); //, const Workspace& workspace);
 
         /// @brief Closes the file reference.
         /// Note that this is called in the File destructor automatically too.
@@ -110,6 +111,14 @@ namespace dargon {
 
         /// @brief Returns the contents of the entire file, pretty-printed.
         std::string PrintAllContents() const;
+
+        /// @brief Checks if a file exists.
+        /// @returns True if okay, false if not.
+        static bool Exists(const Path& filePath);
+
+        /// @brief Checks if a file exists.
+        /// @returns True if okay, false if not.
+        static bool Exists(const std::string& filePath);
 	private:
         /*
         This class reads the entire file, and stores is on disk like so:
@@ -123,8 +132,8 @@ namespace dargon {
         */
         /// @brief The entire file contents
         std::vector<std::string> _contents;
-        /// @brief Filename (w/ extension)
-        std::string _fname;
+        /// @brief The file path object
+        Path _path;
         /// @brief The file position (tracked). Line = index in _contents, col = index in that line.
         FilePosition _pos;
 	};

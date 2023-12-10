@@ -17,7 +17,6 @@
 #include "core/lex/Lexer.h"
 #include "core/parser/Parser.h"
 #include "core/ast/ASTPrinter.h"
-
 #include "core/File.h"
 
 /// @brief Displays the help dialogue.
@@ -89,25 +88,6 @@ void runBasicREPL() {
     }
 }
 
-/// @brief A temporary function.
-void TEST() {
-    using namespace dargon;
-    dargon::Script s;
-    if(s.OpenAbsolute("/home/kylemorris/Desktop/dargon/examples/fib.dargon")) {
-        dargon::out(s.PrintAllContents());
-        out("");
-        out("");
-        out(s.ShowExactPosition());
-        s.MoveDown(6);
-        out(s.ShowExactPosition());
-        s.MoveRight(4);
-        out(s.ShowExactPosition());
-    }
-    else {
-        dargon::out("Could not open file.");
-    }
-}
-
 /// @brief Entry point.
 int main(int argc, char* argv[]) {
     using namespace dargon;
@@ -116,7 +96,6 @@ int main(int argc, char* argv[]) {
     DARGON_LOG_INFO(VersionString());
     DARGON_LOG_INFO("(C) Kyle Morris 2023 - See LICENSE.txt for license information.");
     out("");
-    //DARGON_LOG_INFO(VersionString() + " starting.");
 
     // If no inputs were provided, display help
     if(argc == 1) {
@@ -136,18 +115,39 @@ int main(int argc, char* argv[]) {
     else if(inputs[0] == "go") {
         runBasicREPL();
     }
+    else if(inputs[0] == "gui") {
+        out("Not implemented yet...");
+    }
     else if(inputs[0] == "test") {
         out("Not implemented yet...");
     }
     else {
-        // It's a file path... TODO
+        // It's a file path
+        Path p = Path(inputs[0]);
+        if(!File::Exists(p)) {
+            DARGON_LOG_ERROR("File not found: " + p.GetFull());
+            return 1;
+        }
+        // The following will depend on file
         Script s;
-        if(s.OpenAbsolute(inputs[0])) {
-            DARGON_LOG_INFO(s.PrintAllContents());
-        }
-        else {
-            DARGON_LOG_ERROR("Could not open file: " + inputs[0]);
-        }
+        Lexer l;
+        switch(p.GetFileExtension()) {
+            case Path::Extension::DARGON:
+                if(s.OpenAbsolute(p)) {
+                    DARGON_LOG_INFO(s.PrintAllContents());
+                    // Try to run the lexer on this file
+                }
+                else {
+                    DARGON_LOG_ERROR("Could not open file: " + inputs[0]);
+                }
+                break;
+            case Path::Extension::DARGON_CONFIG:
+                DARGON_LOG_INFO("Not currently implemented!");
+                break;
+            default:
+                DARGON_LOG_ERROR("Unsupported file type: " + inputs[0]);
+                break;
+        };
     }
 
     return 0;

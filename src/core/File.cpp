@@ -11,9 +11,10 @@
  */
 
 #include <sstream>
+#include <iomanip>
+#include <sys/stat.h>
 #include "File.h"
 #include "Utility.h"
-#include <iomanip>
 
 namespace dargon {
 
@@ -23,12 +24,12 @@ namespace dargon {
         Close();
     }
 
-    bool File::OpenAbsolute(const std::string& path) {
-        if(FileExists(path)) {
-            std::ifstream file(path);
+    bool File::OpenAbsolute(const Path& path) {
+        if(File::Exists(path)) {
+            _path = path;
+            std::ifstream file(path.GetFull());
             if(file.is_open()) {
                 // TODO: Optimize for larger files.
-                _fname = GetFilename(path, true);
                 // Copy entire contents of file
                 std::string line;
                 while(std::getline(file, line)) {
@@ -44,7 +45,7 @@ namespace dargon {
         return false;
     }
 
-    bool File::OpenRelative(const std::string& relPath) {
+    bool File::OpenRelative(const Path& relPath) {
         return true;
     }
 
@@ -63,7 +64,7 @@ namespace dargon {
 
     std::string File::ShowPosition() const {
         std::ostringstream os;
-        os << _fname << " @ " << CurrentPosition().ToString();
+        os << _path.GetFileName() << " @ " << CurrentPosition().ToString();
         return os.str();
     }
 
@@ -71,7 +72,7 @@ namespace dargon {
         std::ostringstream os;
         os << ShowPosition() << std::endl;
         os << _contents[_pos.line] << std::endl;
-        size_t tot = _contents.size();
+        //size_t tot = _contents.size();
         for(int i = 0; i < _pos.col; i++) {
             os << "-";
         }
@@ -161,7 +162,7 @@ namespace dargon {
 
     std::string File::PrintAllContents() const {
         std::ostringstream os;
-        os << "[" << _fname << "]:" << std::endl;
+        os << "[" << _path.GetFileName() << "]:" << std::endl;
         // Separate stream used to properly format numbers
         std::ostringstream numStream;
         size_t t = _contents.size();
@@ -178,6 +179,28 @@ namespace dargon {
             numStream.width(width);
         }
         return os.str();
+    }
+
+    bool File::Exists(const Path& filePath) {
+        return File::Exists(filePath.GetFull());
+    }
+
+    bool File::Exists(const std::string& filePath) {
+        // Check file status before anything else.
+		struct stat st = { 0 };
+		if (stat(filePath.c_str(), &st) == -1) {
+            //throw Exception("Could not find file: " + filePath);
+			return false;
+		}
+		std::ifstream file;
+		file.open(filePath);
+		if (!file.is_open()) {
+            //throw Exception("Could not open file: " + filePath);
+			file.close();
+			return false;
+		}
+		file.close();
+		return true;
     }
 
 };

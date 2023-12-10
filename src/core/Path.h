@@ -6,7 +6,7 @@
  * @author Kyle Morris
  * @since v0.1
  * @section Description
- * Provides cross-platform support for file paths, along with other utilities.
+ * Provides a nice interface for file paths.
  *
  */
 
@@ -20,15 +20,29 @@ namespace dargon {
 	/// @brief Provides cross-platform support for file paths, along with other utilities.
 	/// @author Kyle Morris
 	/// @since v0.1
-	class Path {
+	class Path final {
 	public:
-        Path(const std::string& path);
-        ~Path();
+        /// @brief Enumeration of supported file extensions.
+        enum class Extension {
+            DARGON,
+            DARGON_CONFIG,
+            INVALID
+        };
 
+        /// @brief Empty constructor.
+        Path() {}
+        /// @brief Main constructor.
+        Path(const std::string& path);
+        /// @brief Destructor.
+        ~Path();
+        /// @brief Returns the full path.
         std::string GetFull() const;
+        /// @brief Returns the file name without its extension.
         std::string GetFilenNameNoExt() const;
+        /// @brief Returns the file name including its extension.
         std::string GetFileName() const;
-        std::string GetFileExtension() const;
+        /// @brief Returns the file extension recognized by Dargon.
+        Extension GetFileExtension() const;
 
         // operator ...
 	private:
@@ -37,11 +51,7 @@ namespace dargon {
         std::string _fnameNoExt;
         std::string _fname;
         std::string _ext;
-        #ifdef _WIN32
-        //static char _separator = '\\';
-        #else
-        //static char _separator = '/';
-        #endif
+        Extension _type;
 	};
 
 };

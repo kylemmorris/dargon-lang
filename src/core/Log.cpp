@@ -56,12 +56,10 @@ namespace hidden {
         os << "DIR_ERROR> ";
         if(token.IsEOF()) {
             os << "Line " << token.GetPosition().line << " at end: " << msg << std::endl;
-            out(os.str());
             DARGON_LOG_ERROR(os.str());
         }
         else {
             os << "Line " << token.GetPosition().line << " at '" << token.GetValue() << "': " << msg << std::endl;
-            out(os.str());
             DARGON_LOG_ERROR(os.str());
         }
     }
