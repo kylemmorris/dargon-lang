@@ -15,6 +15,8 @@
 #ifndef DARGON_HEADER_MODULE
 #define DARGON_HEADER_MODULE
 
+#include "File.h"
+
 namespace dargon {
 
 	/// @brief Module is the superclass of all primary modules in DIR.
@@ -22,7 +24,10 @@ namespace dargon {
 	/// @since v0.1
 	class Module {
 	public:
-	private:
+        Module() {}
+        ~Module() {}
+	protected:
+
 	};
 
 };

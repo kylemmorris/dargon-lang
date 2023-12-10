@@ -23,7 +23,7 @@
 
 namespace dargon {
 
-	/// @brief Supetclass for all Dargon files (scripts, config files, etc.)
+	/// @brief Superclass for all Dargon files (scripts, config files, etc.)
 	/// @author Kyle Morris
 	/// @since v0.1
 	class File {
@@ -142,6 +142,11 @@ namespace dargon {
 	/// @author Kyle Morris
 	/// @since v0.1
 	class Script : public File {};
+
+	/// @brief A Dargon configuration file.
+	/// @author Kyle Morris
+	/// @since v0.1
+	class Config : public File {};
 
 };
 
