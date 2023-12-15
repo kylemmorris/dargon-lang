@@ -36,6 +36,12 @@ namespace dargon {
         out(msg.c_str(), include_endl);
     }
 
+    /// @brief Reads the input from the user.
+    inline void in(std::string& lineOut) noexcept {
+        out("DIR> ", false);
+        getline(std::cin, lineOut);
+    }
+
 };
 
 #endif

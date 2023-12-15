@@ -38,10 +38,11 @@
 		<Unit filename="../src/core/File.cpp" />
 		<Unit filename="../src/core/File.h" />
 		<Unit filename="../src/core/FilePosition.h" />
+		<Unit filename="../src/core/IO.h" />
 		<Unit filename="../src/core/Log.cpp" />
 		<Unit filename="../src/core/Log.h" />
+		<Unit filename="../src/core/Module.cpp" />
 		<Unit filename="../src/core/Module.h" />
-		<Unit filename="../src/core/Output.h" />
 		<Unit filename="../src/core/Path.cpp" />
 		<Unit filename="../src/core/Path.h" />
 		<Unit filename="../src/core/Utility.cpp" />

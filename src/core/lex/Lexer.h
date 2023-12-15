@@ -34,8 +34,6 @@ namespace dargon {
         /// @brief Destructor.
         ~Lexer();
 
-        //void Buffer()
-
         /// @brief Sets the input as the data to be converted.
         /// @param data The input data.
         void Buffer(const std::string& data);

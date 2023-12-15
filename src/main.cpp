@@ -12,7 +12,7 @@
 
 #include <vector>
 #include <sstream>
-#include "core/Output.h"
+#include "core/IO.h"
 #include "core/Log.h"
 #include "core/lex/Lexer.h"
 #include "core/parser/Parser.h"
@@ -24,9 +24,11 @@ void help() {
     using namespace dargon;
     out("   Usage:");
     out("       dargon help             - Displays this dialogue.");
-    out("       dargon go               - Begins the Dargon interactive interpreter.");
+    out("       dargon gui              - Opens the Dargon GUI.");
     out("       dargon test             - Runs Dargon unit tests.");
     out("       dargon <path>           - Runs a Dargon file (*.dargon or *.dargconf) at the path provided.");
+    out("");
+    out("   Running dargon without any arguments will begin the interpreter (DIR).");
     out("");
 }
 
@@ -35,14 +37,12 @@ void runBasicREPL() {
     using namespace dargon;
     Lexer lex;
     Parser parser;
-    out("Welcome! For help, type 'help'");
+    out("Welcome! For help, type 'help', to exit type 'quit'.");
     out("");
     std::string line = "";
     std::ostringstream os;
     while(true) {
-        out("DIR> ",false);
-        // Read line
-        getline(std::cin, line);
+        in(line);
         if(line == "quit") { break; }
         if(line == "help") {
             out("");
@@ -97,9 +97,9 @@ int main(int argc, char* argv[]) {
     DARGON_LOG_INFO("(C) Kyle Morris 2023 - See LICENSE.txt for license information.");
     out("");
 
-    // If no inputs were provided, display help
+    // If no inputs were provided, begin REPL
     if(argc == 1) {
-        help();
+        runBasicREPL();
         return 0;
     }
 
@@ -111,9 +111,6 @@ int main(int argc, char* argv[]) {
 
     if(inputs[0] == "help") {
         help();
-    }
-    else if(inputs[0] == "go") {
-        runBasicREPL();
     }
     else if(inputs[0] == "gui") {
         out("Not implemented yet...");
@@ -129,16 +126,11 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         // The following will depend on file
-        Script s;
         Lexer l;
         switch(p.GetFileExtension()) {
             case Path::Extension::DARGON:
-                if(s.OpenAbsolute(p)) {
-                    DARGON_LOG_INFO(s.PrintAllContents());
-                    // Try to run the lexer on this file
-                }
-                else {
-                    DARGON_LOG_ERROR("Could not open file: " + inputs[0]);
+                if(Module::SetCurrentScript(p)) {
+
                 }
                 break;
             case Path::Extension::DARGON_CONFIG:

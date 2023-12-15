@@ -14,7 +14,7 @@
 
 #include "Lexer.h"
 #include "../Exception.h"
-#include "../Output.h"
+#include "../IO.h"
 #include <sstream>
 
 namespace dargon {
@@ -140,8 +140,7 @@ namespace dargon {
                     }
                 };
             }
-        }
-        catch(LexerException* l) {
+        } catch(LexerException* l) {
             delete l;
         }
         // Reached end-of-file
