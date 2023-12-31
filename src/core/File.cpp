@@ -12,7 +12,7 @@
 
 #include <sstream>
 #include <iomanip>
-#include <sys/stat.h>
+//#include <sys/stat.h>
 #include "File.h"
 #include "Utility.h"
 
@@ -26,6 +26,7 @@ namespace dargon {
 
     bool File::OpenAbsolute(const Path& path) {
         if(File::Exists(path)) {
+            Close();
             _path = path;
             std::ifstream file(path.GetFull());
             if(file.is_open()) {
@@ -46,11 +47,26 @@ namespace dargon {
     }
 
     bool File::OpenRelative(const Path& relPath) {
+        Close();
+        DARGON_LOG_ERROR("OpenRelative - Not implemented yet.");
         return true;
+    }
+
+    void File::BufferRawData(std::string& data) {
+        Close();
+        // Segment by lines
+        size_t newline = data.find('\n');
+        std::string line = "";
+        while(newline != std::string::npos) {
+            _contents.push_back(data.substr(0, newline+1));
+            data.erase(0, newline+1);
+            newline = data.find('\n');
+        }
     }
 
     void File::Close() {
         _contents.clear();
+        Reset();
     }
 
     FilePosition File::CurrentPosition() const {

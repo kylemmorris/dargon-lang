@@ -12,18 +12,20 @@
 
 #include <vector>
 #include <sstream>
-#include "core/IO.h"
 #include "core/Log.h"
-#include "core/lex/Lexer.h"
-#include "core/parser/Parser.h"
 #include "core/ast/ASTPrinter.h"
-#include "core/File.h"
+#include "core/DIR.h"
 
 /// @brief Displays the help dialogue.
 void help() {
     using namespace dargon;
+    // Starting up
+    DARGON_LOG_INFO(VersionString());
+    DARGON_LOG_INFO("(C) Kyle Morris 2023 - See LICENSE.txt for license information.");
+    out("");
     out("   Usage:");
     out("       dargon help             - Displays this dialogue.");
+    out("       dargon version          - Version information.");
     out("       dargon gui              - Opens the Dargon GUI.");
     out("       dargon test             - Runs Dargon unit tests.");
     out("       dargon <path>           - Runs a Dargon file (*.dargon or *.dargconf) at the path provided.");
@@ -33,11 +35,14 @@ void help() {
 }
 
 /// @brief A basic REPL implementation.
-void runBasicREPL() {
+void runBasicREPL(DIR& dir) {
     using namespace dargon;
-    Lexer lex;
-    Parser parser;
-    out("Welcome! For help, type 'help', to exit type 'quit'.");
+
+    // Starting up
+    DARGON_LOG_INFO(VersionString());
+    DARGON_LOG_INFO("(C) Kyle Morris 2023 - See LICENSE.txt for license information.");
+    out("");
+    out("Welcome to the Dargon Interpreter (DIR)! For help, type 'help', to exit type 'quit'.");
     out("");
     std::string line = "";
     std::ostringstream os;
@@ -48,7 +53,7 @@ void runBasicREPL() {
             out("");
             out("**********");
             out("This is the Dargon Interpreter (DIR).");
-            out("Type any code to have it be interpreted.");
+            out("Type any Dargon code to have it be interpreted.");
             out("");
             out("The following is a list of commands:");
             out("quit          - Exits the interpreter.");
@@ -60,6 +65,8 @@ void runBasicREPL() {
         }
         // Begin interpreter
         out("");
+        dir.Run(line);
+
         lex.Buffer(line);
         out("INPUT: " + line);
         TokenList toks = lex.GetAllTokens();
@@ -92,18 +99,15 @@ void runBasicREPL() {
 int main(int argc, char* argv[]) {
     using namespace dargon;
 
-    // Starting up
-    DARGON_LOG_INFO(VersionString());
-    DARGON_LOG_INFO("(C) Kyle Morris 2023 - See LICENSE.txt for license information.");
-    out("");
+    // This is the Dargon Interpreter (DIR)
+    DIR dir;
 
     // If no inputs were provided, begin REPL
     if(argc == 1) {
-        runBasicREPL();
+        runBasicREPL(dir);
         return 0;
     }
-
-    // Collect inputs
+    // Otherwise, collect inputs
     std::vector<std::string> inputs;
     for(int i = 1; i < argc; i++) {
         inputs.push_back(std::string(argv[i]));
@@ -111,6 +115,9 @@ int main(int argc, char* argv[]) {
 
     if(inputs[0] == "help") {
         help();
+    }
+    else if(inputs[0] == "version") {
+        out(VersionString());
     }
     else if(inputs[0] == "gui") {
         out("Not implemented yet...");
@@ -121,26 +128,7 @@ int main(int argc, char* argv[]) {
     else {
         // It's a file path
         Path p = Path(inputs[0]);
-        if(!File::Exists(p)) {
-            DARGON_LOG_ERROR("File not found: " + p.GetFull());
-            return 1;
-        }
-        // The following will depend on file
-        Lexer l;
-        switch(p.GetFileExtension()) {
-            case Path::Extension::DARGON:
-                if(Module::SetCurrentScript(p)) {
-
-                }
-                break;
-            case Path::Extension::DARGON_CONFIG:
-                DARGON_LOG_INFO("Not currently implemented!");
-                break;
-            default:
-                DARGON_LOG_ERROR("Unsupported file type: " + inputs[0]);
-                break;
-        };
+        dir.Run(p);
     }
-
     return 0;
 }

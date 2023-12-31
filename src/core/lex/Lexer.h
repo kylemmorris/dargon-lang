@@ -26,7 +26,7 @@ namespace dargon {
     /// @author Kyle Morris
     /// @since v0.1
     /// @throws LexerException
-    class Lexer : public Module {
+    class Lexer {
     public:
         /// @brief Constructor.
         Lexer();
@@ -34,27 +34,21 @@ namespace dargon {
         /// @brief Destructor.
         ~Lexer();
 
-        /// @brief Sets the input as the data to be converted.
-        /// @param data The input data.
-        void Buffer(const std::string& data);
+        /// @brief Expects an input file to draw information from.
+        /// @param file The input file.
+        void Buffer(File* file);
 
         /// @brief Provides the next token from the input data.
         /// @returns A Token object.
+        /// @throws LexerException
         Token Next();
 
         /// @brief Provides all the tokens from the input.
         /// @returns The token stream.
         TokenList GetAllTokens();
-
-        /// @brief Returns true if an error occured while tokenizing.
-        bool ErrorOccured() const { return _error; }
     private:
-        std::string _data;          ///< The input data.
-        FilePosition _pos;          ///< The current file position.
-        int _index;                 ///< Current index into the data.
-        int _len;                   ///< Lenght of the input data.
-        char _curr;                 ///< The current character.
-        bool _error;                ///< True if an error occured.
+        File* _data;    ///< The data.
+        char _curr;     ///< The current character.
 
         /// @brief Reports an error
         inline LexerException* error(const std::string& msg);

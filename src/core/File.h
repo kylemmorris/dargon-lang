@@ -34,17 +34,23 @@ namespace dargon {
         /// @brief Virtual destructor.
         virtual ~File();
 
-        /// @brief Opens a file using an absolute path.
+        /// @brief Opens a file using an absolute path. Calls 'Close' first.
         /// @param path The absolute path.
         /// @returns True if okay, false if file not found.
         bool OpenAbsolute(const Path& path);
 
-        /// @brief Opens a file using a path relative to the Dargon workspace.
+        /// @brief Opens a file using a path relative to the Dargon workspace. Calls 'Close' first.
         /// @param path The relative path.
         /// @returns True if okay, false if file not found.
         bool OpenRelative(const Path& relPath); //, const Workspace& workspace);
 
-        /// @brief Closes the file reference.
+        /// @brief This is used to set the contents of this file in
+        /// memory to a particular string. This function should only
+        /// be used for temporary files, as it does not open an actual
+        /// file in the file system.
+        void BufferRawData(std::string& data);
+
+        /// @brief Clears the file contents and resets the file position.
         /// Note that this is called in the File destructor automatically too.
         void Close();
 

@@ -16,8 +16,10 @@
 #define DARGON_HEADER_MODULE
 
 #include <memory>
+#include <stack>
 #include "File.h"
 #include "Log.h"
+#include "Error.h"
 
 namespace dargon {
 
@@ -27,9 +29,24 @@ namespace dargon {
 	class Module {
 	public:
         /// @brief Constructor
-        Module();
+        Module() {}
+
         /// @brief Destructor
-        ~Module();
+        virtual ~Module() {}
+
+        /// @brief Adds an error to the error stack.
+        static void AddError(const ECode& code, const char* msg) {
+            Error e;
+            e.code = code;
+            e.msg = msg;
+            _errors.push(e);
+        }
+
+        /// @brief Returns true if an error occured.
+        static bool ErrorOccured() {
+            return !_errors.empty();
+        }
+
         /// @brief Sets the current Dargon script that will be used by all modules
         /// i.e. parts of the interpreter.
         /// @param scriptPath - Path to the script to load.
@@ -45,7 +62,12 @@ namespace dargon {
             return false;
         }
 	protected:
+        /// @brief A ref to the current script being interpreted.
         static std::unique_ptr<Script> _runningScript;
+
+        /// @brief The stack of errors.
+        static std::stack<Error> _errors;
+
 	};
 
 };

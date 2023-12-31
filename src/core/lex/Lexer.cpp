@@ -20,22 +20,32 @@
 namespace dargon {
 
     Lexer::Lexer()
-    : _data(""), _pos(), _index(0), _len(0), _curr(EOF), _error(false)
+    : _data(nullptr), _curr(EOF)
     {}
 
     Lexer::~Lexer()
     {}
 
-    void Lexer::Buffer(const std::string& data) {
-        // Re-initialize all data.
-        _data.clear();
-        _index = 0;
-        _pos = FilePosition(1,1);
-        _data = data;
-        _curr = _data.at(0);
-        _len = _data.length();
-        _error = false;
+    void Lexer::Buffer(File* file) {
+        _file = file;
+        _curr = _file->ReadChar();
     }
+
+    Token Lexer::Next() {
+        // While we are not at the end-of-file
+        while(_curr != EOF) {
+            // Depends on character
+            switch(_curr) {
+                // A new line
+                case '\n':
+                case '\r':
+                    consume();
+                    return Token(Token::Kind::NEWLINE);
+            };
+        }
+    }
+
+    // -- Old code below (from Crafting Interpreters)
 
     Token Lexer::Next() {
         try {

@@ -33,6 +33,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="../src/core/DIR.cpp" />
+		<Unit filename="../src/core/DIR.h" />
+		<Unit filename="../src/core/Error.h" />
 		<Unit filename="../src/core/Exception.cpp" />
 		<Unit filename="../src/core/Exception.h" />
 		<Unit filename="../src/core/File.cpp" />

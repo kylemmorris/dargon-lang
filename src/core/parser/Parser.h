@@ -23,7 +23,7 @@ namespace dargon {
 	/// @brief LL(1) Recursive Descent Parser
 	/// @author Kyle Morris
 	/// @since v0.1
-	class Parser : public Module {
+	class Parser {
 	public:
         /// @brief Constructor
         Parser();
