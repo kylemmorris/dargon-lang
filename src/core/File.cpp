@@ -54,6 +54,7 @@ namespace dargon {
 
     void File::BufferRawData(std::string& data) {
         Close();
+        _path = Path("");
         // Segment by lines
         size_t newline = data.find('\n');
         std::string line = "";

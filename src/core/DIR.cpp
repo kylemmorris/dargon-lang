@@ -49,6 +49,15 @@ namespace dargon {
     void DIR::_run() {
         // Phase I: Lexical analysis
         _lex.Buffer(&_file);
+        // Try and get all of the tokens. If there is an invalid token, we probably
+        // should not continue.
+        try {
+            TokenList tokens = _lex.GetAllTokens();
+        }
+        catch(LexerException* e) {
+            out(e->what());
+            delete e;
+        }
 
         out("OK");
     }

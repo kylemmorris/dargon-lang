@@ -31,6 +31,8 @@ namespace dargon {
         const char* msg;
 	};
 
+	//Exception* BuildException()
+
 };
 
 #endif

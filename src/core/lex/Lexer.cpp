@@ -40,121 +40,90 @@ namespace dargon {
                 case '\n':
                 case '\r':
                     consume();
-                    return Token(Token::Kind::NEWLINE);
+                    return Token(Token::Kind::NEWLINE, _data->CurrentPosition());
+                // Ignore whitespace
+                case ' ':
+                case '\t':
+                    whitespace();
+                    break;
+                // Line Comment
+                case '#':
+                    consume();
+                    commentLine();
+                    break;
+                // Parenthesis OR block comment
+                case ')':
+                    consume();
+                    return Token(Token::Kind::PAREN_CLOSE, _data->CurrentPosition());
+                case '(':
+                    consume();
+                    if(_curr == '#') {
+                        consume();
+                        commentBlock();
+                        break;
+                    }
+                    return Token(Token::Kind::PAREN_OPEN, _data->CurrentPosition());
+                // Assignment or equality
+                case '=':
+                    consume();
+                    if(_curr == '=') {
+                        consume();
+                        return Token(Token::Kind::EQUALITY, _data->CurrentPosition());
+                    }
+                    return Token(Token::Kind::ASSIGNMENT, _data->CurrentPosition());
+                // Inequality or negation
+                case '!':
+                    consume();
+                    if(_curr == '=') {
+                        consume();
+                        return Token(Token::Kind::NEQUALITY, _data->CurrentPosition());
+                    }
+                    return Token(Token::Kind::BANG, _data->CurrentPosition());
+                // > or >=
+                case '>':
+                    consume();
+                    if(_curr == '=') {
+                        consume();
+                        return Token(Token::Kind::GTE, _data->CurrentPosition());
+                    }
+                    return Token(Token::Kind::GT, _data->CurrentPosition());
+                // < or <=
+                case '<':
+                    consume();
+                    if(_curr == '=') {
+                        consume();
+                        return Token(Token::Kind::LTE, _data->CurrentPosition());
+                    }
+                    return Token(Token::Kind::LT, _data->CurrentPosition());
+                // Beginning of string literal
+                case '"':
+                    consume();
+                    return strLit();
+                // Single-character tokens
+                case ':': consume(); return Token(Token::Kind::COLON, _data->CurrentPosition());
+                case '+': consume(); return Token(Token::Kind::PLUS, _data->CurrentPosition());
+                case '*': consume(); return Token(Token::Kind::STAR, _data->CurrentPosition());
+                case '/': consume(); return Token(Token::Kind::SLASH, _data->CurrentPosition());
+                case '?': consume(); return Token(Token::Kind::EXISTS, _data->CurrentPosition());
+                case '-': consume(); return Token(Token::Kind::MINUS, _data->CurrentPosition());
+                // Defualt - alphanumerics and keywords.
+                default:
+                    // Identifiers may start with underscore
+                    if(isalpha(_curr) || _curr == '_') {
+                        return identifier();
+                    }
+                    // Number literal
+                    else if(isdigit(_curr)) {
+                        return numLit();
+                    }
+                    // Invalid token
+                    //consume();
+                    throw error("Invalid token");
+                    //return Token(Token::Kind::INVALID, _pos);
             };
         }
-    }
-
-    // -- Old code below (from Crafting Interpreters)
-
-    Token Lexer::Next() {
-        try {
-            // While we're not at the end of file
-            while(!_error && _curr != EOF) {
-                // Depends on character
-                switch(_curr) {
-                    // A new line + increment position row.
-                    case '\n': case '\r': {
-                        consume();
-                        return Token(Token::Kind::NEWLINE, _pos);
-                    }
-                    // Ignore whitespace
-                    case ' ': case '\t': {
-                        whitespace();
-                        break;
-                    }
-                    // Line Comment
-                    case '#': {
-                        consume();
-                        commentLine();
-                        break;
-                    }
-                    // Parenthesis OR block comment
-                    case ')': consume(); return Token(Token::Kind::PAREN_CLOSE, _pos);
-                    case '(': {
-                        consume();
-                        if(_curr == '#') {
-                            consume();
-                            commentBlock();
-                            break;
-                        }
-                        return Token(Token::Kind::PAREN_OPEN, _pos);
-                    }
-                    // Assignment or equality
-                    case '=': {
-                        consume();
-                        if(_curr == '=') {
-                            consume();
-                            return Token(Token::Kind::EQUALITY, _pos);
-                        }
-                        return Token(Token::Kind::ASSIGNMENT, _pos);
-                    }
-                    // Inequality
-                    case '!': {
-                        consume();
-                        if(_curr == '=') {
-                            consume();
-                            return Token(Token::Kind::NEQUALITY, _pos);
-                        }
-                        return Token(Token::Kind::BANG, _pos);
-                    }
-                    // Colon
-                    case ':': consume(); return Token(Token::Kind::COLON, _pos);
-                    case '+': consume(); return Token(Token::Kind::PLUS, _pos);
-                    case '*': consume(); return Token(Token::Kind::STAR, _pos);
-                    case '/': consume(); return Token(Token::Kind::SLASH, _pos);
-                    case '?': consume(); return Token(Token::Kind::EXISTS, _pos);
-                    case '-': {
-                        consume();
-                        //if(_curr == '>') {
-                            //consume();
-                            // TODO
-                        //}
-                        return Token(Token::Kind::MINUS, _pos);
-                    }
-                    case '>': {
-                        consume();
-                        if(_curr == '=') {
-                            consume();
-                            return Token(Token::Kind::GTE, _pos);
-                        }
-                        return Token(Token::Kind::GT, _pos);
-                    }
-                    case '<': {
-                        consume();
-                        if(_curr == '=') {
-                            consume();
-                            return Token(Token::Kind::LTE, _pos);
-                        }
-                        return Token(Token::Kind::LT, _pos);
-                    }
-                    case '"': {
-                        // Beginning of string literal
-                        consume();
-                        return strLit();
-                    }
-                    // Defualt - alphanumerics and keywords.
-                    default: {
-                        // Identifiers mauy start with underscore
-                        if(isalpha(_curr) || _curr == '_') {
-                            return identifier();
-                        }
-                        // Number literal
-                        else if(isdigit(_curr)) {
-                            return numLit();
-                        }
-                        // Invalid token
-                        //consume();
-                        throw error("Invalid token");
-                        //return Token(Token::Kind::INVALID, _pos);
-                    }
-                };
-            }
-        } catch(LexerException* l) {
-            delete l;
-        }
-        // Reached end-of-file
-        return Token(Token::Kind::END_OF_FILE, _pos);
+        // We hacve reached end-of-file
+        return Token(Token::Kind::END_OF_FILE, _data->CurrentPosition());
     }
 
     TokenList Lexer::GetAllTokens() {
@@ -171,23 +140,20 @@ namespace dargon {
     LexerException* Lexer::error(const std::string& msg) {
         // TODO: Commonize 'DIR ERROR>' output between Lexer and Parser.
         std::ostringstream os;
-        os << "DIR ERROR> " << msg << " at line " << _pos.line << ": " << _curr;
+        os << _data->ShowExactPosition() << std::endl << std::endl << msg;
         DARGON_LOG_ERROR(os.str());
         _error = true;
         throw new LexerException(msg);
     }
 
     void Lexer::consume() {
-        // Update metadata
-        if(_curr == '\n' || _curr == '\r') {
-            _pos.line++;
-            _pos.col = 1;
+        // Moving right is how we go through the file
+        if(_data->MoveRight()) {
+            _curr = _data->ReadChar();
         }
         else {
-            _pos.col += (_curr == '\t' ? 3 : 1);
+            _curr = EOF;
         }
-        _index++;
-        _curr = (_index >= _len ? EOF : _data[_index]);
     }
 
     void Lexer::whitespace() {
@@ -225,7 +191,7 @@ namespace dargon {
 			buffer += _curr;
 			consume();
 		} while (isdigit(_curr) || (_curr == '.' && !decimalUsed));
-		return Token((decimalUsed ? Token::Kind::FRACTIONAL_LIT : Token::Kind::NUMBER_LIT), buffer, _pos);
+		return Token((decimalUsed ? Token::Kind::FRACTIONAL_LIT : Token::Kind::NUMBER_LIT), buffer, _data->CurrentPosition());
     }
 
     Token Lexer::strLit() {
@@ -238,7 +204,7 @@ namespace dargon {
 			consume();
 		} while (_curr != '\'');
 		consume();
-		return Token(Token::Kind::STRING_LIT, buffer, _pos);
+		return Token(Token::Kind::STRING_LIT, buffer, _data->CurrentPosition());
     }
 
     Token Lexer::identifier() {
@@ -248,7 +214,7 @@ namespace dargon {
 			consume();
 		}
 		while(isalpha(_curr) || isdigit(_curr) || _curr == '_');
-		return Token(Token::Kind::ID, buffer, _pos);
+		return Token(Token::Kind::ID, buffer, _data->CurrentPosition());
     }
 
 };
