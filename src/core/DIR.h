@@ -27,8 +27,8 @@ namespace dargon {
 	/// @since v0.1
 	class DIR {
 	public:
-        void Run(const Path& filePath);
-        void Run(const std::string& contents);
+        void Run(Path& filePath);
+        void Run(std::string& contents);
 	private:
         void _clearErrors();
         void _run();

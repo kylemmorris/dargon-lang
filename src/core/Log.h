@@ -33,11 +33,6 @@ namespace hidden {
 
 }
 
-    /// @brief Reports any and all errors to the user.
-    /// @param token The token the error occured at.
-    /// @param msg The message to display and log.
-    void ReportError(const Token& token, const std::string& msg) noexcept;
-
 };
 
 // MACRO JUSTIFICATION: The utility of the dynamic macros '__FILE__' and '__LINE__'.

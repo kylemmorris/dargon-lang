@@ -35,7 +35,7 @@ void help() {
 }
 
 /// @brief A basic REPL implementation.
-void runBasicREPL(DIR& dir) {
+void runBasicREPL(dargon::DIR& dir) {
     using namespace dargon;
 
     // Starting up
@@ -67,31 +67,31 @@ void runBasicREPL(DIR& dir) {
         out("");
         dir.Run(line);
 
-        lex.Buffer(line);
-        out("INPUT: " + line);
-        TokenList toks = lex.GetAllTokens();
-        if(lex.ErrorOccured()) {
-            continue;
-        }
-        DARGON_LOG_INFO("LEXER:");
-        for(Token t : toks) {
-            os << "    " << t.ToString() << std::endl;
-        }
-        DARGON_LOG_INFO(os.str());
-        os.str("");
-        out("");
-        DARGON_LOG_INFO("PARSER: ");
-        os.str("");
-        parser.Buffer(toks);
-        Expr* expression = parser.Parse();
-        // If it was valid
-        if(expression != nullptr) {
-            ASTPrinter printer;
-            DARGON_LOG_INFO("   " + printer.Print(expression));
-            delete expression;
-        }
-        out("");
-        out("");
+//        lex.Buffer(line);
+//        out("INPUT: " + line);
+//        TokenList toks = lex.GetAllTokens();
+//        if(lex.ErrorOccured()) {
+//            continue;
+//        }
+//        DARGON_LOG_INFO("LEXER:");
+//        for(Token t : toks) {
+//            os << "    " << t.ToString() << std::endl;
+//        }
+//        DARGON_LOG_INFO(os.str());
+//        os.str("");
+//        out("");
+//        DARGON_LOG_INFO("PARSER: ");
+//        os.str("");
+//        parser.Buffer(toks);
+//        Expr* expression = parser.Parse();
+//        // If it was valid
+//        if(expression != nullptr) {
+//            ASTPrinter printer;
+//            DARGON_LOG_INFO("   " + printer.Print(expression));
+//            delete expression;
+//        }
+//        out("");
+//        out("");
     }
 }
 

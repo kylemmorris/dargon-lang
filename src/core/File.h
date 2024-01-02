@@ -64,9 +64,8 @@ namespace dargon {
         std::string ShowPosition() const;
 
         /// @brief Provides a more detailed position string:
-        ///     filename @ Line x Col y
-        ///     some line here, column pointer below
-        ///     --------------^
+        /// XX|some line here, column pointer below
+        /// -----------------^
         std::string ShowExactPosition() const;
 
         /// @brief Resets the file position to (1,1)
@@ -106,6 +105,16 @@ namespace dargon {
         /// @returns True if okay, false if the position would be out
         /// of bounds of the file
         bool GotoColumn(int exactColumn);
+
+        /// @brief Goes directly to a specific line & column in the file.
+        /// @returns True if okay, false if the position would be out
+        /// of bounds of the file.
+        bool Goto(int exactLine, int exactColumn);
+
+        /// @brief Goes directly to a specific line & column in the file.
+        /// @returns True if okay, false if the position would be out
+        /// of bounds of the file.
+        bool Goto(const FilePosition& pos);
 
         /// @brief Reads the character currently pointed to.
         /// @returns The character (including EOF).

@@ -41,7 +41,7 @@
     }
 
     bool Token::IsValid() const {
-        return _type != Kind::END_OF_FILE && _type != Kind::INVALID;
+        return _type != Kind::INVALID;
     }
 
     bool Token::IsEOF() const {

@@ -10,13 +10,14 @@
  *
  */
 
+#include <sstream>
 #include "DIR.h"
 #include "IO.h"
 #include "Log.h"
 
 namespace dargon {
 
-    void DIR::Run(const Path& filePath) {
+    void DIR::Run(Path& filePath) {
         _clearErrors();
         if(!File::Exists(filePath)) {
             DARGON_LOG_ERROR("File not found: " + filePath.GetFull());
@@ -36,7 +37,7 @@ namespace dargon {
         };
     }
 
-    void DIR::Run(const std::string& contents) {
+    void DIR::Run(std::string& contents) {
         _clearErrors();
         _file.BufferRawData(contents);
         _run();
@@ -47,18 +48,25 @@ namespace dargon {
     }
 
     void DIR::_run() {
+        std::ostringstream os;
+        Error e;
+
         // Phase I: Lexical analysis
         _lex.Buffer(&_file);
-        // Try and get all of the tokens. If there is an invalid token, we probably
-        // should not continue.
-        try {
-            TokenList tokens = _lex.GetAllTokens();
+        // Try and get all of the tokens. If there is an
+        // invalid token, we probably should not continue.
+        e = _lex.Work();
+        out(e.ToString());
+        if(e.IsError()) {
+            // Build error
+            os << "(" << (int)e.code << "):" << e.msg << std::endl << std::endl;
+            _file.Goto(e.where);
+            os << _file.ShowExactPosition() << std::endl;
+            out(os.str());
+            DARGON_LOG_ERROR(os.str());
+            return;
         }
-        catch(LexerException* e) {
-            out(e->what());
-            delete e;
-        }
-
+        // Else, we're okay
         out("OK");
     }
 

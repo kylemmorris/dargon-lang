@@ -24,13 +24,14 @@ namespace dargon {
     }
 
     Expr* Parser::Parse() {
-        try {
-            return expression();
-        }
-        catch(ParsingException* e) {
-            delete e;
-            return nullptr;
-        }
+        //try {
+        //    return expression();
+        //}
+        //catch(ParsingException* e) {
+        //    delete e;
+        //    return nullptr;
+        //}
+        return nullptr;
     }
 
     /// ---- GENERAL PURPOSE FUNCTIONS ----
@@ -68,13 +69,7 @@ namespace dargon {
         if(check(type)) {
             return next();
         }
-        throw error(peek(), msg);
-    }
-
-    ParsingException* Parser::error(const Token& token, const std::string& msg) {
-        // TODO: Commonize 'DIR ERROR>' output between Lexer and Parser.
-        ReportError(token, msg);
-        return new ParsingException(msg);
+        //throw error(peek(), msg);
     }
 
     void Parser::synchronize() {
@@ -188,9 +183,9 @@ namespace dargon {
                 consume(Token::Kind::PAREN_CLOSE, "Expected ')' after expression");
                 return new GroupingExpr(exp);
             default:
-                throw error(peek(), "Expected expression");
-                //return nullptr;
-        }
+                //throw error(peek(), "Expected expression");
+                return nullptr;
+        };
     }
 
 };

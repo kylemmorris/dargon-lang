@@ -25,8 +25,7 @@ namespace dargon {
     /// @brief The first phase of the interpreter. Provides an API for converting an input into a Token stream.
     /// @author Kyle Morris
     /// @since v0.1
-    /// @throws LexerException
-    class Lexer {
+    class Lexer : public Module {
     public:
         /// @brief Constructor.
         Lexer();
@@ -38,20 +37,20 @@ namespace dargon {
         /// @param file The input file.
         void Buffer(File* file);
 
+        /// @brief Override from Module.
+        virtual Error Work() override;
+
         /// @brief Provides the next token from the input data.
         /// @returns A Token object.
-        /// @throws LexerException
         Token Next();
 
         /// @brief Provides all the tokens from the input.
         /// @returns The token stream.
-        TokenList GetAllTokens();
+        TokenList GetAllTokens() const { return _output; }
     private:
-        File* _data;    ///< The data.
-        char _curr;     ///< The current character.
-
-        /// @brief Reports an error
-        inline LexerException* error(const std::string& msg);
+        File* _data;        ///< The data.
+        char _curr;         ///< The current character.
+        TokenList _output;  ///< The output from the Lexer.
 
         /// @brief Consumes a character.
         void consume();

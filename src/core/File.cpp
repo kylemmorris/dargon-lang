@@ -12,7 +12,7 @@
 
 #include <sstream>
 #include <iomanip>
-//#include <sys/stat.h>
+#include <sys/stat.h>
 #include "File.h"
 #include "Utility.h"
 
@@ -48,7 +48,7 @@ namespace dargon {
 
     bool File::OpenRelative(const Path& relPath) {
         Close();
-        DARGON_LOG_ERROR("OpenRelative - Not implemented yet.");
+        //DARGON_LOG_ERROR("OpenRelative - Not implemented yet.");
         return true;
     }
 
@@ -86,11 +86,21 @@ namespace dargon {
     }
 
     std::string File::ShowExactPosition() const {
+        // Separate stream used to properly format numbers
+        std::ostringstream numStream;
+        size_t t = (size_t)_pos.line;
+        size_t width = 1;
+        if(t >= 10) { width = 2; }
+        else if(t >= 100) { width = 3; }
+        numStream.width(width);
+        numStream << t << "|";
+        std::string num = numStream.str();
+
         std::ostringstream os;
-        os << ShowPosition() << std::endl;
-        os << _contents[_pos.line] << std::endl;
-        //size_t tot = _contents.size();
-        for(int i = 0; i < _pos.col; i++) {
+        //os << ShowPosition() << std::endl;
+        os << num << _contents[_pos.line] << std::endl;
+        size_t tot = (size_t)_pos.col + num.length();
+        for(int i = 0; i < tot; i++) {
             os << "-";
         }
         os << "^";
@@ -158,6 +168,35 @@ namespace dargon {
             }
         }
         return true;    // A-OK
+    }
+
+    bool File::GotoLine(int exactLine) {
+        if(exactLine < _contents.size() && exactLine >= 0) {
+            _pos.line = exactLine;
+            return true;
+        }
+        return false;
+    }
+
+    bool File::GotoColumn(int exactColumn) {
+        if(exactColumn < _contents[_pos.line].length() && exactColumn >= 0) {
+            _pos.col = exactColumn;
+            return true;
+        }
+        return false;
+    }
+
+    bool File::Goto(int exactLine, int exactColumn) {
+        FilePosition old = CurrentPosition();
+        if(GotoLine(exactLine) && GotoColumn(exactColumn)) {
+            return true;
+        }
+        _pos = old;
+        return false;
+    }
+
+    bool File::Goto(const FilePosition& pos) {
+        return Goto(pos.line, pos.col);
     }
 
     char File::ReadChar() const {

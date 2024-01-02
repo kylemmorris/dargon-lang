@@ -59,9 +59,6 @@ namespace dargon {
         /// @brief Tries to consume a token, and will throw a parsing exception if it's not expected.
         /// @throw ParsingException
         inline Token consume(const Token::Kind& type, const std::string& msg);
-        /// @brief Used in all parts of the parser to throw the ParsingException.
-        /// @throw ParsingException
-        inline ParsingException* error(const Token& token, const std::string& msg);
         /// @brief After an error is thrown, this method is used to synchronize
         /// the Parser back to a stable state.
         inline void synchronize();

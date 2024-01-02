@@ -27,8 +27,8 @@ namespace dargon {
     {}
 
     void Lexer::Buffer(File* file) {
-        _file = file;
-        _curr = _file->ReadChar();
+        _data = file;
+        _curr = _data->ReadChar();
     }
 
     Token Lexer::Next() {
@@ -117,33 +117,35 @@ namespace dargon {
                         return numLit();
                     }
                     // Invalid token
-                    //consume();
-                    throw error("Invalid token");
-                    //return Token(Token::Kind::INVALID, _pos);
+                    consume();
+                    return Token(Token::Kind::INVALID, _data->CurrentPosition());
             };
         }
-        // We hacve reached end-of-file
+        // We have reached end-of-file
         return Token(Token::Kind::END_OF_FILE, _data->CurrentPosition());
     }
 
-    TokenList Lexer::GetAllTokens() {
-        TokenList lst;
+    Error Lexer::Work() {
+        // This is the return value
+        Error e;
+        // Run through it all
         Token t = Next();
         do {
-            lst.push_back(t);
+            _output.push_back(t);
             t = Next();
         }
-        while(!t.IsEOF());
-        return lst;
-    }
-
-    LexerException* Lexer::error(const std::string& msg) {
-        // TODO: Commonize 'DIR ERROR>' output between Lexer and Parser.
-        std::ostringstream os;
-        os << _data->ShowExactPosition() << std::endl << std::endl << msg;
-        DARGON_LOG_ERROR(os.str());
-        _error = true;
-        throw new LexerException(msg);
+        while(t.IsValid() && !t.IsEOF());
+        // If there was an invalid token, error
+        if(!t.IsValid()) {
+            e.code = ECode::INVALID_TOKEN;
+            std::ostringstream os;
+            os << "Invalid token: " << t.ToString();
+            e.msg = os.str();
+            // Set the file position too
+            e.where = t.GetPosition();
+            return e;
+        }
+        return e;
     }
 
     void Lexer::consume() {
@@ -198,7 +200,7 @@ namespace dargon {
         std::string buffer = "";
 		do {
 			if (_curr == EOF) {
-				throw error("No end of string literal found");
+				//throw error("No end of string literal found");
 			}
 			buffer += _curr;
 			consume();

@@ -14,6 +14,6 @@
 
 namespace dargon {
 
-    std::unique_ptr<Script> Module::_runningScript(nullptr);
+    //std::unique_ptr<Script> Module::_runningScript(nullptr);
 
 }

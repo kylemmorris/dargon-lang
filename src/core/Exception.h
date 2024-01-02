@@ -28,14 +28,14 @@ namespace dargon {
     };
 
     /// @brief Exception thrown during lexical analysis.
-    class LexerException : public Exception {
-        using Exception::Exception;
-    };
+    //class LexerException : public Exception {
+    //    using Exception::Exception;
+    //};
 
     /// @brief Exception thrown during parsing.
-    class ParsingException : public Exception {
-        using Exception::Exception;
-    };
+    //class ParsingException : public Exception {
+    //    using Exception::Exception;
+    //};
 
 };
 
