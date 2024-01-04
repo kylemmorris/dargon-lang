@@ -40,7 +40,7 @@ namespace dargon {
         bool IsError() const { return code != ECode::NO_ERROR; }
         std::string ToString() const {
             std::ostringstream os;
-            os << (int)code << ":" << msg << std::endl << where.ToString() << std::endl;
+            os << "(" << "DIR" << (int)code << ") " << where.ToString() << " : " << msg << std::endl;
             return os.str();
         }
 	};

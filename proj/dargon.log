@@ -1,7 +1,0 @@
-11.26.2023.17:06:18 - [INFO]: Dargon Interpreter [DEBUG] v0.0 alpha (11.26.2023.17:06:18) starting.
-11.26.2023.17:06:21 - [INFO]: INPUT: 12 == 12
-LEXER: 
-    [NUMBER LITERAL, 12 @ Line 1 Col 3]
-    [EQUALITY @ Line 1 Col 6]
-    [NUMBER LITERAL, 12 @ Line 1 Col 9]
-

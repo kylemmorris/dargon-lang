@@ -24,6 +24,10 @@ namespace dargon {
             return;
         }
         // The following will depend on file
+        if(!_file.OpenAbsolute(filePath)) {
+            DARGON_LOG_ERROR("Could not open file: " + filePath.GetFull());
+            return;
+        }
         switch(filePath.GetFileExtension()) {
             case Path::Extension::DARGON:
                 _run();
@@ -49,25 +53,23 @@ namespace dargon {
 
     void DIR::_run() {
         std::ostringstream os;
-        Error e;
 
         // Phase I: Lexical analysis
         _lex.Buffer(&_file);
         // Try and get all of the tokens. If there is an
         // invalid token, we probably should not continue.
-        e = _lex.Work();
-        out(e.ToString());
+        Error e = _lex.Work();
         if(e.IsError()) {
             // Build error
-            os << "(" << (int)e.code << "):" << e.msg << std::endl << std::endl;
+            os << e.ToString() << std::endl;
             _file.Goto(e.where);
             os << _file.ShowExactPosition() << std::endl;
-            out(os.str());
+            //out(os.str());
             DARGON_LOG_ERROR(os.str());
             return;
         }
         // Else, we're okay
-        out("OK");
+        //out("OK");
     }
 
 }

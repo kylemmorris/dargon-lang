@@ -1,0 +1,6 @@
+# A comment line
+
+const a :int% = 1
+const b :int = 2
+
+print(a + b)

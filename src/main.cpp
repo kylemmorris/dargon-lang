@@ -64,7 +64,8 @@ void runBasicREPL(dargon::DIR& dir) {
             continue;
         }
         // Begin interpreter
-        out("");
+        //out("");
+        line = line + "\n"; // Newline added here
         dir.Run(line);
 
 //        lex.Buffer(line);

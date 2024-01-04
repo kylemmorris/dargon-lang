@@ -117,7 +117,7 @@ namespace dargon {
                         return numLit();
                     }
                     // Invalid token
-                    consume();
+                    //consume();
                     return Token(Token::Kind::INVALID, _data->CurrentPosition());
             };
         }
@@ -127,7 +127,7 @@ namespace dargon {
 
     Error Lexer::Work() {
         // This is the return value
-        Error e;
+        Error e = Error();
         // Run through it all
         Token t = Next();
         do {
@@ -139,7 +139,7 @@ namespace dargon {
         if(!t.IsValid()) {
             e.code = ECode::INVALID_TOKEN;
             std::ostringstream os;
-            os << "Invalid token: " << t.ToString();
+            os << "Invalid token: " << _curr;
             e.msg = os.str();
             // Set the file position too
             e.where = t.GetPosition();

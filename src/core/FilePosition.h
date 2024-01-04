@@ -25,7 +25,7 @@ namespace dargon {
         FilePosition(int line, int pos) : line(line), col(pos) {}
         bool Valid() const { return line != 0 && col != 0; }
         std::string ToString() const {
-            return "Line " + std::to_string(line) + " Col " + std::to_string(col);
+            return "<Line " + std::to_string(line) + " Col " + std::to_string(col) + ">";
         }
         bool Equals(const FilePosition& other) {
             return line == other.line && col == other.col;

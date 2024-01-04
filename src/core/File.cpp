@@ -34,6 +34,7 @@ namespace dargon {
                 // Copy entire contents of file
                 std::string line;
                 while(std::getline(file, line)) {
+                    line = line + "\n"; // Add newline to end
                     _contents.push_back(line);
                 }
                 Reset();
@@ -59,7 +60,7 @@ namespace dargon {
         size_t newline = data.find('\n');
         std::string line = "";
         while(newline != std::string::npos) {
-            _contents.push_back(data.substr(0, newline+1));
+            _contents.push_back(data.substr(0, newline));
             data.erase(0, newline+1);
             newline = data.find('\n');
         }
@@ -73,10 +74,11 @@ namespace dargon {
     FilePosition File::CurrentPosition() const {
         // Internally we index by 0 - for the user, they expect
         // line 1, column 1 to the be the origin.
-        FilePosition ret = _pos;
-        ret.line++;
-        ret.col++;
-        return ret;
+        //FilePosition ret = _pos;
+        //ret.line++;
+        //ret.col++;
+        //return ret;
+        return _pos;
     }
 
     std::string File::ShowPosition() const {
@@ -98,7 +100,8 @@ namespace dargon {
 
         std::ostringstream os;
         //os << ShowPosition() << std::endl;
-        os << num << _contents[_pos.line] << std::endl;
+        std::string pos = _contents[_pos.line]; // Do this to not display newline in output
+        os << num << pos.substr(0, pos.length()-1) << std::endl;
         size_t tot = (size_t)_pos.col + num.length();
         for(int i = 0; i < tot; i++) {
             os << "-";
@@ -136,11 +139,11 @@ namespace dargon {
         // Move right one space - if we are on the last place, go to next line
         for(int i = 0; i < spaces; i++) {
             // If we are at the last position of this line, try to go to the next line.
-            if(_pos.col == _contents[_pos.line].length()) {
+            if(_pos.col == (_contents[_pos.line].length()-1)) {
                 _pos.col = 0;
                 _pos.line++;
                 // End of file!
-                if(_pos.line == _contents[_pos.line].length()) {
+                if(_pos.line == _contents.size()) {
                     return false;
                 }
             }
@@ -171,7 +174,8 @@ namespace dargon {
     }
 
     bool File::GotoLine(int exactLine) {
-        if(exactLine < _contents.size() && exactLine >= 0) {
+        int line = exactLine -1;
+        if(line < _contents.size() && line >= 0) {
             _pos.line = exactLine;
             return true;
         }
