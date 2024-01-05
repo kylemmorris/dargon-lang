@@ -23,15 +23,16 @@ namespace dargon {
         _current = _tokens.begin();
     }
 
-    Expr* Parser::Parse() {
-        //try {
-        //    return expression();
-        //}
-        //catch(ParsingException* e) {
-        //    delete e;
-        //    return nullptr;
-        //}
-        return nullptr;
+    Error Parser::Work() {
+        Error e;
+        try {
+            _output = expression();
+        }
+        catch(ParsingException* ex) {
+            e.code = ECode::EXPECTED_EXPRESSION;
+            e.msg = ex->what();
+            delete ex;
+        }
     }
 
     /// ---- GENERAL PURPOSE FUNCTIONS ----
@@ -69,7 +70,11 @@ namespace dargon {
         if(check(type)) {
             return next();
         }
-        //throw error(peek(), msg);
+        throw error(peek(), msg);
+    }
+
+    ParsingException* Parser::error(const Token& tok, const std::string& msg) {
+        return new ParsingException(msg + ": " + tok.ToString());
     }
 
     void Parser::synchronize() {

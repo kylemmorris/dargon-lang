@@ -24,7 +24,8 @@ namespace dargon {
 	/// @since v0.1
 	enum class ECode : int32_t {
         NO_ERROR = 0x0,
-        INVALID_TOKEN = 0xC01
+        INVALID_TOKEN = 0xD01,
+        EXPECTED_EXPRESSION = 0xD02
 	};
 
 	/// @brief A simple error structure.

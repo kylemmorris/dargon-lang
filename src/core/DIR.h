@@ -31,6 +31,7 @@ namespace dargon {
         void Run(std::string& contents);
 	private:
         void _clearErrors();
+        void _buildError(const Error& err);
         void _run();
 
         std::stack<Error> _errors;
