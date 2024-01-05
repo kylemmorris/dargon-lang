@@ -101,7 +101,7 @@
         default:
             std::string err = "Unhandled Kind in Token::GetKindName(): ";
             err += std::to_string((int)type);
-            throw new Exception(err);
+            throw new Exception(ErrorCode::INTERNAL_ERROR, err);
         }
     }
 

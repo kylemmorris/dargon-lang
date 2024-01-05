@@ -18,14 +18,14 @@
 #include <string>
 #include "../Log.h"
 #include "Token.h"
-#include "../Module.h"
+#include "../File.h"
 
 namespace dargon {
 
     /// @brief The first phase of the interpreter. Provides an API for converting an input into a Token stream.
     /// @author Kyle Morris
     /// @since v0.1
-    class Lexer : public Module {
+    class Lexer {
     public:
         /// @brief Constructor.
         Lexer();
@@ -37,16 +37,14 @@ namespace dargon {
         /// @param file The input file.
         void Buffer(File* file);
 
-        /// @brief Override from Module.
-        virtual Error Work() override;
-
         /// @brief Provides the next token from the input data.
         /// @returns A Token object.
         Token Next();
 
         /// @brief Provides all the tokens from the input.
         /// @returns The token stream.
-        TokenList GetAllTokens() const { return _output; }
+        /// @throws LexerException.
+        TokenList GetAllTokens();
     private:
         File* _data;        ///< The data.
         char _curr;         ///< The current character.

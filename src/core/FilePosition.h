@@ -20,10 +20,10 @@ namespace dargon {
     /// @brief Represents a position in a Dargon file.
 	struct FilePosition {
 	public:
-        FilePosition() : line(0), col(0) {}
-        FilePosition(int line) : line(line), col(0) {}
+        FilePosition() : line(-1), col(-1) {}
+        FilePosition(int line) : line(line), col(-1) {}
         FilePosition(int line, int pos) : line(line), col(pos) {}
-        bool Valid() const { return line != 0 && col != 0; }
+        bool Valid() const { return line != -1 && col != -1; }
         std::string ToString() const {
             return "<Line " + std::to_string(line) + " Col " + std::to_string(col) + ">";
         }

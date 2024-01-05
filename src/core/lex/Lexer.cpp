@@ -12,10 +12,10 @@
  *
  */
 
+#include <sstream>
 #include "Lexer.h"
 #include "../Exception.h"
 #include "../IO.h"
-#include <sstream>
 
 namespace dargon {
 
@@ -29,6 +29,7 @@ namespace dargon {
     void Lexer::Buffer(File* file) {
         _data = file;
         _curr = _data->ReadChar();
+        _output.clear();
     }
 
     Token Lexer::Next() {
@@ -125,9 +126,8 @@ namespace dargon {
         return Token(Token::Kind::END_OF_FILE, _data->CurrentPosition());
     }
 
-    Error Lexer::Work() {
-        // This is the return value
-        Error e = Error();
+    TokenList Lexer::GetAllTokens() {
+        if(_output.size() != 0) { return _output; }
         // Run through it all
         Token t = Next();
         do {
@@ -137,15 +137,14 @@ namespace dargon {
         while(t.IsValid() && !t.IsEOF());
         // If there was an invalid token, error
         if(!t.IsValid()) {
-            e.code = ECode::INVALID_TOKEN;
             std::ostringstream os;
             os << "Invalid token: " << _curr;
-            e.msg = os.str();
-            // Set the file position too
-            e.where = t.GetPosition();
-            return e;
+            throw new LexerException(
+                ErrorCode::INVALID_TOKEN,
+                os.str(),
+                t.GetPosition());
         }
-        return e;
+        return _output;
     }
 
     void Lexer::consume() {

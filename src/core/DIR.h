@@ -14,7 +14,6 @@
 #define DARGON_HEADER_DIR
 
 #include <stack>
-#include "Error.h"
 #include "IO.h"
 #include "File.h"
 #include "lex/Lexer.h"
@@ -30,11 +29,8 @@ namespace dargon {
         void Run(Path& filePath);
         void Run(std::string& contents);
 	private:
-        void _clearErrors();
-        void _buildError(const Error& err);
+        void _buildError(const Exception* err);
         void _run();
-
-        std::stack<Error> _errors;
 
         File _file;
         Lexer _lex;

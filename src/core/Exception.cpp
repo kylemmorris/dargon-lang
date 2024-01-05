@@ -10,15 +10,40 @@
  *
  */
 
+ #include <sstream>
 #include "Exception.h"
 #include "Log.h"
 
 namespace dargon {
 
+    Exception::Exception(const ErrorCode& code, const std::string& msg)
+        : _code(code), _msg(msg), _where()
+    {}
+
+    Exception::Exception(const ErrorCode& code, const std::string& msg, const FilePosition& where)
+        : _code(code), _msg(msg), _where(where)
+    {}
+
     const char* Exception::what() const noexcept {
-            DARGON_LOG_ERROR(_msg);
-            return _msg.c_str();
+        return BuildFullMessage().c_str();
     }
+
+    std::string Exception::BuildFullMessage() const {
+        std::ostringstream os;
+        os << "(DIR" << (int)_code << ") ";
+        if(_where.Valid()) {
+            os << _where.ToString();
+        }
+        os << " : " << _msg;
+        //DARGON_LOG_ERROR(os.str());
+        return os.str();
+    }
+
+    ErrorCode Exception::GetCode() const { return _code; }
+
+    std::string Exception::GetMessage() const { return _msg; }
+
+    FilePosition Exception::GetPosition() const { return _where; }
 
 };
 

@@ -101,7 +101,8 @@ namespace dargon {
         std::ostringstream os;
         //os << ShowPosition() << std::endl;
         std::string pos = _contents[_pos.line]; // Do this to not display newline in output
-        os << num << pos.substr(0, pos.length()-1) << std::endl;
+        //os << "[" << _path.GetFileName() << "]" << std::endl;
+        os << num << pos.substr(0, pos.length()) << std::endl;
         size_t tot = (size_t)_pos.col + num.length();
         for(int i = 0; i < tot; i++) {
             os << "-";

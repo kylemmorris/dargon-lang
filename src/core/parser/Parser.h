@@ -16,14 +16,13 @@
 
 #include "../ast/Expr.h"
 #include "../Log.h"
-#include "../Module.h"
 
 namespace dargon {
 
 	/// @brief LL(1) Recursive Descent Parser
 	/// @author Kyle Morris
 	/// @since v0.1
-	class Parser : public Module {
+	class Parser {
 	public:
         /// @brief Constructor
         Parser();
@@ -34,25 +33,15 @@ namespace dargon {
         /// @brief Buffers the parser with a sequential list of tokens.
         void Buffer(const TokenList& tokens);
 
-        /// @brief Override from Module.
-        virtual Error Work() override;
-
         /// @brief Parses the token stream and returns the heap-allocated expression.
         /// @return Heap-allocated expression. Make sure to call 'delete'!
-        //Expr* Parse();
-
-        Expr* GetOutput() const { return _output; }
-
+        Expr* Parse();
 	private:
         /// The input of the Parser.
         TokenList _tokens;
         /// Iterator to the current token.
         TokenList::iterator _current;
 
-        Expr* _output;
-
-        /// @brief Error handling.
-        ParsingException* error(const Token& tok, const std::string& msg);
         /// @brief Matches a token with an expected list of tokens, and consumes it.
         inline bool match(std::initializer_list<Token::Kind> kinds);
         /// @brief Checks if a token is of the kind shown. Does not consume.

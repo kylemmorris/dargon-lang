@@ -19,7 +19,6 @@
 namespace dargon {
 
     void DIR::Run(Path& filePath) {
-        _clearErrors();
         if(!File::Exists(filePath)) {
             DARGON_LOG_ERROR("File not found: " + filePath.GetFull());
             return;
@@ -43,20 +42,15 @@ namespace dargon {
     }
 
     void DIR::Run(std::string& contents) {
-        _clearErrors();
         _file.BufferRawData(contents);
         _run();
     }
 
-    void DIR::_clearErrors() {
-        while(!_errors.empty()) { _errors.pop(); }
-    }
-
-    void DIR::_buildError(const Error& err) {
+    void DIR::_buildError(const Exception* err) {
         std::ostringstream os;
         // Build error
-        os << err.ToString() << std::endl;
-        _file.Goto(err.where);
+        os << err->BuildFullMessage() << std::endl << std::endl;
+        _file.Goto(err->GetPosition());
         os << _file.ShowExactPosition() << std::endl;
         //out(os.str());
         DARGON_LOG_ERROR(os.str());
@@ -65,22 +59,26 @@ namespace dargon {
     void DIR::_run() {
         // Phase I: Lexical analysis
         _lex.Buffer(&_file);
-        // Try and get all of the tokens. If there is an
-        // invalid token, we probably should not continue.
-        Error e = _lex.Work();
-        if(e.IsError()) {
+        TokenList tokens;
+        try {
+            tokens = _lex.GetAllTokens();
+        }
+        catch(LexerException* e) {
             _buildError(e);
-            return;
+            delete e;
         }
         // Phase II: Parser
         _parse.Buffer(_lex.GetAllTokens());
-        e = _parse.Work();
-        if(e.IsError()) {
-            _buildError(e);
-            return;
+        try {
+            ASTPrinter printer;
+            Expr* output = _parse.Parse();
+            out(printer.Print(output));
+            delete output;
         }
-        ASTPrinter printer;
-        out(printer.Print(_parse.GetOutput()));
+        catch(ParsingException* e) {
+            _buildError(e);
+            delete e;
+        }
     }
 
 }
