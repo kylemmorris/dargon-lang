@@ -50,6 +50,9 @@ namespace dargon {
         char _curr;         ///< The current character.
         TokenList _output;  ///< The output from the Lexer.
 
+        /// @brief Returns the true, accurate position
+        FilePosition _truePos(int cols);
+
         /// @brief Consumes a character.
         void consume();
 

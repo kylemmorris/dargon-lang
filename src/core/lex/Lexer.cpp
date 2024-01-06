@@ -41,7 +41,7 @@ namespace dargon {
                 case '\n':
                 case '\r':
                     consume();
-                    return Token(Token::Kind::NEWLINE, _data->CurrentPosition());
+                    return Token(Token::Kind::NEWLINE, _truePos(1));
                 // Ignore whitespace
                 case ' ':
                 case '\t':
@@ -55,7 +55,7 @@ namespace dargon {
                 // Parenthesis OR block comment
                 case ')':
                     consume();
-                    return Token(Token::Kind::PAREN_CLOSE, _data->CurrentPosition());
+                    return Token(Token::Kind::PAREN_CLOSE, _truePos(1));
                 case '(':
                     consume();
                     if(_curr == '#') {
@@ -63,50 +63,50 @@ namespace dargon {
                         commentBlock();
                         break;
                     }
-                    return Token(Token::Kind::PAREN_OPEN, _data->CurrentPosition());
+                    return Token(Token::Kind::PAREN_OPEN, _truePos(1));
                 // Assignment or equality
                 case '=':
                     consume();
                     if(_curr == '=') {
                         consume();
-                        return Token(Token::Kind::EQUALITY, _data->CurrentPosition());
+                        return Token(Token::Kind::EQUALITY, _truePos(2));
                     }
-                    return Token(Token::Kind::ASSIGNMENT, _data->CurrentPosition());
+                    return Token(Token::Kind::ASSIGNMENT, _truePos(1));
                 // Inequality or negation
                 case '!':
                     consume();
                     if(_curr == '=') {
                         consume();
-                        return Token(Token::Kind::NEQUALITY, _data->CurrentPosition());
+                        return Token(Token::Kind::NEQUALITY, _truePos(2));
                     }
-                    return Token(Token::Kind::BANG, _data->CurrentPosition());
+                    return Token(Token::Kind::BANG, _truePos(1));
                 // > or >=
                 case '>':
                     consume();
                     if(_curr == '=') {
                         consume();
-                        return Token(Token::Kind::GTE, _data->CurrentPosition());
+                        return Token(Token::Kind::GTE, _truePos(2));
                     }
-                    return Token(Token::Kind::GT, _data->CurrentPosition());
+                    return Token(Token::Kind::GT, _truePos(1));
                 // < or <=
                 case '<':
                     consume();
                     if(_curr == '=') {
                         consume();
-                        return Token(Token::Kind::LTE, _data->CurrentPosition());
+                        return Token(Token::Kind::LTE, _truePos(2));
                     }
-                    return Token(Token::Kind::LT, _data->CurrentPosition());
+                    return Token(Token::Kind::LT, _truePos(1));
                 // Beginning of string literal
                 case '"':
                     consume();
                     return strLit();
                 // Single-character tokens
-                case ':': consume(); return Token(Token::Kind::COLON, _data->CurrentPosition());
-                case '+': consume(); return Token(Token::Kind::PLUS, _data->CurrentPosition());
-                case '*': consume(); return Token(Token::Kind::STAR, _data->CurrentPosition());
-                case '/': consume(); return Token(Token::Kind::SLASH, _data->CurrentPosition());
-                case '?': consume(); return Token(Token::Kind::EXISTS, _data->CurrentPosition());
-                case '-': consume(); return Token(Token::Kind::MINUS, _data->CurrentPosition());
+                case ':': consume(); return Token(Token::Kind::COLON, _truePos(1));
+                case '+': consume(); return Token(Token::Kind::PLUS, _truePos(1));
+                case '*': consume(); return Token(Token::Kind::STAR, _truePos(1));
+                case '/': consume(); return Token(Token::Kind::SLASH, _truePos(1));
+                case '?': consume(); return Token(Token::Kind::EXISTS, _truePos(1));
+                case '-': consume(); return Token(Token::Kind::MINUS, _truePos(1));
                 // Defualt - alphanumerics and keywords.
                 default:
                     // Identifiers may start with underscore
@@ -119,11 +119,11 @@ namespace dargon {
                     }
                     // Invalid token
                     //consume();
-                    return Token(Token::Kind::INVALID, _data->CurrentPosition());
+                    return Token(Token::Kind::INVALID, _truePos(1));
             };
         }
         // We have reached end-of-file
-        return Token(Token::Kind::END_OF_FILE, _data->CurrentPosition());
+        return Token(Token::Kind::END_OF_FILE, _truePos(1));
     }
 
     TokenList Lexer::GetAllTokens() {
@@ -145,6 +145,13 @@ namespace dargon {
                 t.GetPosition());
         }
         return _output;
+    }
+
+    FilePosition Lexer::_truePos(int cols) {
+        _data->MoveLeft(cols);
+        FilePosition ret = _data->CurrentPosition();
+        _data->MoveRight(cols);
+        return ret;
     }
 
     void Lexer::consume() {
@@ -192,7 +199,7 @@ namespace dargon {
 			buffer += _curr;
 			consume();
 		} while (isdigit(_curr) || (_curr == '.' && !decimalUsed));
-		return Token((decimalUsed ? Token::Kind::FRACTIONAL_LIT : Token::Kind::NUMBER_LIT), buffer, _data->CurrentPosition());
+		return Token((decimalUsed ? Token::Kind::FRACTIONAL_LIT : Token::Kind::NUMBER_LIT), buffer, _truePos(buffer.length()));
     }
 
     Token Lexer::strLit() {
@@ -205,7 +212,7 @@ namespace dargon {
 			consume();
 		} while (_curr != '\'');
 		consume();
-		return Token(Token::Kind::STRING_LIT, buffer, _data->CurrentPosition());
+		return Token(Token::Kind::STRING_LIT, buffer, _truePos(buffer.length()));
     }
 
     Token Lexer::identifier() {
@@ -215,7 +222,7 @@ namespace dargon {
 			consume();
 		}
 		while(isalpha(_curr) || isdigit(_curr) || _curr == '_');
-		return Token(Token::Kind::ID, buffer, _data->CurrentPosition());
+		return Token(Token::Kind::ID, buffer, _truePos(buffer.length()));
     }
 
 };

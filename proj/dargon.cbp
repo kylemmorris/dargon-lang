@@ -11,7 +11,6 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="TEST.dargon" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -35,7 +34,6 @@
 		</Compiler>
 		<Unit filename="../src/core/DIR.cpp" />
 		<Unit filename="../src/core/DIR.h" />
-		<Unit filename="../src/core/Error.h" />
 		<Unit filename="../src/core/Exception.cpp" />
 		<Unit filename="../src/core/Exception.h" />
 		<Unit filename="../src/core/File.cpp" />
@@ -44,8 +42,6 @@
 		<Unit filename="../src/core/IO.h" />
 		<Unit filename="../src/core/Log.cpp" />
 		<Unit filename="../src/core/Log.h" />
-		<Unit filename="../src/core/Module.cpp" />
-		<Unit filename="../src/core/Module.h" />
 		<Unit filename="../src/core/Path.cpp" />
 		<Unit filename="../src/core/Path.h" />
 		<Unit filename="../src/core/Utility.cpp" />

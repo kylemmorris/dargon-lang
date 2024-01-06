@@ -176,8 +176,8 @@ namespace dargon {
                 consume(Token::Kind::PAREN_CLOSE, "Expected ')' after expression");
                 return new GroupingExpr(exp);
             default:
+                throw new ParsingException(ErrorCode::EXPECTED_EXPRESSION, "Expected expression, found: " + t.ToString(), t.GetPosition());
                 //throw error(peek(), "Expected expression");
-                return nullptr;
         };
     }
 
