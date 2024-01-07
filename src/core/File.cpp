@@ -175,8 +175,7 @@ namespace dargon {
     }
 
     bool File::GotoLine(int exactLine) {
-        int line = exactLine -1;
-        if(line < _contents.size() && line >= 0) {
+        if(exactLine < _contents.size() && exactLine >= 0) {
             _pos.line = exactLine;
             return true;
         }
