@@ -28,4 +28,22 @@ namespace dargon {
         return buf;
     }
 
+    std::vector<std::string> SegmentString(std::string str, char c) noexcept {
+        size_t pos = str.find(c);
+        std::vector<std::string> ret;
+        while(pos != std::string::npos) {
+            ret.push_back(str.substr(0, pos));
+            str.erase(0, pos+1);
+            pos = str.find(c);
+        }
+    }
+
+    void RemoveFromString(std::string& str, char c) noexcept {
+        size_t pos = str.find(c);
+        while(pos != std::string::npos) {
+            str.erase(pos, 1);
+            pos = str.find(c);
+        }
+    }
+
 };

@@ -57,13 +57,14 @@ namespace dargon {
         Close();
         _path = Path("");
         // Segment by lines
-        size_t newline = data.find('\n');
-        std::string line = "";
-        while(newline != std::string::npos) {
-            _contents.push_back(data.substr(0, newline));
-            data.erase(0, newline+1);
-            newline = data.find('\n');
-        }
+        _contents = SegmentString(data, '\n');
+        //size_t newline = data.find('\n');
+        //std::string line = "";
+        //while(newline != std::string::npos) {
+        //    _contents.push_back(data.substr(0, newline));
+        //    data.erase(0, newline+1);
+        //    newline = data.find('\n');
+        //}
     }
 
     void File::Close() {

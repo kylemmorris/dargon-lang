@@ -62,9 +62,11 @@ namespace dargon {
         TokenList tokens;
         try {
             tokens = _lex.GetAllTokens();
-            //for(Token token : tokens) {
-            //    out(token.ToString());
-            //}
+            #ifdef DARGON_VERSION_DEBUG
+            for(Token token : tokens) {
+                out(token.ToString());
+            }
+            #endif // DARGON_VERSION_DEBUG
         }
         catch(LexerException* e) {
             _buildError(e);

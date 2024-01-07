@@ -51,7 +51,7 @@ namespace dargon {
         TokenList _output;  ///< The output from the Lexer.
 
         /// @brief Returns the true, accurate position
-        FilePosition _truePos(int cols);
+        inline FilePosition _truePos(int cols);
 
         /// @brief Consumes a character.
         void consume();
@@ -64,6 +64,9 @@ namespace dargon {
 
         /// @brief Ignores a comment block (starting and ending with ##).
         void commentBlock();
+
+        /// @brief Special rule for lines that are blank (and only contain a newline character)
+        bool blankLine();
 
         /// @returns A number literal token.
         Token numLit();

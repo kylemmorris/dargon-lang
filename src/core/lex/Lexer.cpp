@@ -40,6 +40,12 @@ namespace dargon {
                 // A new line
                 case '\n':
                 case '\r':
+                    // Only return a token IF it's on a line with other valid text
+                    // - if it's just on a line by itself, ignore!
+                    if(blankLine()) {
+                        consume();
+                        continue;
+                    }
                     consume();
                     return Token(Token::Kind::NEWLINE, _truePos(1));
                 // Ignore whitespace
@@ -175,6 +181,8 @@ namespace dargon {
         while(_curr != '\n' && _curr != EOF) {
 			consume();
 		}
+		// Consume and do not return the newline
+		consume();
     }
 
     void Lexer::commentBlock() {
@@ -184,9 +192,24 @@ namespace dargon {
             consume(); // Consume the '#'
             if(_curr == ')') {
                 consume(); // Consume the ')'
+                // Should also consume any whitespace
+                whitespace();
+                // if there would be a new line, consume that
+                if(_curr == '\n') {
+                    consume();
+                }
                 break;
             }
         }
+    }
+
+    bool Lexer::blankLine() {
+        std::string line = _data->ReadLine();
+        // Erase all whitespace
+        RemoveFromString(line, '\n');
+        RemoveFromString(line, '\t');
+        RemoveFromString(line, ' ');
+        return line.empty();
     }
 
     Token Lexer::numLit() {

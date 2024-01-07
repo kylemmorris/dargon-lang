@@ -14,6 +14,7 @@
 #define DARGON_HEADER_VERSION
 
 #include <string>
+#include <sstream>
 #include "Utility.h"
 
 namespace dargon {
@@ -22,16 +23,41 @@ namespace dargon {
     #define DARGON_VERSION_DEBUG
 
     /// @brief The version of Dargon.
-    constexpr const char* VersionNum = "v0.0 alpha";
+    /// Follows this scheme:
+    /// vX.Y = release
+    /// vX.Ya = Alpha
+    /// vX.Yb = Beta
+    /// vX.Y-DEBUG = Debug version
+    constexpr const char* VersionNum = "v0.0a";
+
+    /// @brief Returns the name of this operating system.
+    inline std::string GetOSName() {
+        #ifdef _WIN32
+        return "Windows 32-bit";
+        #elif _WIN64
+        return "Windows 64-bit";
+        #elif __APPLE__ || __MACH__
+        return "Mac OSX";
+        #elif __linux__
+        return "Linux";
+        #elif __FreeBSD__
+        return "FreeBSD";
+        #elif __unix || __unix__
+        return "Unix";
+        #else
+        return "Unknown OS";
+        #endif
+    }
 
     /// @brief Returns the version in a more complete string form.
     inline std::string VersionString() {
-        std::string r = "Dargon Interpreter ";
+        std::ostringstream os;
+        os << "Dargon Interpreter " << VersionNum;
         #ifdef DARGON_VERSION_DEBUG
-        r = r + "[DEBUG] ";
+        os << "-DEBUG ";
         #endif
-        r = r + VersionNum + " (" + __DATE__ + " / " + __TIME__ + ")";
-        return r;
+        os << "(" << GetOSName() << ") - " << __DATE__ << "-" << __TIME__;
+        return os.str();
     }
 
 };
