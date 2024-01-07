@@ -28,7 +28,10 @@ namespace dargon {
     /// vX.Ya = Alpha
     /// vX.Yb = Beta
     /// vX.Y-DEBUG = Debug version
-    constexpr const char* VersionNum = "v0.0a";
+    constexpr const char* VersionNum = "v0.1a";
+
+    /// @brief Copyright information.
+    constexpr const char* Copyright = "(C) Kyle Morris 2023 - See LICENSE.txt for license information.";
 
     /// @brief Returns the name of this operating system.
     inline std::string GetOSName() {
@@ -56,7 +59,7 @@ namespace dargon {
         #ifdef DARGON_VERSION_DEBUG
         os << "-DEBUG ";
         #endif
-        os << "(" << GetOSName() << ") - " << __DATE__ << "-" << __TIME__;
+        os << "(" << GetOSName() << ") - " << __DATE__ << ", " << __TIME__;
         return os.str();
     }
 

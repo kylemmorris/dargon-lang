@@ -16,21 +16,27 @@
 #include "core/ast/ASTPrinter.h"
 #include "core/DIR.h"
 
+/// @brief Displays version information (and logs).
+void dispVer() {
+    using namespace dargon;
+    DARGON_LOG_INFO(VersionString());
+    DARGON_LOG_INFO(Copyright);
+    out("");
+}
+
 /// @brief Displays the help dialogue.
 void help() {
     using namespace dargon;
     // Starting up
-    DARGON_LOG_INFO(VersionString());
-    DARGON_LOG_INFO("(C) Kyle Morris 2023 - See LICENSE.txt for license information.");
+    dispVer();
+    out("Usage:");
+    out("    dargon help             - Displays this dialogue.");
+    out("    dargon version          - Version information.");
+    out("    dargon gui              - Opens the Dargon GUI.");
+    out("    dargon test             - Runs Dargon unit tests.");
+    out("    dargon <path>           - Runs a Dargon file (*.dargon or *.snoot) at the path provided.");
     out("");
-    out("   Usage:");
-    out("       dargon help             - Displays this dialogue.");
-    out("       dargon version          - Version information.");
-    out("       dargon gui              - Opens the Dargon GUI.");
-    out("       dargon test             - Runs Dargon unit tests.");
-    out("       dargon <path>           - Runs a Dargon file (*.dargon or *.dargconf) at the path provided.");
-    out("");
-    out("   Running dargon without any arguments will begin the interpreter (DIR).");
+    out("Running dargon without any arguments will begin the interpreter (DIR).");
     out("");
 }
 
@@ -39,9 +45,7 @@ void runBasicREPL(dargon::DIR& dir) {
     using namespace dargon;
 
     // Starting up
-    DARGON_LOG_INFO(VersionString());
-    DARGON_LOG_INFO("(C) Kyle Morris 2023 - See LICENSE.txt for license information.");
-    out("");
+    dispVer();
     out("Welcome to the Dargon Interpreter (DIR)! For help, type 'help', to exit type 'quit'.");
     out("");
     std::string line = "";
@@ -49,6 +53,7 @@ void runBasicREPL(dargon::DIR& dir) {
     while(true) {
         in(line);
         if(line == "quit") { break; }
+        if(line == "memory") { continue; }
         if(line == "help") {
             out("");
             out("**********");
@@ -63,36 +68,16 @@ void runBasicREPL(dargon::DIR& dir) {
             out("");
             continue;
         }
+        // Edge-case: If the user only inputted whitespace and newline, don't continue
+        std::string test = line;
+        RemoveFromString(test, ' ');
+        RemoveFromString(test, '\t');
+        RemoveFromString(test, '\n');
+        if(test.empty()) { continue; }
+
         // Begin interpreter
-        //out("");
         line = line + "\n"; // Newline added here
         dir.Run(line);
-
-//        lex.Buffer(line);
-//        out("INPUT: " + line);
-//        TokenList toks = lex.GetAllTokens();
-//        if(lex.ErrorOccured()) {
-//            continue;
-//        }
-//        DARGON_LOG_INFO("LEXER:");
-//        for(Token t : toks) {
-//            os << "    " << t.ToString() << std::endl;
-//        }
-//        DARGON_LOG_INFO(os.str());
-//        os.str("");
-//        out("");
-//        DARGON_LOG_INFO("PARSER: ");
-//        os.str("");
-//        parser.Buffer(toks);
-//        Expr* expression = parser.Parse();
-//        // If it was valid
-//        if(expression != nullptr) {
-//            ASTPrinter printer;
-//            DARGON_LOG_INFO("   " + printer.Print(expression));
-//            delete expression;
-//        }
-//        out("");
-//        out("");
     }
 }
 
@@ -119,16 +104,18 @@ int main(int argc, char* argv[]) {
     }
     else if(inputs[0] == "version") {
         out(VersionString());
+        //out(Copyright);
     }
     else if(inputs[0] == "gui") {
-        out("Not implemented yet...");
+        //out("Not implemented yet...");
     }
     else if(inputs[0] == "test") {
-        out("Not implemented yet...");
+        //out("Not implemented yet...");
     }
     else {
         // It's a file path
         Path p = Path(inputs[0]);
+        dispVer();
         dir.Run(p);
     }
     return 0;

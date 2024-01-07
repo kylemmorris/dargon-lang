@@ -64,7 +64,7 @@ namespace dargon {
             tokens = _lex.GetAllTokens();
             #ifdef DARGON_VERSION_DEBUG
             for(Token token : tokens) {
-                out(token.ToString());
+                DARGON_LOG_DEBUG(token.ToString());
             }
             #endif // DARGON_VERSION_DEBUG
         }
@@ -74,11 +74,11 @@ namespace dargon {
             return;
         }
         // Phase II: Parser
-        _parse.Buffer(_lex.GetAllTokens());
+        _parse.Buffer(tokens);
         try {
             ASTPrinter printer;
             Expr* output = _parse.Parse();
-            out(printer.Print(output));
+            DARGON_LOG_DEBUG(printer.Print(output));
             delete output;
         }
         catch(ParsingException* e) {

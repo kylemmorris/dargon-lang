@@ -36,6 +36,7 @@ namespace dargon {
             str.erase(0, pos+1);
             pos = str.find(c);
         }
+        return ret;
     }
 
     void RemoveFromString(std::string& str, char c) noexcept {

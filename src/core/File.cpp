@@ -49,7 +49,8 @@ namespace dargon {
 
     bool File::OpenRelative(const Path& relPath) {
         Close();
-        //DARGON_LOG_ERROR("OpenRelative - Not implemented yet.");
+        // TODO
+        //DARGON_LOG_ERROR("OpenRelative is not implemented yet.");
         return true;
     }
 
@@ -58,13 +59,6 @@ namespace dargon {
         _path = Path("");
         // Segment by lines
         _contents = SegmentString(data, '\n');
-        //size_t newline = data.find('\n');
-        //std::string line = "";
-        //while(newline != std::string::npos) {
-        //    _contents.push_back(data.substr(0, newline));
-        //    data.erase(0, newline+1);
-        //    newline = data.find('\n');
-        //}
     }
 
     void File::Close() {
