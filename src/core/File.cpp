@@ -15,6 +15,7 @@
 #include <sys/stat.h>
 #include "File.h"
 #include "Utility.h"
+#include "Log.h"
 
 namespace dargon {
 
@@ -83,6 +84,12 @@ namespace dargon {
     }
 
     std::string File::ShowExactPosition() const {
+        // Sanity check
+        if(!_pos.Valid()) {
+            std::string s = "File::ShowExactPosition() - File's current position was invalid.";
+            DARGON_LOG_ERROR(s);
+            return s;
+        }
         // Separate stream used to properly format numbers
         std::ostringstream numStream;
         size_t t = (size_t)_pos.line;
@@ -95,11 +102,20 @@ namespace dargon {
 
         std::ostringstream os;
         //os << ShowPosition() << std::endl;
-        std::string pos = _contents[_pos.line]; // Do this to not display newline in output
+        std::string pos;
+        try {
+            pos = _contents.at(_pos.line); // Do this to not display newline in output
+        }
+        catch(std::out_of_range& e) {
+            std::string s = "File::ShowExactPosition() - File's current position was out of the range of the file: " + _pos.ToString();
+            DARGON_LOG_ERROR(s);
+            return s;
+        }
+        //std::string pos = _contents[_pos.line]; // Do this to not display newline in output
         //os << "[" << _path.GetFileName() << "]" << std::endl;
         os << num << pos.substr(0, pos.length()) << std::endl;
         size_t tot = (size_t)_pos.col + num.length();
-        for(int i = 0; i < tot; i++) {
+        for(size_t i = 0; i < tot; i++) {
             os << "-";
         }
         os << "^";

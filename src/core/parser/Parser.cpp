@@ -51,6 +51,9 @@ namespace dargon {
     }
 
     Token Parser::peek() const {
+        if(atEnd()) {
+            return Token(Token::Kind::END_OF_FILE);
+        }
         return *_current;
     }
 

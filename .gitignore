@@ -38,4 +38,6 @@ proj/bin/Debug/dargon
 proj/dargon.depend
 proj/dargon.layout
 proj/bin/Debug/dargon
-proj/bin/Debug/dargon.log
+
+# Dargon-specifics
+dargon.log
