@@ -70,6 +70,7 @@ Created by Kyle Morris.
                 <keyword>defer</keyword>
                 <keyword>to</keyword>
                 <keyword>as</keyword>
+                <keyword>in</keyword>
                 <keyword>with</keyword>
                 <keyword>use</keyword>
                 <keyword>and</keyword>
@@ -79,8 +80,6 @@ Created by Kyle Morris.
 
             <!-- Built-in Types -->
             <context id="types" style-ref="type">
-                <keyword>var</keyword>
-                <keyword>const</keyword>
                 <keyword>fun</keyword>
                 <keyword>int</keyword>
                 <keyword>uint</keyword>

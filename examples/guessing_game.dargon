@@ -4,34 +4,35 @@
     Created by Kyle Morris
 #)
 
-use drg.random
+use random
 
-print("I'm thinking of a number between 1 and 100. Can you guess it?")
+print("I am thinking of a number between 1 and 100. Can you guess it?")
 print("(Enter 'q' to quit)")
 
-const secret :int = random(1..100)
-var guess :string = ""
+int.. range = 1 .. 100
+int secret = random(range)
+string guess
 
-loop [
+loop {
     guess = input("Guess: ")
-    if(guess == "q") [
+    if(guess == "q") {
         print("Goodbye!")
         stop
-    ]
-    # If the guess was able to be converted to an unsigned integer
-    if((guess to uint)? as num) [
-        when(num) [
+    }
+    if((guess to uint as num) and (num in range)) {
+        when(num) {
             is < secret: print("Higher!")
             is > secret: print("Lower!")
-            else:
-                print("Congrats! You figured it out!")
+            else {
+                print("Bingo!")
                 stop
-        ]
-    ]
-    else [
+            }
+        }
+    }
+    else {
         print("Please enter a positive integer between 1 and 100.")
-    ]
-]
+    }
+}
 
 
 

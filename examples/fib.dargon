@@ -4,25 +4,10 @@
     Created by Kyle Morris
 #)
 
-fun fib(x :uint -> uint) [
+fun fib(uint x -> uint) {
     -> x if(x < 2) else fib(x-1) + fib(x-2)
-]
+}
 
-var inp :string = ""
-var value :uint = 0
-print("Fibonnaci calculator (enter 'q' or 'quit' to exit)")
-loop [
-    inp = input("Enter a number between 0 and 10: ")    
-    if(inp == "q"|"quit") [
-        stop
-    ]
-    else [
-        value = inp to uint
-        if(value?) [
-            print("fib({value}) = {fib(value)}")
-        ]
-        else [
-            print("Enter a valid number silly!")
-        ]
-    ]
-]
+uint a, b, c = fib(2), fib(3), fib(10)
+
+assert(a == 1 and b == 2 and c == 55)

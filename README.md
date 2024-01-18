@@ -22,7 +22,7 @@ The full Dargon experience aims to deliver the following:
 
 **Dargon is not ready for any form of distribution or usage. It's still large work-in-progress.** There is some initial documentation, including a tutorial on how I think Dargon should perform (almost like a requirements document), and grammar definition. These can be found in the [doc](doc) directory of this repository. Some [example](examples) programs are also available for preview. 
 
-Dargon is currently using the CMake build system, so this must be installed on your machin. It is recommended to follow this set of bash commands (for windows users, use powershell): 
+Dargon is currently using the CMake build system, so this must be installed on your machine. It is recommended to follow this set of bash commands:
 
 ```bash
 dargon$ mkdir build && cd build
