@@ -22,10 +22,10 @@ namespace dargon {
     /// @brief Prints to the standard output.
     inline void out(const char* msg, bool include_endl = true) noexcept {
         if(include_endl) {
-            std::cout << msg << std::endl;
+            std::cerr << msg << "\n";
         }
         else {
-            std::cout << msg;
+            std::cerr << msg;
         }
 
         //InfoLog(msg);
