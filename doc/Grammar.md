@@ -1,30 +1,31 @@
-# Dargon BNF Grammar
+# Dargon EBNF Grammar
 
-If you're unfamilar with BNF or its derivatives (which this is), see [the wikipedia article]([Extended Backus–Naur form - Wikipedia](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form)).
-
-### Convention
-
-Conventions used are as follows:
-
-- Rules are formated in the form: rule = definition ;
-
-- terminals are surrounded in quotation marks ( " )
-
-- Multiple productions of the same rule are separated using the pipe ( | ) character.
-
-- Productions are grouped with parenthesis.
-
-- Postfix "*" means the sequence or grouping of sequences can be repeated 0 or more times.
-
-- Postfix "+" means the sequence or grouping of sequences can be repeated 1 or more times.
-
-- Postfix "?" means the sequence or grouping of sequences can appear either 0 or 1 times.
-
-- Fully-capitalized non-terminals refer to varying, or special sequences (simlar to ?..? syntax in EBNF). These special non-terminals should be self-explanatory, but will be explained if they're not.
+Conventions follows [ISO 14977](https://www.cl.cam.ac.uk/~mgk25/iso-14977.pdf).
 
 ### Grammar
 
 ```ebnf
+(* Dargon v0.1 *)
+script = { use_decl }, { decl | stmt } ;
+use_decl = "use", identifier, {"." identifier}, end ;
+decl = elem_decl | elemf_decl | func_decl | type_decl ;
+
+elem_decl = ["fixed"] (uninit_elem_decl | init_elem_decl), end ;
+uninit_elem_decl = type_spec, identifier ;
+init_elem_decl = type_spec, identifier, "=", expr ;
+elemf_decl = expr, "as", ["fixed"], [type_spec], identifier, end ;
+
+func_decl = "fun", identifier, func_type, "{", {decl | expr}, "}" ;
+func_type = "(", {} ")" ;
+func_shorthand = "fun", func_type ;
+
+type_spec = type, ["?"] ;
+type = "int" | "real" | "bool" | "string" | func_shorthand ;
+identifier = (?alpha? | "_"), {?alphanumeric? | "_"} ;
+end = ?newline? ;
+
+(* ----- OLD BELOW ----- *)
+
 (* This group of rules represents declarations *)
 declaration = element_decl | function_decl | type_decl ;
 (* An element is a constant or variable *)
