@@ -157,7 +157,7 @@ namespace dargon {
         // Move right one space - if we are on the last place, go to next line
         for(int i = 0; i < spaces; i++) {
             // If we are at the last position of this line, try to go to the next line.
-            if(_pos.col == (_contents[_pos.line].length()-1)) {
+            if((size_t)_pos.col == (_contents[_pos.line].length()-1)) {
                 _pos.col = 0;
                 _pos.line++;
                 // End of file!
@@ -192,7 +192,7 @@ namespace dargon {
     }
 
     bool File::GotoLine(int exactLine) {
-        if(exactLine < _contents.size() && exactLine >= 0) {
+        if((size_t)exactLine < _contents.size() && exactLine >= 0) {
             _pos.line = exactLine;
             return true;
         }

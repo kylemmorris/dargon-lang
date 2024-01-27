@@ -73,6 +73,10 @@ namespace dargon {
             delete e;
             return;
         }
+        // Edge-case - if the only token is EOF, don't continue
+        if(tokens.size() == 1 && tokens.at(0).IsEOF()) {
+            return;
+        }
         // Phase II: Parser
         _parse.Buffer(tokens);
         try {
