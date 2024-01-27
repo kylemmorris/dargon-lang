@@ -90,6 +90,10 @@ namespace dargon {
             DARGON_LOG_ERROR(s);
             return s;
         }
+        // If EOF, just return nothing
+        if(isEOF()) {
+            return "[EOF]";
+        }
         // Separate stream used to properly format numbers
         std::ostringstream numStream;
         size_t t = (size_t)_pos.line;
@@ -140,7 +144,9 @@ namespace dargon {
     bool File::MoveDown(int spaces) {
         // Go down one line (try to).
         for(int i = 0; i < spaces; i++) {
-            if(_pos.line == _contents.size()) { return false; }
+            if(isEOF()) {
+                return false;
+            }
             _pos.line++;
             _pos.col = 0;
         }
@@ -155,7 +161,7 @@ namespace dargon {
                 _pos.col = 0;
                 _pos.line++;
                 // End of file!
-                if(_pos.line == _contents.size()) {
+                if(isEOF()) {
                     return false;
                 }
             }
@@ -272,6 +278,10 @@ namespace dargon {
 		}
 		file.close();
 		return true;
+    }
+
+    bool File::isEOF() const {
+        return ((size_t)_pos.line == _contents.size());
     }
 
 };

@@ -135,6 +135,8 @@ namespace dargon {
         /// @returns True if okay, false if not.
         static bool Exists(const std::string& filePath);
 	private:
+        ///@brief Calculates if the position is at the end of file
+        inline bool isEOF() const;
         /*
         This class reads the entire file, and stores is on disk like so:
           vector contents {
