@@ -24,25 +24,29 @@ namespace dargon {
         return _result.str();
     }
 
-    void ASTPrinter::VisitBinaryExpr(BinaryExpr& binary) {
+    Register& ASTPrinter::VisitBinaryExpr(BinaryExpr& binary) {
         _parenthesize(binary.op.GetValue(), { binary.left, binary.right });
+        return DARGON_EMPTY_REG;
     }
 
-    void ASTPrinter::VisitGroupingExpr(GroupingExpr& grouping) {
+    Register& ASTPrinter::VisitGroupingExpr(GroupingExpr& grouping) {
         _parenthesize("group ", { grouping.expression });
+        return DARGON_EMPTY_REG;
     }
 
-    void ASTPrinter::VisitLiteralExpr(LiteralExpr& literal) {
+    Register& ASTPrinter::VisitLiteralExpr(LiteralExpr& literal) {
         if(literal.value.size() == 0) {
             _result << "nil";
         }
         else {
             _result << " " << literal.value;
         }
+        return DARGON_EMPTY_REG;
     }
 
-    void ASTPrinter::VisitUnaryExpr(UnaryExpr& unary) {
+    Register& ASTPrinter::VisitUnaryExpr(UnaryExpr& unary) {
         _parenthesize(unary.op.GetValue(), { unary.right });
+        return DARGON_EMPTY_REG;
     }
 
     void ASTPrinter::_parenthesize(const std::string& name, std::initializer_list<Expr*> exprs) {

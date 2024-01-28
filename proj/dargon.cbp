@@ -51,12 +51,15 @@
 		<Unit filename="../src/core/ast/ASTPrinter.cpp" />
 		<Unit filename="../src/core/ast/ASTPrinter.h" />
 		<Unit filename="../src/core/ast/Expr.h" />
+		<Unit filename="../src/core/ast/Visitor.h" />
 		<Unit filename="../src/core/lex/Lexer.cpp" />
 		<Unit filename="../src/core/lex/Lexer.h" />
 		<Unit filename="../src/core/lex/Token.cpp" />
 		<Unit filename="../src/core/lex/Token.h" />
 		<Unit filename="../src/core/parser/Parser.cpp" />
 		<Unit filename="../src/core/parser/Parser.h" />
+		<Unit filename="../src/core/runtime/Register.cpp" />
+		<Unit filename="../src/core/runtime/Register.h" />
 		<Unit filename="../src/main.cpp" />
 		<Unit filename="../src/test/ASTTests.h" />
 		<Unit filename="../src/test/FileTests.h" />

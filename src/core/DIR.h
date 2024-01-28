@@ -18,17 +18,25 @@
 #include "File.h"
 #include "lex/Lexer.h"
 #include "parser/Parser.h"
+#include "ast/Visitor.h"
+#include "runtime/Register.h"
 
 namespace dargon {
 
 	/// @brief The Dargon Interpreter.
 	/// @author Kyle Morris
 	/// @since v0.1
-	class DIR {
+	class DIR : public IVisitor {
 	public:
         void Run(Path& filePath);
         void Run(std::string& contents);
+
+        virtual Register& VisitBinaryExpr(BinaryExpr& binary) override;
+		virtual Register& VisitGroupingExpr(GroupingExpr& grouping) override;
+		virtual Register& VisitLiteralExpr(LiteralExpr& literal) override;
+		virtual Register& VisitUnaryExpr(UnaryExpr& unary) override;
 	private:
+        Register& _evaluate(Expr* expression);
         void _buildError(const Exception* err);
         void _run();
 

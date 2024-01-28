@@ -91,4 +91,32 @@ namespace dargon {
         }
     }
 
+    Register& DIR::_evaluate(Expr* expression) {
+        return expression->Accept(*this);
+    }
+
+    Register& DIR::VisitLiteralExpr(LiteralExpr& literal) {
+        return DARGON_EMPTY_REG;
+    }
+
+    Register& DIR::VisitBinaryExpr(BinaryExpr& binary) {
+        return DARGON_EMPTY_REG;
+    }
+
+    Register& DIR::VisitGroupingExpr(GroupingExpr& grouping) {
+        return _evaluate(grouping.expression);
+    }
+
+    Register& DIR::VisitUnaryExpr(UnaryExpr& unary) {
+        return DARGON_EMPTY_REG;
+        #if 0
+        Register right = _evaluate(unary.right);
+        switch(unary.op.GetKind()) {
+            Token::Kind::MINUS:
+                double d = std::stod(right->VALUE);
+                return -d;
+        };
+        return nullptr;
+        #endif
+    }
 }
