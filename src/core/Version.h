@@ -24,14 +24,27 @@ namespace dargon {
 
     /// @brief The version of Dargon.
     /// Follows this scheme:
-    /// vX.Y = release
-    /// vX.Ya = Alpha
-    /// vX.Yb = Beta
-    /// vX.Y-DEBUG = Debug version
-    constexpr const char* VersionNum = "v0.1a";
+    /// version X.Y = release
+    /// version X.Yb = beta
+    /// version X.Y-DEBUG = Debug version
+    constexpr const char* VersionNum = "version 0.1";
+
+    /// @brief The ASCII-art banner displayed in the CLI.
+    /// Credits:
+    ///   Site: http://patorjk.com/software/taag/#p=author&f=Banner3-D&t=Dargon
+    ///   Font: banner3-D by Merlin Greywolf merlin@brahms.udel.edu August 9, 1994
+    constexpr const char* Banner =
+        " ########:::::'###::::'########:::'######::::'#######::'##::: ##:\n"
+        " ##.... ##:::'## ##::: ##.... ##:'##... ##::'##.... ##: ###:: ##:\n"
+        " ##:::: ##::'##:. ##:: ##:::: ##: ##:::..::: ##:::: ##: ####: ##:\n"
+        " ##:::: ##:'##:::. ##: ########:: ##::'####: ##:::: ##: ## ## ##:\n"
+        " ##:::: ##: #########: ##.. ##::: ##::: ##:: ##:::: ##: ##. ####:\n"
+        " ##:::: ##: ##.... ##: ##::. ##:: ##::: ##:: ##:::: ##: ##:. ###:\n"
+        " ########:: ##:::: ##: ##:::. ##:. ######:::. #######:: ##::. ##:\n"
+        "........:::..:::::..::..:::::..:::......:::::.......:::..::::..::\n";
 
     /// @brief Copyright information.
-    constexpr const char* Copyright = "(C) Kyle Morris 2023 - See LICENSE.txt for license information.";
+    constexpr const char* Copyright = "(C) Kyle Morris 2023-2024 | See LICENSE.txt for license information.";
 
     /// @brief Returns the name of this operating system.
     inline std::string GetOSName() {
@@ -55,7 +68,8 @@ namespace dargon {
     /// @brief Returns the version in a more complete string form.
     inline std::string VersionString() {
         std::ostringstream os;
-        os << "Dargon Interpreter " << VersionNum;
+        //os << "Dargon Interpreter " << VersionNum;
+        os << Banner << VersionNum;
         #ifdef DARGON_VERSION_DEBUG
         os << "-DEBUG ";
         #endif

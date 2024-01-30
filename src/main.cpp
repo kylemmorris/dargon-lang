@@ -19,8 +19,8 @@
 /// @brief Displays version information (and logs).
 void dispVer() {
     using namespace dargon;
-    DARGON_LOG_INFO(VersionString());
-    DARGON_LOG_INFO(Copyright);
+    out(VersionString());
+    out(Copyright);
     out("");
 }
 
