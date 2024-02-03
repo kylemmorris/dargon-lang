@@ -91,32 +91,204 @@ namespace dargon {
         }
     }
 
-    Register& DIR::_evaluate(Expr* expression) {
+    ValueBase& DIR::_evaluate(Expr* expression) {
         return expression->Accept(*this);
     }
 
-    Register& DIR::VisitLiteralExpr(LiteralExpr& literal) {
-        return DARGON_EMPTY_REG;
+    ValueBase& DIR::_isEqual(const ValueBase& left, const ValueBase& right) {
+        // Guarenteed to be same type
+        Boolean b;
+        switch(left.GetType()) {
+            case ValueBase::Type::INT: b.Set( (*Int)(&left)->Get() == (*Int)(&right)->Get() ); break;
+            case ValueBase::Type::REAL: b.Set( (*Real)(&left)->Get() == (*Real)(&right)->Get() ); break;
+            case ValueBase::Type::STRING: b.Set( (*String)(&left)->Get() == (*String)(&right)->Get() ); break;
+            case ValueBase::Type::BOOL: b.Set( (*Boolean)(&left)->Get() == (*Boolean)(&right)->Get() ); break;
+        }
+        return b;
     }
 
-    Register& DIR::VisitBinaryExpr(BinaryExpr& binary) {
-        return DARGON_EMPTY_REG;
+    ValueBase& DIR::VisitLiteralExpr(LiteralExpr& literal) {
+        return literal.value;
     }
 
-    Register& DIR::VisitGroupingExpr(GroupingExpr& grouping) {
+    ValueBase& DIR::VisitBinaryExpr(BinaryExpr& binary) {
+        ValueBase left = _evaluate(binary.left);
+        ValueBase right = _evaluate(binary.right);
+
+        bool lint = left.GetType() == ValueBase::Type::INT;
+        bool rint = right.GetType() == ValueBase::Type::INT;
+
+        bool lreal = left.GetType() == ValueBase::Type::REAL;
+        bool rreal = right.GetType() == ValueBase::Type::REAL;
+
+        bool lstr = left.GetType() == ValueBase::Type::STRING;
+        bool rstr = right.GetType() == ValueBase::Type::STRING;
+
+        bool lbol = left.GetType() == ValueBase::Type::BOOL;
+        bool rbol = right.GetType() == ValueBase::Type::BOOL;
+
+        bool same = (lint && rint) || (lreal && rreal) || (lstr && rstr) || (lbol && rbol);
+
+        switch(binary.op.GetKind()) {
+            case Token::Kind::PLUS: {
+                if(lint && rint) {
+                    Int res;
+                    res.Set( (Int*)(&left)->Get() + (Int*)(&right)->Get() );
+                    return res;
+                }
+                else if(lreal && rreal) {
+                    Real res;
+                    res.Set( (Real*)(&left)->Get() + (Real*)(&right)->Get() );
+                    return res;
+                }
+                else if(lstr && rstr) {
+                    String res;
+                    res.Set( (String*)(&left)->Get() + (String*)(&right)->Get() );
+                    return res;
+                }
+                break;
+            }
+            case Token::Kind::MINUS: {
+                if(lint && rint) {
+                    Int res;
+                    res.Set( (Int*)(&left)->Get() - (Int*)(&right)->Get() );
+                    return res;
+                }
+                else if(lreal && rreal) {
+                    Real res;
+                    res.Set( (Real*)(&left)->Get() - (Real*)(&right)->Get() );
+                    return res;
+                }
+                break;
+            }
+            case Token::Kind::STAR: {
+                if(lint && rint) {
+                    Int res;
+                    res.Set( (Int*)(&left)->Get() * (Int*)(&right)->Get() );
+                    return res;
+                }
+                else if(lreal && rreal) {
+                    Real res;
+                    res.Set( (Real*)(&left)->Get() * (Real*)(&right)->Get() );
+                    return res;
+                }
+                break;
+            }
+            case Token::Kind::SLASH: {
+                if(lint && rint) {
+                    Int res;
+                    res.Set( (Int*)(&left)->Get() / (Int*)(&right)->Get() );
+                    return res;
+                }
+                else if(lreal && rreal) {
+                    Real res;
+                    res.Set( (Real*)(&left)->Get() / (Real*)(&right)->Get() );
+                    return res;
+                }
+                break;
+            }
+            case Token::Kind::GT: {
+                if(lint && rint) {
+                    Boolean res;
+                    res.Set( (Int*)(&left)->Get() > (Int*)(&right)->Get() );
+                    return res;
+                }
+                else if(lreal && rreal) {
+                    Boolean res;
+                    res.Set( (Real*)(&left)->Get() > (Real*)(&right)->Get() );
+                    return res;
+                }
+                break;
+            }
+            case Token::Kind::GTE: {
+                if(lint && rint) {
+                    Boolean res;
+                    res.Set( (Int*)(&left)->Get() >= (Int*)(&right)->Get() );
+                    return res;
+                }
+                else if(lreal && rreal) {
+                    Boolean res;
+                    res.Set( (Real*)(&left)->Get() >= (Real*)(&right)->Get() );
+                    return res;
+                }
+                break;
+            }
+            case Token::Kind::LT: {
+                if(lint && rint) {
+                    Boolean res;
+                    res.Set( (Int*)(&left)->Get() < (Int*)(&right)->Get() );
+                    return res;
+                }
+                else if(lreal && rreal) {
+                    Boolean res;
+                    res.Set( (Real*)(&left)->Get() < (Real*)(&right)->Get() );
+                    return res;
+                }
+                break;
+            }
+            case Token::Kind::LTE: {
+                if(lint && rint) {
+                    Boolean res;
+                    res.Set( (Int*)(&left)->Get() <= (Int*)(&right)->Get() );
+                    return res;
+                }
+                else if(lreal && rreal) {
+                    Boolean res;
+                    res.Set( (Real*)(&left)->Get() <= (Real*)(&right)->Get() );
+                    return res;
+                }
+                break;
+            }
+            case Token::Kind::EQUALITY: {
+                if(same) {
+                    ValueBase b = _isEqual(left, right);
+                    return b;
+                }
+                break;
+            }
+            case Token::Kind::NEQUALITY: {
+                if(same) {
+                    ValueBase b = _isEqual(left, right);
+                    Boolean* bptr = (Boolean*)(&b);
+                    bptr->Set(!bptr->Get());
+                    return b;
+                }
+                break;
+            }
+        };
+        return NONE_VALUE;
+    }
+
+    ValueBase& DIR::VisitGroupingExpr(GroupingExpr& grouping) {
         return _evaluate(grouping.expression);
     }
 
-    Register& DIR::VisitUnaryExpr(UnaryExpr& unary) {
-        return DARGON_EMPTY_REG;
-        #if 0
-        Register right = _evaluate(unary.right);
+    ValueBase& DIR::VisitUnaryExpr(UnaryExpr& unary) {
+        ValueBase right = _evaluate(unary.right);
         switch(unary.op.GetKind()) {
-            Token::Kind::MINUS:
-                double d = std::stod(right->VALUE);
-                return -d;
+            case Token::Kind::MINUS:
+                // Negative operator
+                switch(right.GetType()) {
+                    case ValueBase::Type::INT:
+                        Int* i = static_cast<Int*>(&right);
+                        i->Set(-i->Get());
+                        return value;
+                    case ValueBase::Type::REAL:
+                        Real* r = static_cast<Real*>(&right);
+                        r->Set(-r->Get());
+                        return value;
+                };
+                break;
+            case Token::Kind::BANG:
+                // Logical negation - only works on booleans
+                if(right.GetType() == ValueBase::Type::BOOL) {
+                    Boolean* b = static_cast<Boolean*>(&right);
+                    b->Set(!b->Get());
+                    return value;
+                }
+            default:
+                break;
         };
-        return nullptr;
-        #endif
+        return NONE_VALUE;
     }
 }

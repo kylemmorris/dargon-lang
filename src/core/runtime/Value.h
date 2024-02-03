@@ -19,10 +19,10 @@
 
 namespace dargon {
 
-	/// @brief The top-level 'object' in the Dargon runtime.
+	/// @brief Abstract class representing a Dargon runtime value.
 	/// @author Kyle Morris
 	/// @since v0.1
-	class Register {
+	class ValueBase {
 	public:
         enum class Type {
             INT,
@@ -33,9 +33,11 @@ namespace dargon {
             UNDEFINED
         };
 
-        Register() : _type(Type::UNDEFINED) {}
+        ValueBase() : _type(Type::UNDEFINED) {}
 
-        Register(Type type) : _type(type) {}
+        ValueBase(Type type) : _type(type) {}
+
+        Type GetType() const { return _type; }
 
     protected:
         Type _type;
@@ -45,11 +47,11 @@ namespace dargon {
 	/// @author Kyle Morris
 	/// @since v0.1
 	template<typename T>
-	class Value : public Register {
+	class Value : public ValueBase {
 	public:
         Value() : _value() {}
         Value(Type type, const char* name, T defaultVal)
-            : Register(type), _name(name), _value(defaultVal), _mutable(true), _none(false) {}
+            : ValueBase(type), _name(name), _value(defaultVal), _mutable(true), _none(false) {}
 
         void Set(T v) { _value = v; }
         T Get() const { return _value; }
@@ -111,11 +113,8 @@ namespace dargon {
             : Value(Type::STRING, name, defaultVal) {}
 	};
 
-	/// @brief Represents the empty register.
-	extern Register empty_t;
-
-	/// @brief This macro returns the address of the empty register.
-	#define DARGON_EMPTY_REG empty_t
+	/// @brief Represents the empty value.
+	extern ValueBase NONE_VALUE;
 
 };
 

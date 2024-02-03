@@ -2,18 +2,18 @@
  * Dargon Programming Language
  * (C) Kyle Morris 2023 - See LICENSE.txt for license information.
  *
- * @file
+ * @file Visitor.h
  * @author Kyle Morris
  * @since v0.1
  * @section Description
- *
+ * Implementation of the Visitor design pattern.
  *
  */
 
 #ifndef DARGON_HEADER_VISITOR
 #define DARGON_HEADER_VISITOR
 
-#include "../runtime/Register.h"
+#include "../runtime/Value.h"
 
 namespace dargon {
 
@@ -39,7 +39,7 @@ namespace dargon {
         * object and calls its appropriate "Visit" function
         * using this object.
         */
-        virtual Register& Accept(IVisitor& visitor) = 0;
+        virtual ValueBase& Accept(IVisitor& visitor) = 0;
 	};
 
 	/**
@@ -51,10 +51,10 @@ namespace dargon {
 	 */
 	class IVisitor {
 	public:
-		virtual Register& VisitBinaryExpr(BinaryExpr& binary) = 0;
-		virtual Register& VisitGroupingExpr(GroupingExpr& grouping) = 0;
-		virtual Register& VisitLiteralExpr(LiteralExpr& literal) = 0;
-		virtual Register& VisitUnaryExpr(UnaryExpr& unary) = 0;
+		virtual ValueBase& VisitBinaryExpr(BinaryExpr& binary) = 0;
+		virtual ValueBase& VisitGroupingExpr(GroupingExpr& grouping) = 0;
+		virtual ValueBase& VisitLiteralExpr(LiteralExpr& literal) = 0;
+		virtual ValueBase& VisitUnaryExpr(UnaryExpr& unary) = 0;
 	};
 
 };

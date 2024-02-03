@@ -31,12 +31,13 @@ namespace dargon {
         void Run(Path& filePath);
         void Run(std::string& contents);
 
-        virtual Register& VisitBinaryExpr(BinaryExpr& binary) override;
-		virtual Register& VisitGroupingExpr(GroupingExpr& grouping) override;
-		virtual Register& VisitLiteralExpr(LiteralExpr& literal) override;
-		virtual Register& VisitUnaryExpr(UnaryExpr& unary) override;
+        virtual ValueBase& VisitBinaryExpr(BinaryExpr& binary) override;
+		virtual ValueBase& VisitGroupingExpr(GroupingExpr& grouping) override;
+		virtual ValueBase& VisitLiteralExpr(LiteralExpr& literal) override;
+		virtual ValueBase& VisitUnaryExpr(UnaryExpr& unary) override;
 	private:
-        Register& _evaluate(Expr* expression);
+        ValueBase& _evaluate(Expr* expression);
+        ValueBase& _isEqual(const ValueBase& left, const ValueBase& right);
         void _buildError(const Exception* err);
         void _run();
 

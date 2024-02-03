@@ -36,7 +36,7 @@ namespace dargon {
 		Expr* right;
 		BinaryExpr(Expr* left, Token op, Expr* right)
 		: left(left), op(op), right(right) {}
-		virtual Register& Accept(IVisitor& visitor) override {
+		virtual ValueBase& Accept(IVisitor& visitor) override {
 			return visitor.VisitBinaryExpr(*this);
 		}
 	};
@@ -45,16 +45,16 @@ namespace dargon {
 		Expr* expression;
 		GroupingExpr(Expr* expression)
 		: expression(expression) {}
-		virtual Register& Accept(IVisitor& visitor) override {
+		virtual ValueBase& Accept(IVisitor& visitor) override {
 			return visitor.VisitGroupingExpr(*this);
 		}
 	};
 	class LiteralExpr : public Expr {
 	public:
-		std::string value;
-		LiteralExpr(std::string value)
+		ValueBase value;
+		LiteralExpr(const ValueBase& value)
 		: value(value) {}
-		virtual Register& Accept(IVisitor& visitor) override {
+		virtual ValueBase& Accept(IVisitor& visitor) override {
 			return visitor.VisitLiteralExpr(*this);
 		}
 	};
@@ -64,7 +64,7 @@ namespace dargon {
 		Expr* right;
 		UnaryExpr(Token op, Expr* right)
 		: op(op), right(right) {}
-		virtual Register& Accept(IVisitor& visitor) override {
+		virtual ValueBase& Accept(IVisitor& visitor) override {
 			return visitor.VisitUnaryExpr(*this);
 		}
 	};

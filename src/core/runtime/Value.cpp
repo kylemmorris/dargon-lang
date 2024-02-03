@@ -14,6 +14,6 @@
 
 namespace dargon {
 
-    Register empty_t = Register();
+    ValueBase NONE_VALUE = ValueBase();
 
 };

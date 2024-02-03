@@ -222,7 +222,7 @@ namespace dargon {
 			buffer += _curr;
 			consume();
 		} while (isdigit(_curr) || (_curr == '.' && !decimalUsed));
-		return Token((decimalUsed ? Token::Kind::FRACTIONAL_LIT : Token::Kind::NUMBER_LIT), buffer, _truePos(buffer.length()));
+		return Token((decimalUsed ? Token::Kind::REAL_LIT : Token::Kind::INTEGER_LIT), buffer, _truePos(buffer.length()));
     }
 
     Token Lexer::strLit() {

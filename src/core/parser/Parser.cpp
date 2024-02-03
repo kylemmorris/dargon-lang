@@ -166,13 +166,42 @@ namespace dargon {
         // We just use switch instead of if(_match() {} if(_match()) {} ...
         Expr* exp = nullptr;
         const Token t = peek();
+        ValueBase value;
         switch(t.GetKind()) {
             case Token::Kind::BOOL_F_LIT:
-            case Token::Kind::BOOL_T_LIT:
-            case Token::Kind::NUMBER_LIT:
-            case Token::Kind::STRING_LIT:
+                static_cast<Boolean>(value).Set(false);
+                //((Boolean)ValueBase).Set(false);
                 next();
-                return new LiteralExpr(t.GetValue());
+                return new LiteralExpr(value);
+            case Token::Kind::BOOL_T_LIT:
+                static_cast<Boolean>(value).Set(true);
+                //((Boolean)ValueBase).Set(false);
+                next();
+                return new LiteralExpr(value);
+            case Token::Kind::INTEGER_LIT:
+                try {
+                    static_cast<Int>(value).Set(std::stoi(t.GetValue()));
+                    next();
+                    return new LiteralExpr(value);
+                }
+                catch(std::invalid_argument& e) {
+                    throw new
+                    ParsingException(ErrorCode::INTERNAL_ERROR, "Could not derive integer literal: " + t.ToString(), t.GetPosition());
+                }
+            case Token::Kind::REAL_LIT:
+                try {
+                    static_cast<Real>(value).Set(std::stof(t.GetValue()));
+                    next();
+                    return new LiteralExpr(value);
+                }
+                catch(std::invalid_argument& e) {
+                    throw new
+                    ParsingException(ErrorCode::INTERNAL_ERROR, "Could not derive real literal: " + t.ToString(), t.GetPosition());
+                }
+            case Token::Kind::STRING_LIT:
+                static_cast<String>(value).Set(t.GetValue());
+                next();
+                return new LiteralExpr(value);
             case Token::Kind::PAREN_OPEN:
                 next();
                 exp = expression();

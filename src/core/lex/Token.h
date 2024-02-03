@@ -57,8 +57,8 @@ namespace dargon {
             WHEN,               ///< Pattern matching 'when'
             LOOP,               ///< Loop construct 'loop'
             __LITERALS__,       ///< Anything past this is a literal
-            NUMBER_LIT,         ///< Numeric literal
-            FRACTIONAL_LIT,     ///< Numeric literal with decimal point
+            INTEGER_LIT,        ///< Integer literal
+            REAL_LIT,           ///< Real number literal
             BOOL_T_LIT,         ///< The boolean literal 'true'
             BOOL_F_LIT,         ///< The boolean literal 'false'
             STRING_LIT          ///< String literal "blablabla"
