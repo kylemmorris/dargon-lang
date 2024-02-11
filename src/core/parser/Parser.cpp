@@ -169,18 +169,18 @@ namespace dargon {
         ValueBase value;
         switch(t.GetKind()) {
             case Token::Kind::BOOL_F_LIT:
-                static_cast<Boolean>(value).Set(false);
+                static_cast<Boolean*>(&value)->Set(false);
                 //((Boolean)ValueBase).Set(false);
                 next();
                 return new LiteralExpr(value);
             case Token::Kind::BOOL_T_LIT:
-                static_cast<Boolean>(value).Set(true);
+                static_cast<Boolean*>(&value)->Set(true);
                 //((Boolean)ValueBase).Set(false);
                 next();
                 return new LiteralExpr(value);
             case Token::Kind::INTEGER_LIT:
                 try {
-                    static_cast<Int>(value).Set(std::stoi(t.GetValue()));
+                    static_cast<Int*>(&value)->Set(std::stoi(t.GetValue()));
                     next();
                     return new LiteralExpr(value);
                 }
@@ -190,7 +190,7 @@ namespace dargon {
                 }
             case Token::Kind::REAL_LIT:
                 try {
-                    static_cast<Real>(value).Set(std::stof(t.GetValue()));
+                    static_cast<Real*>(&value)->Set(std::stof(t.GetValue()));
                     next();
                     return new LiteralExpr(value);
                 }
@@ -199,7 +199,7 @@ namespace dargon {
                     ParsingException(ErrorCode::INTERNAL_ERROR, "Could not derive real literal: " + t.ToString(), t.GetPosition());
                 }
             case Token::Kind::STRING_LIT:
-                static_cast<String>(value).Set(t.GetValue());
+                static_cast<String*>(&value)->Set(t.GetValue());
                 next();
                 return new LiteralExpr(value);
             case Token::Kind::PAREN_OPEN:

@@ -6,14 +6,14 @@
  * @author Kyle Morris
  * @since v0.1
  * @section Description
- *  The 'Register' class acts as the highest-level
- *  value type in Dargon. Equivelent to 'object' in other languages,
- *  however it cannot be accessed within the Dargon language itself.
+ *  The 'Value' class acts as the highest-level value type in Dargon.
+ *  Equivelent to 'object' in other languages, however it cannot be
+ *  accessed within the Dargon language itself.
  *
  */
 
-#ifndef DARGON_HEADER_REGISTER
-#define DARGON_HEADER_REGISTER
+#ifndef DARGON_HEADER_VALUE
+#define DARGON_HEADER_VALUE
 
 #include <string>
 
@@ -25,12 +25,12 @@ namespace dargon {
 	class ValueBase {
 	public:
         enum class Type {
+            UNDEFINED,
             INT,
             REAL,
             BOOL,
             STRING,
-            USERDEF,
-            UNDEFINED
+            USERDEF
         };
 
         ValueBase() : _type(Type::UNDEFINED) {}
@@ -38,6 +38,22 @@ namespace dargon {
         ValueBase(Type type) : _type(type) {}
 
         Type GetType() const { return _type; }
+
+        std::string ToString() const {
+            switch(_type) {
+                case Type::INT: return "INT";
+                case Type::REAL: return "REAL";
+                case Type::BOOL: return "BOOL";
+                case Type::STRING: return "STRING";
+                case Type::USERDEF: return "USERDEF";
+                case Type::UNDEFINED: return "UNDEFINED";
+                default: return "";
+            }
+        }
+
+        bool operator==(const ValueBase& rhs) const noexcept {
+            return _type == rhs._type;
+        }
 
     protected:
         Type _type;
@@ -50,13 +66,13 @@ namespace dargon {
 	class Value : public ValueBase {
 	public:
         Value() : _value() {}
-        Value(Type type, const char* name, T defaultVal)
+        Value(Type type, const std::string& name, T defaultVal)
             : ValueBase(type), _name(name), _value(defaultVal), _mutable(true), _none(false) {}
 
         void Set(T v) { _value = v; }
         T Get() const { return _value; }
         int GUID() const { return -1; }
-        const char* Name() const { return _name; }
+        const std::string Name() const { return _name; }
         bool IsMutable() const { return _mutable; }
         bool IsNone() const { return _none; }
 
@@ -64,7 +80,7 @@ namespace dargon {
         void operator = (const T& rhs) { _value = rhs; }
 
 	protected:
-        const char* _name;
+        const std::string _name;
         T _value;
         bool _mutable, _none;
 	};
@@ -105,11 +121,11 @@ namespace dargon {
 	/// @brief BUILT-IN CLASS: String
 	/// @author Kyle Morris
 	/// @since v0.1
-	class String : public Value<char*> {
+	class String : public Value<std::string> {
     public:
         using Value::operator=;
         String() { _type = Type::STRING; }
-        String(const char* name, char* defaultVal)
+        String(const std::string& name, std::string& defaultVal)
             : Value(Type::STRING, name, defaultVal) {}
 	};
 

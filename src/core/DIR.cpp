@@ -99,10 +99,21 @@ namespace dargon {
         // Guarenteed to be same type
         Boolean b;
         switch(left.GetType()) {
-            case ValueBase::Type::INT: b.Set( (*Int)(&left)->Get() == (*Int)(&right)->Get() ); break;
-            case ValueBase::Type::REAL: b.Set( (*Real)(&left)->Get() == (*Real)(&right)->Get() ); break;
-            case ValueBase::Type::STRING: b.Set( (*String)(&left)->Get() == (*String)(&right)->Get() ); break;
-            case ValueBase::Type::BOOL: b.Set( (*Boolean)(&left)->Get() == (*Boolean)(&right)->Get() ); break;
+            case ValueBase::Type::INT:
+                b.Set(static_cast<const Int*>(&left)->Get() ==  static_cast<const Int*>(&right)->Get());
+                break;
+            case ValueBase::Type::REAL:
+                b.Set(static_cast<const Real*>(&left)->Get() ==  static_cast<const Real*>(&right)->Get());
+                break;
+            case ValueBase::Type::STRING:
+                b.Set(static_cast<const String*>(&left)->Get() ==  static_cast<const String*>(&right)->Get());
+                break;
+            case ValueBase::Type::BOOL:
+                b.Set(static_cast<const Boolean*>(&left)->Get() ==  static_cast<const Boolean*>(&right)->Get());
+                break;
+            default:
+                DARGON_LOG_DEBUG("_isEqual - a type was not handled.");
+                break;
         }
         return b;
     }
@@ -133,17 +144,17 @@ namespace dargon {
             case Token::Kind::PLUS: {
                 if(lint && rint) {
                     Int res;
-                    res.Set( (Int*)(&left)->Get() + (Int*)(&right)->Get() );
+                    res.Set(static_cast<Int*>(&left)->Get() + static_cast<Int*>(&right)->Get());
                     return res;
                 }
                 else if(lreal && rreal) {
                     Real res;
-                    res.Set( (Real*)(&left)->Get() + (Real*)(&right)->Get() );
+                    res.Set(static_cast<Real*>(&left)->Get() + static_cast<Real*>(&right)->Get());
                     return res;
                 }
                 else if(lstr && rstr) {
                     String res;
-                    res.Set( (String*)(&left)->Get() + (String*)(&right)->Get() );
+                    res.Set(static_cast<String*>(&left)->Get() + static_cast<String*>(&right)->Get());
                     return res;
                 }
                 break;
@@ -151,12 +162,12 @@ namespace dargon {
             case Token::Kind::MINUS: {
                 if(lint && rint) {
                     Int res;
-                    res.Set( (Int*)(&left)->Get() - (Int*)(&right)->Get() );
+                    res.Set(static_cast<Int*>(&left)->Get() - static_cast<Int*>(&right)->Get());
                     return res;
                 }
                 else if(lreal && rreal) {
                     Real res;
-                    res.Set( (Real*)(&left)->Get() - (Real*)(&right)->Get() );
+                    res.Set(static_cast<Real*>(&left)->Get() - static_cast<Real*>(&right)->Get());
                     return res;
                 }
                 break;
@@ -164,12 +175,12 @@ namespace dargon {
             case Token::Kind::STAR: {
                 if(lint && rint) {
                     Int res;
-                    res.Set( (Int*)(&left)->Get() * (Int*)(&right)->Get() );
+                    res.Set(static_cast<Int*>(&left)->Get() * static_cast<Int*>(&right)->Get());
                     return res;
                 }
                 else if(lreal && rreal) {
                     Real res;
-                    res.Set( (Real*)(&left)->Get() * (Real*)(&right)->Get() );
+                    res.Set(static_cast<Real*>(&left)->Get() * static_cast<Real*>(&right)->Get());
                     return res;
                 }
                 break;
@@ -177,12 +188,12 @@ namespace dargon {
             case Token::Kind::SLASH: {
                 if(lint && rint) {
                     Int res;
-                    res.Set( (Int*)(&left)->Get() / (Int*)(&right)->Get() );
+                    res.Set(static_cast<Int*>(&left)->Get() / static_cast<Int*>(&right)->Get());
                     return res;
                 }
                 else if(lreal && rreal) {
                     Real res;
-                    res.Set( (Real*)(&left)->Get() / (Real*)(&right)->Get() );
+                    res.Set(static_cast<Real*>(&left)->Get() / static_cast<Real*>(&right)->Get());
                     return res;
                 }
                 break;
@@ -190,12 +201,12 @@ namespace dargon {
             case Token::Kind::GT: {
                 if(lint && rint) {
                     Boolean res;
-                    res.Set( (Int*)(&left)->Get() > (Int*)(&right)->Get() );
+                    res.Set(static_cast<Int*>(&left)->Get() > static_cast<Int*>(&right)->Get());
                     return res;
                 }
                 else if(lreal && rreal) {
                     Boolean res;
-                    res.Set( (Real*)(&left)->Get() > (Real*)(&right)->Get() );
+                    res.Set(static_cast<Real*>(&left)->Get() > static_cast<Real*>(&right)->Get());
                     return res;
                 }
                 break;
@@ -203,12 +214,12 @@ namespace dargon {
             case Token::Kind::GTE: {
                 if(lint && rint) {
                     Boolean res;
-                    res.Set( (Int*)(&left)->Get() >= (Int*)(&right)->Get() );
+                    res.Set(static_cast<Int*>(&left)->Get() >= static_cast<Int*>(&right)->Get());
                     return res;
                 }
                 else if(lreal && rreal) {
                     Boolean res;
-                    res.Set( (Real*)(&left)->Get() >= (Real*)(&right)->Get() );
+                    res.Set(static_cast<Real*>(&left)->Get() >= static_cast<Real*>(&right)->Get());
                     return res;
                 }
                 break;
@@ -216,12 +227,12 @@ namespace dargon {
             case Token::Kind::LT: {
                 if(lint && rint) {
                     Boolean res;
-                    res.Set( (Int*)(&left)->Get() < (Int*)(&right)->Get() );
+                    res.Set(static_cast<Int*>(&left)->Get() < static_cast<Int*>(&right)->Get());
                     return res;
                 }
                 else if(lreal && rreal) {
                     Boolean res;
-                    res.Set( (Real*)(&left)->Get() < (Real*)(&right)->Get() );
+                    res.Set(static_cast<Real*>(&left)->Get() < static_cast<Real*>(&right)->Get());
                     return res;
                 }
                 break;
@@ -229,12 +240,12 @@ namespace dargon {
             case Token::Kind::LTE: {
                 if(lint && rint) {
                     Boolean res;
-                    res.Set( (Int*)(&left)->Get() <= (Int*)(&right)->Get() );
+                    res.Set(static_cast<Int*>(&left)->Get() <= static_cast<Int*>(&right)->Get());
                     return res;
                 }
                 else if(lreal && rreal) {
                     Boolean res;
-                    res.Set( (Real*)(&left)->Get() <= (Real*)(&right)->Get() );
+                    res.Set(static_cast<Real*>(&left)->Get() <= static_cast<Real*>(&right)->Get());
                     return res;
                 }
                 break;
@@ -249,7 +260,7 @@ namespace dargon {
             case Token::Kind::NEQUALITY: {
                 if(same) {
                     ValueBase b = _isEqual(left, right);
-                    Boolean* bptr = (Boolean*)(&b);
+                    Boolean* bptr = static_cast<Boolean*>(&b);
                     bptr->Set(!bptr->Get());
                     return b;
                 }
@@ -265,26 +276,29 @@ namespace dargon {
 
     ValueBase& DIR::VisitUnaryExpr(UnaryExpr& unary) {
         ValueBase right = _evaluate(unary.right);
+        Int* i;
+        Real* r;
+        Boolean* b;
         switch(unary.op.GetKind()) {
             case Token::Kind::MINUS:
                 // Negative operator
                 switch(right.GetType()) {
                     case ValueBase::Type::INT:
-                        Int* i = static_cast<Int*>(&right);
+                        i = static_cast<Int*>(&right);
                         i->Set(-i->Get());
-                        return value;
+                        return right;
                     case ValueBase::Type::REAL:
-                        Real* r = static_cast<Real*>(&right);
+                        r = static_cast<Real*>(&right);
                         r->Set(-r->Get());
-                        return value;
+                        return right;
                 };
                 break;
             case Token::Kind::BANG:
                 // Logical negation - only works on booleans
                 if(right.GetType() == ValueBase::Type::BOOL) {
-                    Boolean* b = static_cast<Boolean*>(&right);
+                    b = static_cast<Boolean*>(&right);
                     b->Set(!b->Get());
-                    return value;
+                    return right;
                 }
             default:
                 break;

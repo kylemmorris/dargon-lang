@@ -34,10 +34,10 @@ namespace dargon {
         * in polish notation.
         */
         std::string Print(Expr* exp);
-        virtual Register& VisitBinaryExpr(BinaryExpr& binary) override;
-		virtual Register& VisitGroupingExpr(GroupingExpr& grouping) override;
-		virtual Register& VisitLiteralExpr(LiteralExpr& literal) override;
-		virtual Register& VisitUnaryExpr(UnaryExpr& unary) override;
+        virtual ValueBase& VisitBinaryExpr(BinaryExpr& binary) override;
+		virtual ValueBase& VisitGroupingExpr(GroupingExpr& grouping) override;
+		virtual ValueBase& VisitLiteralExpr(LiteralExpr& literal) override;
+		virtual ValueBase& VisitUnaryExpr(UnaryExpr& unary) override;
 	private:
         /**
         * @brief The result of the print.

@@ -30,11 +30,11 @@ void help() {
     // Starting up
     dispVer();
     out("Usage:");
-    out("    dargon help             - Displays this dialogue.");
-    out("    dargon version          - Version information.");
-    out("    dargon gui              - Opens the Dargon GUI.");
-    out("    dargon test             - Runs Dargon unit tests.");
-    out("    dargon <path>           - Runs a Dargon file (*.dargon or *.snoot) at the path provided.");
+    out("    dargon help    (-h)   - Displays this dialogue.");
+    out("    dargon version (-v)   - Version information.");
+    out("    dargon gui     (-g)   - Opens the Dargon GUI.");
+    out("    dargon test    (-t)   - Runs Dargon unit tests.");
+    out("    dargon <path>         - Runs a Dargon file (*.dargon or *.snoot) at the path provided.");
     out("");
     out("Running dargon without any arguments will begin the interpreter (DIR).");
     out("");
@@ -99,18 +99,18 @@ int main(int argc, char* argv[]) {
         inputs.push_back(std::string(argv[i]));
     }
 
-    if(inputs[0] == "help") {
+    if(inputs[0] == "help" || inputs[0] == "-h") {
         help();
     }
-    else if(inputs[0] == "version") {
+    else if(inputs[0] == "version" || inputs[0] == "-v") {
         out(VersionString());
-        //out(Copyright);
+        out(Copyright);
     }
-    else if(inputs[0] == "gui") {
-        //out("Not implemented yet...");
+    else if(inputs[0] == "gui" || inputs[0] == "-g") {
+        out("Not implemented yet...");
     }
-    else if(inputs[0] == "test") {
-        //out("Not implemented yet...");
+    else if(inputs[0] == "test" || inputs[0] == "-t") {
+        out("Not implemented yet...");
     }
     else {
         // It's a file path

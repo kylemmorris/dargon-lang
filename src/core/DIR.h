@@ -19,7 +19,7 @@
 #include "lex/Lexer.h"
 #include "parser/Parser.h"
 #include "ast/Visitor.h"
-#include "runtime/Register.h"
+#include "runtime/Value.h"
 
 namespace dargon {
 

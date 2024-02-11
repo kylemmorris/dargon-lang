@@ -93,8 +93,8 @@
         case Kind::ELSE: return "else";
         case Kind::WHEN: return "when";
         case Kind::LOOP: return "loop";
-        case Kind::NUMBER_LIT: return "NUMBER LITERAL";
-        case Kind::FRACTIONAL_LIT: return "FRACTIONAL LITERAL";
+        case Kind::INTEGER_LIT: return "INTEGER LITERAL";
+        case Kind::REAL_LIT: return "REAL LITERAL";
         case Kind::BOOL_T_LIT: return "true";
         case Kind::BOOL_F_LIT: return "false";
         case Kind::STRING_LIT: return "STRING LITERAL";
