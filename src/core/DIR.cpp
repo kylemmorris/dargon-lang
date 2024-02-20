@@ -50,8 +50,9 @@ namespace dargon {
         std::ostringstream os;
         // Build error
         os << err->BuildFullMessage() << std::endl << std::endl;
-        _file.Goto(err->GetPosition());
-        os << _file.ShowExactPosition() << std::endl;
+        if(_file.Goto(err->GetPosition())) {
+            os << _file.ShowExactPosition() << std::endl;
+        }
         //out(os.str());
         DARGON_LOG_ERROR(os.str());
     }
@@ -62,11 +63,6 @@ namespace dargon {
         TokenList tokens;
         try {
             tokens = _lex.GetAllTokens();
-            #ifdef DARGON_VERSION_DEBUG
-            for(Token token : tokens) {
-                DARGON_LOG_DEBUG(token.ToString());
-            }
-            #endif // DARGON_VERSION_DEBUG
         }
         catch(LexerException* e) {
             _buildError(e);

@@ -57,7 +57,7 @@ namespace dargon {
         /// @brief Provides the current file position.
         /// @returns The FilePosition object.
         /// @see FilePosition
-        FilePosition CurrentPosition() const;
+        FilePosition& CurrentPosition() const;
 
         /// @brief Provides the file position as the following string:
         ///     filename @ Line x Col y
@@ -134,19 +134,9 @@ namespace dargon {
         /// @brief Checks if a file exists.
         /// @returns True if okay, false if not.
         static bool Exists(const std::string& filePath);
-	private:
+	protected:
         ///@brief Calculates if the position is at the end of file
         inline bool isEOF() const;
-        /*
-        This class reads the entire file, and stores is on disk like so:
-          vector contents {
-            string line,
-            string line,
-            ...
-            string line
-          }
-
-        */
         /// @brief The entire file contents
         std::vector<std::string> _contents;
         /// @brief The file path object
@@ -154,17 +144,6 @@ namespace dargon {
         /// @brief The file position (tracked). Line = index in _contents, col = index in that line.
         FilePosition _pos;
 	};
-
-	/// @brief A Dargon script, interpreted by DIR.
-	/// @author Kyle Morris
-	/// @since v0.1
-	class Script : public File {};
-
-	/// @brief A Dargon configuration file.
-	/// @author Kyle Morris
-	/// @since v0.1
-	class Config : public File {};
-
 };
 
 #endif

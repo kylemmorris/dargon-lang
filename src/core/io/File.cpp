@@ -67,7 +67,7 @@ namespace dargon {
         Reset();
     }
 
-    FilePosition File::CurrentPosition() const {
+    FilePosition& File::CurrentPosition() const {
         // Internally we index by 0 - for the user, they expect
         // line 1, column 1 to the be the origin.
         //FilePosition ret = _pos;

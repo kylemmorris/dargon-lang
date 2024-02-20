@@ -37,14 +37,6 @@
 		<Unit filename="../src/core/DIR.h" />
 		<Unit filename="../src/core/Exception.cpp" />
 		<Unit filename="../src/core/Exception.h" />
-		<Unit filename="../src/core/File.cpp" />
-		<Unit filename="../src/core/File.h" />
-		<Unit filename="../src/core/FilePosition.h" />
-		<Unit filename="../src/core/IO.h" />
-		<Unit filename="../src/core/Log.cpp" />
-		<Unit filename="../src/core/Log.h" />
-		<Unit filename="../src/core/Path.cpp" />
-		<Unit filename="../src/core/Path.h" />
 		<Unit filename="../src/core/Utility.cpp" />
 		<Unit filename="../src/core/Utility.h" />
 		<Unit filename="../src/core/Version.h" />
@@ -52,6 +44,16 @@
 		<Unit filename="../src/core/ast/ASTPrinter.h" />
 		<Unit filename="../src/core/ast/Expr.h" />
 		<Unit filename="../src/core/ast/Visitor.h" />
+		<Unit filename="../src/core/io/ConfigFile.cpp" />
+		<Unit filename="../src/core/io/ConfigFile.h" />
+		<Unit filename="../src/core/io/File.cpp" />
+		<Unit filename="../src/core/io/File.h" />
+		<Unit filename="../src/core/io/FilePosition.h" />
+		<Unit filename="../src/core/io/IO.h" />
+		<Unit filename="../src/core/io/Log.cpp" />
+		<Unit filename="../src/core/io/Log.h" />
+		<Unit filename="../src/core/io/Path.cpp" />
+		<Unit filename="../src/core/io/Path.h" />
 		<Unit filename="../src/core/lex/Lexer.cpp" />
 		<Unit filename="../src/core/lex/Lexer.h" />
 		<Unit filename="../src/core/lex/Token.cpp" />
@@ -61,11 +63,6 @@
 		<Unit filename="../src/core/runtime/Value.cpp" />
 		<Unit filename="../src/core/runtime/Value.h" />
 		<Unit filename="../src/main.cpp" />
-		<Unit filename="../src/test/ASTTests.h" />
-		<Unit filename="../src/test/FileTests.h" />
-		<Unit filename="../src/test/LexerTests.h" />
-		<Unit filename="../src/test/TestingMacros.h" />
-		<Unit filename="../src/test/UnitTest.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
