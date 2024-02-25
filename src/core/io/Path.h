@@ -18,7 +18,7 @@
 namespace dargon {
 
     /// @brief File types supported
-    enum class FileType {
+    enum class FileType : int {
         SOURCE, ///< *.dargon
         CONFIG, ///< *.snoot
         UNKNOWN ///< Unsupported
@@ -29,23 +29,23 @@ namespace dargon {
 	/// @since v0.1
 	class Path final {
 	private:
-        #ifdef _WIN32 || _WIN64
-        constexpr char m_slash = '\\';
+        #if defined(_WIN32) || defined(_WIN64)
+        constexpr static char m_slash = '\\';
         #else
-        constexpr char m_slash = '/';
+        constexpr static char m_slash = '/';
         #endif
         std::string m_full, m_name, m_name_noext, m_ext;
-        file_type m_type;
+        FileType m_type;
         void init();
 	public:
         Path();
         Path(const std::string& path);
         Path(const char* path);
 
-        std::string& GetFull() const;
-        std::string& GetFileName(bool extension = true) const;
-        std::string& GetExtension() const;
-        FileType& GetFileType() const;
+        const std::string& GetFull() const;
+        const std::string& GetFileName(bool extension = true) const;
+        const std::string& GetFileExtension() const;
+        const FileType& GetFileType() const;
 	};
 
 };

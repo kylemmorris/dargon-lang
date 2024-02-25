@@ -17,7 +17,7 @@
 #include <map>
 #include <vector>
 #include "../Exception.h"
-#include "../FilePosition.h"
+#include "../io/FilePosition.h"
 
 namespace dargon {
 

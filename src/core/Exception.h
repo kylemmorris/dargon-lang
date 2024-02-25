@@ -15,7 +15,7 @@
 
 #include <stdexcept>
 #include <string>
-#include "FilePosition.h"
+#include "io/FilePosition.h"
 
 namespace dargon {
 

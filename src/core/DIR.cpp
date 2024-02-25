@@ -12,8 +12,8 @@
 
 #include <sstream>
 #include "DIR.h"
-#include "IO.h"
-#include "Log.h"
+#include "io/IO.h"
+#include "io/Log.h"
 #include "ast/ASTPrinter.h"
 
 namespace dargon {
@@ -28,11 +28,11 @@ namespace dargon {
             DARGON_LOG_ERROR("Could not open file: " + filePath.GetFull());
             return;
         }
-        switch(filePath.GetFileExtension()) {
-            case Path::Extension::DARGON:
+        switch(filePath.GetFileType()) {
+            case FileType::SOURCE:
                 _run();
                 break;
-            case Path::Extension::DARGON_CONFIG:
+            case FileType::CONFIG:
                 DARGON_LOG_ERROR("Not currently implemented!");
                 break;
             default:

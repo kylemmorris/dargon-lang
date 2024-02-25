@@ -13,7 +13,7 @@
 #include <sstream>
 #include "Log.h"
 #include "IO.h"
-#include "Utility.h"
+#include "../Utility.h"
 
 namespace dargon {
 namespace hidden {
@@ -29,7 +29,7 @@ namespace hidden {
             else {
                 LogFile.open(LogFileName, std::ios::out | std::ios::app);
             }
-            LogFile << GetDateTimeString() << " - " << "[" << type << "]: " << msg;
+            LogFile << GetDateTimeString() << " " << type << ": " << msg;
             out(msg);
             if(includeLoc) {
                 std::string s(fileName);

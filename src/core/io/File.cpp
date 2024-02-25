@@ -14,7 +14,7 @@
 #include <iomanip>
 #include <sys/stat.h>
 #include "File.h"
-#include "Utility.h"
+#include "../Utility.h"
 #include "Log.h"
 
 namespace dargon {
@@ -67,7 +67,7 @@ namespace dargon {
         Reset();
     }
 
-    FilePosition& File::CurrentPosition() const {
+    const FilePosition& File::CurrentPosition() const {
         // Internally we index by 0 - for the user, they expect
         // line 1, column 1 to the be the origin.
         //FilePosition ret = _pos;

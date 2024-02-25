@@ -16,9 +16,9 @@
 #define DARGON_HEADER_LEXER
 
 #include <string>
-#include "../Log.h"
+#include "../io/Log.h"
 #include "Token.h"
-#include "../File.h"
+#include "../io/File.h"
 
 namespace dargon {
 

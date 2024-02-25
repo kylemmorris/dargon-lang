@@ -14,8 +14,8 @@
 #define DARGON_HEADER_DIR
 
 #include <stack>
-#include "IO.h"
-#include "File.h"
+#include "io/IO.h"
+#include "io/File.h"
 #include "lex/Lexer.h"
 #include "parser/Parser.h"
 #include "ast/Visitor.h"

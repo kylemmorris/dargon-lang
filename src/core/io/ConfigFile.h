@@ -20,7 +20,8 @@
 namespace dargon {
 
     /// @brief Type in configuration files
-    enum class ConfigType {
+    enum class ConfigType : int {
+        NONE,
         INT,
         STRING,
         BOOLEAN
@@ -32,11 +33,15 @@ namespace dargon {
 	class ConfigFile : public File {
 	private:
         struct param {
+        public:
             std::string name;
             ConfigType type;
             std::string value;
             bool required;
             std::string default_value;
+            friend bool operator<(const param& lhs, const param& rhs) {
+                return lhs.type < rhs.type;
+            }
         };
         std::map<std::string, param> m_params;
 	public:

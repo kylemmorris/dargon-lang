@@ -10,25 +10,25 @@
  *
  */
 
-#include "path.h"
+#include "Path.h"
 
 namespace dargon {
 
     Path::Path()
         : m_full(""), m_name(""), m_name_noext(""), m_ext(""),
-        m_type(file_type::UNKNOWN)
+        m_type(FileType::UNKNOWN)
     {}
 
     Path::Path(const std::string& path)
         : m_full(path), m_name(""), m_name_noext(""), m_ext(""),
-        m_type(file_type::UNKNOWN)
+        m_type(FileType::UNKNOWN)
     {
         init();
     }
 
     Path::Path(const char* path)
         : m_full(path), m_name(""), m_name_noext(""), m_ext(""),
-        m_type(file_type::UNKNOWN)
+        m_type(FileType::UNKNOWN)
     {
         init();
     }
@@ -47,26 +47,26 @@ namespace dargon {
             if(ext_loc != std::string::npos) {
                 m_name_noext = s.substr(0, ext_loc);
                 m_ext = s.substr(ext_loc+1);
-                if(m_ext == "dargon") { m_type = file_type::SOURCE; }
-                else if(m_ext == "snoot") { m_type = file_type::CONFIG; }
+                if(m_ext == "dargon") { m_type = FileType::SOURCE; }
+                else if(m_ext == "snoot") { m_type = FileType::CONFIG; }
             }
 
         }
     }
 
-    std::string& Path::GetFull() const {
+    const std::string& Path::GetFull() const {
         return m_full;
     }
 
-    std::string& Path::GetFileName(bool extension = true) const {
+    const std::string& Path::GetFileName(bool extension) const {
         return extension ? m_name : m_name_noext;
     }
 
-    std::string& Path::GetFileExtension() const {
+    const std::string& Path::GetFileExtension() const {
         return m_ext;
     }
 
-    FileType& Path::GetFileType() const {
+    const FileType& Path::GetFileType() const {
         return m_type;
     }
 

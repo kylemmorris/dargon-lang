@@ -15,7 +15,7 @@
 #include <sstream>
 #include "Lexer.h"
 #include "../Exception.h"
-#include "../IO.h"
+#include "../io/IO.h"
 
 namespace dargon {
 

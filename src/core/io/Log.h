@@ -15,8 +15,8 @@
 
 #include <fstream>
 #include <mutex>
-#include "Version.h"
-#include "lex/Token.h"
+#include "../Version.h"
+#include "../lex/Token.h"
 
 namespace dargon {
 namespace hidden {

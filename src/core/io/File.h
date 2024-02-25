@@ -57,7 +57,7 @@ namespace dargon {
         /// @brief Provides the current file position.
         /// @returns The FilePosition object.
         /// @see FilePosition
-        FilePosition& CurrentPosition() const;
+        const FilePosition& CurrentPosition() const;
 
         /// @brief Provides the file position as the following string:
         ///     filename @ Line x Col y

@@ -15,7 +15,7 @@
 #define DARGON_HEADER_PARSER
 
 #include "../ast/Expr.h"
-#include "../Log.h"
+#include "../io/Log.h"
 
 namespace dargon {
 

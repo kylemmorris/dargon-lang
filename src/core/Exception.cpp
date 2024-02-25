@@ -12,7 +12,7 @@
 
  #include <sstream>
 #include "Exception.h"
-#include "Log.h"
+#include "io/Log.h"
 
 namespace dargon {
 

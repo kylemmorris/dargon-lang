@@ -12,7 +12,7 @@
 
 #include <vector>
 #include <sstream>
-#include "core/Log.h"
+#include "core/io/Log.h"
 #include "core/ast/ASTPrinter.h"
 #include "core/DIR.h"
 
