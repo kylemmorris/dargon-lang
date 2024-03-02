@@ -63,10 +63,11 @@
 		<Unit filename="../src/core/runtime/Value.cpp" />
 		<Unit filename="../src/core/runtime/Value.h" />
 		<Unit filename="../src/main.cpp" />
+		<Unit filename="../src/vm/VMArrays.h" />
+		<Unit filename="../src/vm/VMCommon.cpp" />
 		<Unit filename="../src/vm/VMCommon.h" />
 		<Unit filename="../src/vm/VMDisassembler.h" />
 		<Unit filename="../src/vm/VMDissasembler.cpp" />
-		<Unit filename="../src/vm/VMInstruction.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

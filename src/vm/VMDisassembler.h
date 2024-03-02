@@ -13,7 +13,7 @@
 #ifndef DARGON_HEADER_VM_DISASSEMBLER
 #define DARGON_HEADER_VM_DISASSEMBLER
 
-#include "VMInstruction.h"
+#include "VMArrays.h"
 
 namespace dargon {
 
