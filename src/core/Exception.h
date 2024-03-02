@@ -26,7 +26,9 @@ namespace dargon {
         NO_ERROR = 0x0,
         INTERNAL_ERROR = 0xD00,
         INVALID_TOKEN = 0xD01,
-        EXPECTED_EXPRESSION = 0xD02
+        EXPECTED_EXPRESSION = 0xD02,
+
+        OUT_OF_MEMORY = 0xD91
     };
 
     /// @brief Dargon-specific exception.

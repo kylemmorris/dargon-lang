@@ -15,6 +15,7 @@
 #include "core/io/Log.h"
 #include "core/ast/ASTPrinter.h"
 #include "core/DIR.h"
+#include "vm/VMDisassembler.h"
 
 /// @brief Displays version information (and logs).
 void dispVer() {
@@ -84,6 +85,13 @@ void runBasicREPL(dargon::DIR& dir) {
 /// @brief Entry point.
 int main(int argc, char* argv[]) {
     using namespace dargon;
+
+    VMDissasembler dis;
+    VMInstruction chunk;
+    chunk.Append((byte)VMOpCode::OP_RETURN);
+    dis.Disassemble(chunk, "test chunk");
+
+    return 0;
 
     // This is the Dargon Interpreter (DIR)
     DIR dir;

@@ -19,13 +19,19 @@
 
 namespace dargon {
 
+    /// @brief The input stream used.
+    #define DARGON_IN std::cin
+
+    /// @brief The output stream used.
+    #define DARGON_OUT std::cerr
+
     /// @brief Prints to the standard output.
     inline void out(const char* msg, bool include_endl = true) noexcept {
         if(include_endl) {
-            std::cerr << msg << "\n";
+            DARGON_OUT << msg << "\n";
         }
         else {
-            std::cerr << msg;
+            DARGON_OUT << msg;
         }
 
         //InfoLog(msg);
@@ -39,7 +45,7 @@ namespace dargon {
     /// @brief Reads the input from the user.
     inline void in(std::string& lineOut) noexcept {
         out("DIR> ", false);
-        getline(std::cin, lineOut);
+        getline(DARGON_IN, lineOut);
     }
 
 };
