@@ -10,9 +10,10 @@
  *
  */
 
-#include "VMCommon.h"
+#include "Common.h"
 
 namespace dargon {
+namespace vm {
 
     void* Reallocate(void* ptr, size_t oldSz, size_t newSz) {
         if(newSz == 0) {
@@ -26,4 +27,4 @@ namespace dargon {
         return res;
     }
 
-}
+}};

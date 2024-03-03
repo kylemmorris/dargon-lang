@@ -63,11 +63,13 @@
 		<Unit filename="../src/core/runtime/Value.cpp" />
 		<Unit filename="../src/core/runtime/Value.h" />
 		<Unit filename="../src/main.cpp" />
-		<Unit filename="../src/vm/VMArrays.h" />
-		<Unit filename="../src/vm/VMCommon.cpp" />
-		<Unit filename="../src/vm/VMCommon.h" />
-		<Unit filename="../src/vm/VMDisassembler.h" />
-		<Unit filename="../src/vm/VMDissasembler.cpp" />
+		<Unit filename="../src/vm/Common.cpp" />
+		<Unit filename="../src/vm/Common.h" />
+		<Unit filename="../src/vm/DynamicArray.h" />
+		<Unit filename="../src/vm/Nugget.cpp" />
+		<Unit filename="../src/vm/Nugget.h" />
+		<Unit filename="../src/vm/VirtualMachine.cpp" />
+		<Unit filename="../src/vm/VirtualMachine.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

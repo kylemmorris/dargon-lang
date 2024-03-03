@@ -27,9 +27,11 @@ The full Dargon experience aims to deliver the following:
 Dargon is currently using the CMake build system:
 
 ```bash
-dargon$ mkdir build && cd build
-dargon/build$ cmake ..
-dargon/build$ cmake --build .
+repo$ pwd
+my/path/to/dargon/repo
+repo/build$ mkdir build && cd build
+repo/build$ cmake ..
+repo/build$ cmake --build .
 ```
 
 ## Repository Layout
