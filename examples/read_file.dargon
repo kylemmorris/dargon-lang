@@ -1,0 +1,22 @@
+# Read an input file
+fun printFileContents(string fname -> bool result) {
+	fixed file f
+	(#
+	Not only does this 'if' check if open() returns
+	null (file not found), but it also assigns the 
+	function output. This does not stop the function.
+	#)
+	if(f.open(fname)? -> result) {
+		# In here, 'f' is confirmed not the be null.
+		# Type is 'file' as opposed to 'file?'
+		defer f.close()
+		print(f.readAll())
+	}
+	# Something like this would exit the function:
+	# -> f?
+}
+
+fixed string fname = input("Enter a file name: ")
+if(!printFileContents(fname)) {
+	print("File not found: " + fname)
+}

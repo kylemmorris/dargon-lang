@@ -4,23 +4,29 @@
     Created by Kyle Morris
 #)
 
-# Returns input^2
-fun square(input :int -> int) [
-    -> (input * input)
-]
+fun square(int input -> int) {
+	-> (input * input)
+}
+
+# shorthand - any unnamed input parameter is given the name 'inN'
+#fun square(int -> int) -> (in1 * in1)
 
 # Safely divides x by y, includes error for div by zero
-fun safeDivide(x, y :int -> output :real, error :bool) [
-    error = (y == 0)
-    output = (x / y) if(not error) else 0
-]
+fun safeDivide(int x,y -> real output, bool error) {
+	error = (y == 0)
+	output = (x / y) if(not error) else 0
+}
+
+# shorthand - same goes for output names...
+# The 'if(in2 == 0 -> out2)' will send the boolean result of 'in2 == 0' to the output
+# without stopping the function.
+#fun safeDivide(int,int->real,bool) -> { out1 = 0 if(in2 == 0 -> out2) else (in1/in2) }
 
 # Usage
-const myNumber = 8
-const sixyFour = square(myNumber)
+int myNumber = 8
+int sixtyFour = square(myNumber)
 assert(sixtyFour == 64)
-print("8^2 = {sixtyFour}")
 
-const a, b :int = 12, 0
-const c, er = safeDivide(a,b)
-
+fixed int a, b = 12, 0
+fixed c, er = safeDivide(a,b)
+assert(er and c == 0)
