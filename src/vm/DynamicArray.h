@@ -13,7 +13,6 @@
 #ifndef DARGON_HEADER_VM_DYNAMICARRAY
 #define DARGON_HEADER_VM_DYNAMICARRAY
 
-#include <vector>
 #include "Common.h"
 
 namespace dargon {
@@ -24,7 +23,7 @@ namespace vm {
 	/// @since v0.1
 	template<typename T>
 	class DynamicArray {
-	public:
+	protected:
         int m_count;
         int m_capacity;
         T*  m_data;
@@ -33,12 +32,40 @@ namespace vm {
             m_capacity = (m_capacity < 8) ? 8 : m_capacity * 2;
             m_data = (T*)Reallocate(m_data, old_capacity, m_capacity);
         }
+    public:
         DynamicArray() : m_data(nullptr), m_count(0), m_capacity(0) {}
+
         virtual ~DynamicArray() { free(m_data); }
-        void Write(const T& data) {
+
+        size_t Length() const {
+            return m_count;
+        }
+
+        /// @brief Adds a new piece of data to the end of this array.
+        void Add(const T& data) {
             if(m_capacity < m_count + 1) { grow(); }
             m_data[m_count] = data;
             m_count++;
+        }
+
+        /// @brief Returns an element at the specified index.
+        /// @return True if the element was found, false otherwise.
+        bool Get(size_t index, T& outValue) const {
+            if(index < m_count && index >= 0) {
+                outValue = m_data[index];
+                return true;
+            }
+            return false;
+        }
+
+        /// @brief Sets an element at a specific index.
+        /// @return True if element was replaced, false otherwise.
+        bool Set(size_t index, const T& inValue) {
+            if(index < m_count && index >= 0) {
+                m_data[index] = inValue;
+                return true;
+            }
+            return false;
         }
 	};
 

@@ -87,30 +87,9 @@ void runBasicREPL(dargon::DIR& dir) {
 int main(int argc, char* argv[]) {
     using namespace dargon;
 
-    vm::Nugget chunk = vm::Nugget("TEST OF {-((1.2 + 3.4) /  5.6)}");
-    vm::value val_a = 1.2;
-    vm::value val_b = 3.4;
-    vm::value val_c = 5.6;
+    
 
-    chunk.Write((vm::byte)vm::OPCODE::CONSTANT);
-    chunk.Write(chunk.AddConst(val_a));
-    chunk.Write((vm::byte)vm::OPCODE::CONSTANT);
-    chunk.Write(chunk.AddConst(val_b));
-
-    chunk.Write((vm::byte)vm::OPCODE::ADD);
-
-    chunk.Write((vm::byte)vm::OPCODE::CONSTANT);
-    chunk.Write(chunk.AddConst(val_c));
-
-    chunk.Write((vm::byte)vm::OPCODE::DIVIDE);
-
-    chunk.Write((vm::byte)vm::OPCODE::NEGATE);
-    chunk.Write((vm::byte)vm::OPCODE::RETURN);
-
-    vm::VirtualMachine vm;
-    vm.Interpret(&chunk);
-
-    return 0;
+    return;
 
     // This is the Dargon Interpreter (DIR)
     DIR dir;

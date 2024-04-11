@@ -20,8 +20,8 @@ namespace vm {
     Nugget::Nugget(const char* name) : m_name(name) {}
 
     int Nugget::AddConst(const value& val) {
-        m_constants.Write(val);
-        return m_constants.m_count- 1;
+        m_constants.Add(val);
+        return m_constants.Length() - 1;
     }
 
     void Nugget::Disassemble() {
@@ -39,7 +39,10 @@ namespace vm {
                 }
                 case vm::OPCODE::CONSTANT: {
                     byte const_index = m_data[offset + 1];
-                    os << "CONSTANT " << m_constants.m_data[const_index] << " (" << static_cast<int>(const_index) << ")";
+                    value constant;
+                    if(m_constants.Get(const_index, constant)) {
+                        os << "CONSTANT " << constant << " (" << static_cast<int>(const_index) << ")";
+                    }
                     offset = offset + 2;
                     break;
                 }

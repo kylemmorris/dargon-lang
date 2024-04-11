@@ -66,8 +66,10 @@
 		<Unit filename="../src/vm/Common.cpp" />
 		<Unit filename="../src/vm/Common.h" />
 		<Unit filename="../src/vm/DynamicArray.h" />
+		<Unit filename="../src/vm/Instruction.h" />
 		<Unit filename="../src/vm/Nugget.cpp" />
 		<Unit filename="../src/vm/Nugget.h" />
+		<Unit filename="../src/vm/Stack.h" />
 		<Unit filename="../src/vm/VirtualMachine.cpp" />
 		<Unit filename="../src/vm/VirtualMachine.h" />
 		<Extensions />

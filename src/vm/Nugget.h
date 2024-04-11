@@ -43,6 +43,7 @@ namespace vm {
     public:
         Nugget(const char* name);
         int AddConst(const value& data);
+        //value& GetConst(int index);
         void Disassemble();
     };
 

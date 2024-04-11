@@ -11,3 +11,7 @@ These are various tools and utilities used throughout different modules, or used
 ### Test:
 
 Contains the testing framework. I am doing this from the ground up, and very basic.
+
+### VM:
+
+Contians the implementation of the virtual machine.

@@ -15,32 +15,42 @@
 
 #include "Nugget.h"
 #include "Stack.h"
+#include "../core/Exception.h"
 
 namespace dargon {
 namespace vm {
 
+
     /// @brief The result of running the virtual machine.
-	enum class Result {
+    enum class Result {
         OK,
         COMPILE_ERROR,
         RUNTIME_ERROR,
         INTERNAL_ERROR
-	};
+    };
 
-	/// @brief The Dargon Virtual Machine (VM).
-	/// @author Kyle Morris
-	/// @since v0.1
-	class VirtualMachine {
-	private:
+    /// @brief The Dargon Virtual Machine (VM).
+    /// @author Kyle Morris
+    /// @since v0.1
+    class VirtualMachine {
+    private:
         Nugget* m_nugget;
         byte* m_ip;     // Instruction Pointer
         Stack<value,STACK_MAX> m_stack;
+        inline byte read_byte() { return *m_ip++; }
+        inline value read_constant() {
+            value ret;
+            if(m_nugget->m_constants.Get(read_byte(), ret)) {
+                return ret;
+            }
+            throw new Exception(dargon::ErrorCode::INTERNAL_ERROR, "Could not read constant.");
+        }
         Result run();
-	public:
+    public:
         VirtualMachine();
         ~VirtualMachine();
         Result Interpret(Nugget* nugget);
-	};
+    };
 
 }};
 
