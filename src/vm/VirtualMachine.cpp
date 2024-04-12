@@ -27,30 +27,36 @@ namespace vm {
         return run();
     }
 
-    Result VirtualMachine::run() {
-        #define READ_BYTE() *m_ip++
-        #define READ_CONSTANT() (m_nugget->m_constants.m_data[READ_BYTE()])
-        #define BINARY_OP(op) \
-            do { \
-               value b = m_stack.Pop();\
-               value a = m_stack.Pop();\
-               m_stack.Push(a op b);\
-            } while(false)
+    void VirtualMachine::binary_op(const vm::OPCODE& code) {
+        value a = m_stack.Pop();
+        value b = m_stack.Pop();
+        switch(code) {
+            case vm::OPCODE::ADD: m_stack.Push(a + b); break;
+            case vm::OPCODE::SUBTRACT: m_stack.Push(a - b); break;
+            case vm::OPCODE::MULTIPLY: m_stack.Push(a * b); break;
+            case vm::OPCODE::DIVIDE: m_stack.Push(a / b); break;
+            default:
+                break;
+        };
+    }
 
+    Result VirtualMachine::run() {
         #ifdef DARGON_VERSION_DEBUG
         m_stack.Print();
         m_nugget->Disassemble();
         #endif
         vm::byte instruction;
+        vm::OPCODE current_code;
         for(;;) {
-            instruction = READ_BYTE();
-            switch(static_cast<vm::OPCODE>(instruction)) {
+            instruction = read_byte();
+            current_code = static_cast<vm::OPCODE>(instruction);
+            switch(current_code) {
                 case vm::OPCODE::RETURN: {
                     DARGON_OUT << m_stack.Pop() << "\n";
                     return Result::OK;
                 }
                 case vm::OPCODE::CONSTANT: {
-                    vm::value constant = READ_CONSTANT();
+                    vm::value constant = read_constant();
                     m_stack.Push(constant);
                     break;
                 }
@@ -58,19 +64,19 @@ namespace vm {
                     m_stack.Push(-m_stack.Pop());
                     break;
                 }
-                case vm::OPCODE::ADD: BINARY_OP(+); break;
-                case vm::OPCODE::SUBTRACT: BINARY_OP(-); break;
-                case vm::OPCODE::MULTIPLY: BINARY_OP(*); break;
-                case vm::OPCODE::DIVIDE: BINARY_OP(/); break;
+                case vm::OPCODE::ADD:
+                case vm::OPCODE::SUBTRACT:
+                case vm::OPCODE::MULTIPLY:
+                case vm::OPCODE::DIVIDE: {
+                    binary_op(current_code);
+                    break;
+                }
                 default: {
                     return Result::INTERNAL_ERROR;
                 }
             }
         }
         return Result::INTERNAL_ERROR;
-        #undef READ_BYTE
-        #undef READ_CONSTANT
-        #undef BINARY_OP
     }
 
 }};

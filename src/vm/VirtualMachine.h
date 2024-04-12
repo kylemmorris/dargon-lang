@@ -45,6 +45,7 @@ namespace vm {
             }
             throw new Exception(dargon::ErrorCode::INTERNAL_ERROR, "Could not read constant.");
         }
+        void binary_op(const vm::OPCODE& code);
         Result run();
     public:
         VirtualMachine();

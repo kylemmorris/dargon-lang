@@ -87,9 +87,20 @@ void runBasicREPL(dargon::DIR& dir) {
 int main(int argc, char* argv[]) {
     using namespace dargon;
 
-    
+    vm::VirtualMachine dvm;
+    vm::Nugget nugget = vm::Nugget("Testing (1.2 + 2.5)");
+    int ind1 = nugget.AddConst(1.2);
+    int ind2 = nugget.AddConst(2.5);
+    nugget.Add(DARGON_OPCODE_BYTE(vm::OPCODE::CONSTANT));
+    nugget.Add(ind1);
+    nugget.Add(DARGON_OPCODE_BYTE(vm::OPCODE::CONSTANT));
+    nugget.Add(ind2);
+    nugget.Add(DARGON_OPCODE_BYTE(vm::OPCODE::ADD));
+    nugget.Add(DARGON_OPCODE_BYTE(vm::OPCODE::RETURN));
 
-    return;
+    dvm.Interpret(&nugget);
+
+    return 0;
 
     // This is the Dargon Interpreter (DIR)
     DIR dir;

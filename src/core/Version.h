@@ -19,8 +19,15 @@
 
 namespace dargon {
 
-    /// @brief The debug flag.
-    #define DARGON_VERSION_DEBUG
+    namespace flags {
+
+        /// @brief The debug flag.
+        #define DARGON_VERSION_DEBUG
+
+        /// @brief If true, will time the execution of DIR and print to output.
+        extern bool TimeExecution;
+
+    };
 
     /// @brief The version of Dargon.
     /// Follows this scheme:

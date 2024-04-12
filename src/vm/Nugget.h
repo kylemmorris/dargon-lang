@@ -32,6 +32,9 @@ namespace vm {
         DIVIDE      = 0x06,     ///< [0x06] END
 	};
 
+    /// @brief Shorthand for static casting an opcode to a byte.
+    #define DARGON_OPCODE_BYTE(code) static_cast<vm::byte>(code)
+
 	/// @brief A resizable chunk of bytecode, termed a 'nugget'.
 	/// @author Kyle Morris
 	/// @since v0.1
