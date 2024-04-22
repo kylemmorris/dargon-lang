@@ -1,0 +1,62 @@
+body {
+    background-color: snow;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.figure {
+    font-size: 80%;
+    font-style: italic;
+    padding-left: 15px;
+}
+
+.tab {
+    display: inline-block;
+    margin-left: 40px;
+}
+
+/* A dargon code block */
+.dargon {
+    font-family: monospace;
+    font-size: 95%;
+    word-wrap: break-word;
+    margin: 10, 10, 10, 10;
+    padding: 10px;
+    padding-left: 15px;
+    background-color: #292727;
+    color: whitesmoke;
+}
+
+/* Represents the color of a typical console */
+.console {
+    color: rgb(0, 241, 0);
+}
+
+/* Comment */
+.comment {
+    color: #20bb20;
+}
+.todo-comment {
+    color: #abbb20;
+}
+
+/* A dargon pre-defined function/variable/etc. */
+.predef {
+    color: lightslategray;
+}
+
+/* A dargon string literal */
+.string {
+    color: orchid;
+}
+
+/* A dargon numeric literal */
+.numeric {
+    color: rgb(255, 167, 5);
+}
+
+/* A dargon keyword */
+.kw {
+    color: teal;
+    font-weight: bold;
+}

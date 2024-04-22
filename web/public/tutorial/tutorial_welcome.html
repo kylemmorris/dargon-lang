@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Dargon Programming Language</title>
+    <link rel="stylesheet" href="../../style.css"/>
+</head>
+<body>
+    <h1>Dargon Tutorial (v0.1)</h1>
+
+    <div class="toc">
+        <h3>Contents</h3>
+        <!-- TODO: Link these to parts in the document -->
+        <ol>
+            <li>Audience</li>
+            <li>Environment</li>
+            <li>Hello Dargon!</li>
+            <li>Comments</li>
+            <li>Declarations</li>
+        </ol>
+    </div>
+
+    <div class="glossary">
+        <h3>Glossary</h3>
+        <ul>
+            <li>DIR: Dargon Interpreter</li>
+            <li>CLI: Command Line Interface</li>
+            <li>REPL: Read-Eval-Print-Loop</li>
+        </ul>
+    </div>
+
+    <div class="chapter">
+        <h2>Audience</h2>
+        <p>
+            This tutorial assumes no programming experience, and attempts
+            to explain advanced computer science concepts in simple terms. 
+            Some familiarity with programming certainly helps, but is not required.
+        </p>
+    </div>
+
+    <div class="chapter">
+        <h2>Environment</h2>
+        <p>
+            To start coding, all you need is the Dargon command-line interface (CLI) and
+            a text editor. The CLI is the all-in-one tool for programming in
+            Dargon (it's an interpreter, compiler, and library builder - neat!).
+            If you're not familiar with what a <i>command line</i>
+            is, see this <a href="https://www.freecodecamp.org/news/command-line-for-beginners/"> nifty guide.</a>
+        </p>
+        <p>
+            Running DIR in the command line (./dargon) without any inputs
+            will begin the Dargon Interpreter (DIR). Here, DIR will await your
+            input in what is more commonly referred to as
+            a "Read-Eval-Print-Loop" (REPL):
+        </p>
+        <p class="dargon console">
+            ~/home/demo$ ./dargon<br/>
+            Dargon version 0.1-DEBUG (Linux) - Apr 16 2024, 21:51:07<br/>
+            (C) Kyle Morris 2023-2024 | See LICENSE.txt for license information.<br/><br/>
+    
+            Welcome to the Dargon Interpreter (DIR)! For help, type 'help', to exit type 'quit'.<br/>
+            DIR>
+        </p>
+        <p>This is great for testing out things, or just messing around with the language.</p>
+    </div>
+    
+    <div class="chapter">
+        <h2>Hello Dargon!</h2>
+        <p>
+            Let's jump right in starting with an established tradition with
+            our own little twist. Start by creating a new text file called 
+            "Hello.dargon":
+            <div class="dargon">
+                <span class="predef">print</span>(<span class="string">"Hello Dargon!"</span>)
+            </div>
+            <footer class="figure">Hello.dargon</footer>
+        </p>
+        <p>
+            The Dargon Interpreter (DIR) comes with a set of pre-defined <b>functions</b>,
+            one of which is "print". This function takes a string and outputs 
+            it to the console. Let's use Dargon to execute this file:
+        </p>
+        <p class="dargon console">
+            ~/home/demo$ ./dargon Hello.dargon<br/>
+            Hello Dargon!<br/>
+            ~/home/demo$
+        </p>
+        <p>
+            Great! But this is not all that Dargon is capable of. 
+            Before we go too much further, let's go over Dargon's syntax more
+            thoroughly.
+        </p>
+    </div>
+
+    <div class="chapter">
+        <h2>Comments</h2>
+        <p>
+            A "comment" refers to a piece of code that is set to 
+            be intentionally ignored, which is useful for 
+            documenting your code for yourself and others. 
+            In Dargon, there are 3 kinds of comments. Lines that 
+            start with the pound ("#") character are <b>line comments</b>, 
+            in which the entire line is ignored. If a pair of parenthesis 
+            surround two pounds, it creates a <b>block comment</b> that can 
+            extend as many lines as you want, given the end is also marked.<br/>
+
+            The final type of comment is the <b>To-Do</b> comment. Like any other
+            comment, DIR ignores it. However, when prompted, DIR can analyze 
+            all todo comments and provide a report to the programmer listing 
+            all of the things that still need to be done. This is useful when
+            a To-Do list of your project is requested.
+            See below for some examples:
+        </p>
+        <p class="dargon">
+            <span class="comment"># This is a line comment, and thus ignored by DIR</span><br/>
+            Dargon code...<br/><br/>
+            <span class="comment">(#<br/>
+             This is a block comment and<br/>
+             extends multiple lines.<br/>
+             Wow!<br/>
+            #)<br/>
+            </span>
+            Dargon code...<br/><br/>
+            <span class="todo-comment">#! This is a todo comment, and will be reported by DIR!</span><br/>
+            Dargon code...<br/><br/>
+            <span class="todo-comment">(#!<br/>
+            Finally this is a todo block comment!<br/>
+            Notice how the matching end does not contain an excalamation mark.<br/>
+            #)<br/>
+        </p>
+    </div>
+
+    <div class="chapter">
+        <h2>Declarations</h2>
+        <p>
+            In programming languages, a <b>declaration</b> is a statement 
+            which declares a constant, variable, function, or some other 
+            programming construct. Dargon allows you to declare <b>variables</b>, 
+            meaning that it's value can change throughout the code, or 
+            <b>constants</b>, meaning that its value cannot change once initialized.
+            Create a new file named "Declare.dargon" and plug in the following 
+            lines:
+        </p>
+        <div class="dargon">
+            <span class="kw">fixed real</span> PI = <span class="numeric">3.1415926</span><br/>
+            <span class="kw">int</span> errorCode = <span class="numeric">0</span><br/>
+            <span class="kw">bool</span> flag <span class="comment"># Given the default value 'false'</span><br/>
+            print(<span class="string">"Pi up to 7 digits is equivalent to: {PI}"</span>)<br/>
+        </div>
+        <footer class="figure">Declare.dargon</footer>
+        <p>
+            This file so far declares two things: a constant (fixed)
+            <b>real</b> number named "PI", and a variable <b>integer</b> named
+            "errorCode". It also assigns each one a value. It then prints the 
+            contents of "PI" to the screen by <i>inserting</i> its value into the 
+            string via the curly brace syntax (described later). Run this via DIR:
+        </p>
+        <p class="dargon console">
+            ~/home/demo$ ./dargon Declare.dargon<br/>
+            Pi up to 7 digits is equivalent to: 3.1415926<br/>
+            ~/home/demo$
+        </p>
+        <p>
+            Dargon is <i>statically-typed</i>, meaning the <i>type</i>
+            of each variable must be given on declaration (Dargon does not
+            "guess" what the type is). In this case, the types are <b>real</b>
+            and <b>int</b> respectively.<br/>
+
+            When something is declared, 
+            if it is not given a value, it uses its <i>default</i> value. 
+            For integers and reals, this is 0 and 0.0 respectively, for booleans 
+            this is false, and for strings this is the empty string (""). 
+            Everything always has a value in Dargon - no nulls are allowed
+            (unless it's of a <b>nullable</b> type - more on that later).<br/>
+        </p>
+        <p>
+            <b>In Dargon, the rule of thumb is: if you, the programmer, 
+                cannot deduce the type of a declaration, then Dargon cannot 
+                and will not allow it.</b>
+        </p>
+        <p>
+            Dargon also allows multiple declarations per line. You can
+            get away with not declaring types <i>if</i> the same type
+            applies to each variable. See this example:
+        </p>
+        <div class="dargon">
+            <span class="comment"># Notice how each one is separated with a comma ','</span><br/>
+            <span class="kw">fixed int</span> one, two, three = <span class="numeric">1, 2, 3</span><br/>
+            <span class="kw">string</span> myName, <span class="kw">int</span> myAge = <span class="string">"Veronica"</span>, <span class="numeric">34</span>
+        </div>
+        <footer class="figure">Declare.dargon</footer>
+        <p>
+            You may have noticed that Dargon uses the newline character (enter key) as its
+            statement delimiter (like ';' in a <a href=https://www.geeksforgeeks.org/role-of-semicolon-in-various-programming-languages/">lot of programming languages</a>). If you
+            want a statement, such as a declaration, to extend multiple
+            lines, you must add the tilde "~" character at the end of your line
+            like so:
+        </p>
+        <div class="dargon">
+            <span class="kw">fixed int</span> one, two, three = <span class="kw">~</span><br/>
+            <span class="numeric tab">1,</span> <span class="kw">~</span><br/>
+            <span class="numeric tab">2,</span> <span class="kw">~</span><br/>
+            <span class="numeric tab">3</span><br/>
+        </div>
+        <footer class="figure">Declare.dargon</footer>
+    </div>
+</body>
+</html>
