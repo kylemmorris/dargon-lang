@@ -29,11 +29,6 @@ namespace dargon {
 	/// @since v0.1
 	class Path final {
 	private:
-        #if defined(_WIN32) || defined(_WIN64)
-        constexpr static char m_slash = '\\';
-        #else
-        constexpr static char m_slash = '/';
-        #endif
         std::string m_full, m_name, m_name_noext, m_ext;
         FileType m_type;
         void init();
@@ -46,6 +41,12 @@ namespace dargon {
         const std::string& GetFileName(bool extension = true) const;
         const std::string& GetFileExtension() const;
         const FileType& GetFileType() const;
+
+        #if defined(_WIN32) || defined(_WIN64)
+        constexpr static char Slash = '\\';
+        #else
+        constexpr static char Slash = '/';
+        #endif
 	};
 
 };

@@ -17,5 +17,11 @@ namespace dargon {
 
         bool TimeExecution = false;
 
+        bool GenerateTodoReport = false;
+
+        bool CompileOnlyNoExecute = false;
+
+        LogSeverity LogSetting = LogSeverity::NORMAL;
+
     }
 }

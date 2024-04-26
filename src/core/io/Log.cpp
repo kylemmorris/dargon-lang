@@ -18,7 +18,10 @@
 namespace dargon {
 namespace hidden {
 
-    void Log(const std::string& type, const std::string& msg, int lineNum, const char* fileName, bool includeLoc) noexcept {
+    void Log(const LogType& type, const std::string& msg, int lineNum, const char* fileName, bool includeLoc, bool isVerbose) noexcept {
+        if(flags::LogSetting == flags::LogSeverity::NONE) { return; }
+        if(isVerbose && flags::LogSetting != flags::LogSeverity::VERBOSE) { return; }
+        if(flags::LogSetting == flags::LogSeverity::ERROR_ONLY && type != LogType::ERROR) { return; }
         try {
             LogFileMutex.lock();
             static bool firstCall = true;
@@ -29,7 +32,15 @@ namespace hidden {
             else {
                 LogFile.open(LogFileName, std::ios::out | std::ios::app);
             }
-            LogFile << GetDateTimeString() << " " << type << ": " << msg;
+            LogFile << GetDateTimeString();
+            switch(type) {
+                case LogType::INFO: LogFile << "INFO"; break;
+                case LogType::WARN: LogFile << "WARN"; break;
+                case LogType::ERROR: LogFile << "ERROR"; break;
+                case LogType::DEBUG: LogFile << "DEBUG"; break;
+                default: break;
+            };
+            LogFile << ": " << msg;
             out(msg);
             if(includeLoc) {
                 std::string s(fileName);

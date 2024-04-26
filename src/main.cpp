@@ -11,7 +11,10 @@
  */
 
 #include <vector>
+#include <set>
+#include <unistd.h>
 #include <sstream>
+#include <cstring>
 #include "core/io/Log.h"
 #include "core/ast/ASTPrinter.h"
 #include "core/DIR.h"
@@ -31,12 +34,20 @@ void help() {
     using namespace dargon;
     // Starting up
     dispVer();
-    out("Usage:");
-    out("    dargon help    (-h)   - Displays this dialogue.");
-    out("    dargon version (-v)   - Version information.");
-    out("    dargon gui     (-g)   - Opens the Dargon GUI.");
-    out("    dargon test    (-t)   - Runs Dargon unit tests.");
-    out("    dargon <path>         - Runs a Dargon file (*.dargon or *.snoot) at the path provided.");
+    DARGON_OUT << "Usage: ." << Path::Slash << "dargon {FILE} {OPTIONS}\n\n"; 
+    out("FILE (optional):");
+    out("                    A Dargon source file to run (*.dargon).");
+    out("OPTIONS (optional):");
+    out("   -h:              Displays this dialogue.");
+    out("   -v:              Displays version and copyright information.");
+    out("   -t:              Tracks Dargon's execution time and prints out after completion.");
+    out("   -c:              Dargon will compile the input file but will not execute it.");
+    out("   -r:              Dargon will analyze the code for all \'To-Do\'-type comments and generate a report.");
+    out("   -s:              Creates a sample Dargon environment in the current, empty directory.");
+    out("   -g:              Opens the Dargon GUI (Dargui).");
+    out("   -n:              Runs the Dargon unit test suite and creates a report.");
+    out("   -x:              Clears the Dargon cache.");
+    out("   -l [option]:     Sets the log type. Options are: 'verbose', 'normal' (default), 'error-only', and 'none'.");
     out("");
     out("Running dargon without any arguments will begin the interpreter (DIR).");
     out("");
@@ -83,12 +94,12 @@ void runBasicREPL(dargon::DIR& dir) {
     }
 }
 
-/// @brief Entry point.
-int main(int argc, char* argv[]) {
+/// @brief Temporary function for testing VM-related stuff.
+/// @return Return code for program.
+int testVM() {
     using namespace dargon;
-
     vm::VirtualMachine dvm;
-    vm::Nugget nugget = vm::Nugget("Testing (1.2 + 2.5)");
+    vm::Nugget nugget = vm::Nugget("Testing \"1.2 + 2.5\"");
     int ind1 = nugget.AddConst(1.2);
     int ind2 = nugget.AddConst(2.5);
     nugget.Add(DARGON_OPCODE_BYTE(vm::OPCODE::CONSTANT));
@@ -101,6 +112,11 @@ int main(int argc, char* argv[]) {
     dvm.Interpret(&nugget);
 
     return 0;
+}
+
+/// @brief Entry point.
+int main(int argc, char* argv[]) {
+    using namespace dargon;
 
     // This is the Dargon Interpreter (DIR)
     DIR dir;
@@ -110,30 +126,56 @@ int main(int argc, char* argv[]) {
         runBasicREPL(dir);
         return 0;
     }
-    // Otherwise, collect inputs
-    std::vector<std::string> inputs;
-    for(int i = 1; i < argc; i++) {
-        inputs.push_back(std::string(argv[i]));
+
+    // Parse CLI using 'getopt'
+    int opt = 0;
+    const char* options = "hvtcrsgnxl:";
+    char* logType = NULL;
+    while((opt = getopt(argc, argv, options)) != -1) {
+        switch(opt) {
+            case 'h': help(); opt = -1; break;
+            case 'v': dispVer(); opt = -1; break;
+            case 't': flags::TimeExecution = true; break;
+            case 'c': flags::CompileOnlyNoExecute = true; break;
+            case 'r': flags::GenerateTodoReport = true; break;
+            case 'l': {
+                logType = optarg;
+                if(std::strcmp(logType, "verbose") == 0) {
+                    flags::LogSetting = flags::LogSeverity::VERBOSE;
+                }
+                else if(std::strcmp(logType, "normal") == 0)  {
+                    flags::LogSetting = flags::LogSeverity::NORMAL;
+                }
+                else if(std::strcmp(logType, "error-only") == 0) {
+                    flags::LogSetting = flags::LogSeverity::ERROR_ONLY;
+                }
+                else if(std::strcmp(logType, "none") == 0)  {
+                    flags::LogSetting = flags::LogSeverity::NONE;
+                }
+                else {
+                    DARGON_OUT << "Invalid log type: " << logType << "\n";
+                    exit(EXIT_FAILURE);
+                }
+                break;
+            }
+            case 's': out("'-s' not implemented yet..."); break; // setup
+            case 'g': out("'-g' not implemented yet..."); break; // gui
+            case 'n': out("'-n' not implemented yet..."); break; // test
+            case 'x': out("'-x' not implemented yet..."); break; // clean
+            default: abort();
+        }
     }
 
-    if(inputs[0] == "help" || inputs[0] == "-h") {
-        help();
-    }
-    else if(inputs[0] == "version" || inputs[0] == "-v") {
-        out(VersionString());
-        out(Copyright);
-    }
-    else if(inputs[0] == "gui" || inputs[0] == "-g") {
-        out("Not implemented yet...");
-    }
-    else if(inputs[0] == "test" || inputs[0] == "-t") {
-        out("Not implemented yet...");
-    }
-    else {
-        // It's a file path
-        Path p = Path(inputs[0]);
+    // Multiple files...?
+    /* for(int i = optind; i < argc; i++) {
+        out(argv[i]);
+    } */
+
+    if(optind < argc) {
+        Path p = Path(argv[optind]);
         dispVer();
         dir.Run(p);
     }
-    return 0;
+
+    return EXIT_SUCCESS;
 }

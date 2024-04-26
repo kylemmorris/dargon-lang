@@ -36,10 +36,10 @@ namespace dargon {
     void Path::init() {
         std::string s = m_full;
         if(!s.empty()) {
-            size_t slash_loc = s.find(m_slash);
+            size_t slash_loc = s.find(Slash);
             while(slash_loc != std::string::npos) {
                 s.erase(s.begin(), s.begin() + slash_loc + 1);
-                slash_loc = s.find(m_slash);
+                slash_loc = s.find(Slash);
             }
             m_name = s;
             // TODO: Only looks for first extension

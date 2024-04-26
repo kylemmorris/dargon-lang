@@ -24,8 +24,24 @@ namespace dargon {
         /// @brief The debug flag.
         #define DARGON_VERSION_DEBUG
 
-        /// @brief If true, will time the execution of DIR and print to output.
+        /// @brief If true, will time the execution of DIR and print to output (default = false).
         extern bool TimeExecution;
+
+        /// @brief If true, DIR will generate a report of all To-Do-style comments (default = false).
+        extern bool GenerateTodoReport;
+
+        /// @brief If true, DIR will compile the source code, but will not execute it (default = false).
+        extern bool CompileOnlyNoExecute;
+
+        enum class LogSeverity {
+            NORMAL,
+            VERBOSE,
+            ERROR_ONLY,
+            NONE
+        };
+
+        /// @brief Specifies when Dargon can log (default = LogSeverity::NORMAL).
+        extern LogSeverity LogSetting;
 
     };
 
@@ -35,20 +51,6 @@ namespace dargon {
     /// version X.Yb = beta
     /// version X.Y-DEBUG = Debug version
     constexpr const char* VersionNum = "version 0.1";
-
-    /// @brief The ASCII-art banner displayed in the CLI.
-    /// Credits:
-    ///   Site: http://patorjk.com/software/taag/#p=author&f=Banner3-D&t=Dargon
-    ///   Font: banner3-D by Merlin Greywolf merlin@brahms.udel.edu August 9, 1994
-    constexpr const char* Banner =
-        " ########:::::'###::::'########:::'######::::'#######::'##::: ##:\n"
-        " ##.... ##:::'## ##::: ##.... ##:'##... ##::'##.... ##: ###:: ##:\n"
-        " ##:::: ##::'##:. ##:: ##:::: ##: ##:::..::: ##:::: ##: ####: ##:\n"
-        " ##:::: ##:'##:::. ##: ########:: ##::'####: ##:::: ##: ## ## ##:\n"
-        " ##:::: ##: #########: ##.. ##::: ##::: ##:: ##:::: ##: ##. ####:\n"
-        " ##:::: ##: ##.... ##: ##::. ##:: ##::: ##:: ##:::: ##: ##:. ###:\n"
-        " ########:: ##:::: ##: ##:::. ##:. ######:::. #######:: ##::. ##:\n"
-        "........:::..:::::..::..:::::..:::......:::::.......:::..::::..::\n";
 
     /// @brief Copyright information.
     constexpr const char* Copyright = "(C) Kyle Morris 2023-2024 | See LICENSE.txt for license information.";
@@ -75,8 +77,7 @@ namespace dargon {
     /// @brief Returns the version in a more complete string form.
     inline std::string VersionString() {
         std::ostringstream os;
-        //os << "Dargon Interpreter " << VersionNum;
-        os << Banner << VersionNum;
+        os << "Dargon " << VersionNum;
         #ifdef DARGON_VERSION_DEBUG
         os << "-DEBUG ";
         #endif
