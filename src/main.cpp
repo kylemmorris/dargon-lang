@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <sstream>
 #include <cstring>
+#include <chrono>
 #include "core/io/Log.h"
 #include "core/ast/ASTPrinter.h"
 #include "core/DIR.h"
@@ -118,13 +119,17 @@ int testVM() {
 int main(int argc, char* argv[]) {
     using namespace dargon;
 
+    DARGON_LOG_INFO("This is a number: %d", 192);
+
+    return 0;
+
     // This is the Dargon Interpreter (DIR)
     DIR dir;
 
     // If no inputs were provided, begin REPL
     if(argc == 1) {
         runBasicREPL(dir);
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     // Parse CLI using 'getopt'
@@ -171,11 +176,35 @@ int main(int argc, char* argv[]) {
         out(argv[i]);
     } */
 
+    /*
+    Use FILE*, stderr, and fprintf() combination for this:
+
+    DARGON_LOG_INFO("Total Execution Time: %d s", 10.0);
+    (this prints to dargon.log and ALSO to the output):
+    Total Execution Time: 10 s
+    (log)
+    time [INFO]: Total Execution Time: 10 s
+
+    */
+
+    std::chrono::_V2::steady_clock::time_point start;
+    if(flags::TimeExecution) {
+        start = std::chrono::steady_clock::now();
+    }
+
+    // Run the inputted file
     if(optind < argc) {
         Path p = Path(argv[optind]);
         dispVer();
         dir.Run(p);
     }
+
+    if(flags::TimeExecution) {
+        auto end = std::chrono::steady_clock::now();
+        auto diff = end - start;
+    }
+
+    //fprintf(stderr, "Test");
 
     return EXIT_SUCCESS;
 }

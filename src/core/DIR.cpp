@@ -20,12 +20,12 @@ namespace dargon {
 
     void DIR::Run(Path& filePath) {
         if(!File::Exists(filePath)) {
-            DARGON_LOG_ERROR("File not found: " + filePath.GetFull());
+            DARGON_LOG_ERROR("File not found: %s", filePath.GetFull().c_str());
             return;
         }
         // The following will depend on file
         if(!_file.OpenAbsolute(filePath)) {
-            DARGON_LOG_ERROR("Could not open file: " + filePath.GetFull());
+            DARGON_LOG_ERROR("Could not open file: %s", filePath.GetFull().c_str());
             return;
         }
         switch(filePath.GetFileType()) {
@@ -36,7 +36,7 @@ namespace dargon {
                 DARGON_LOG_ERROR("Not currently implemented!");
                 break;
             default:
-                DARGON_LOG_ERROR("Unsupported file type: " + filePath.GetFileName());
+                DARGON_LOG_ERROR("Unsupported file type: %s", filePath.GetFileName().c_str());
                 break;
         };
     }
@@ -54,7 +54,7 @@ namespace dargon {
             os << _file.ShowExactPosition() << std::endl;
         }
         //out(os.str());
-        DARGON_LOG_ERROR(os.str());
+        DARGON_LOG_ERROR(os.str().c_str());
     }
 
     void DIR::_run() {
@@ -78,7 +78,7 @@ namespace dargon {
         try {
             ASTPrinter printer;
             Expr* output = _parse.Parse();
-            DARGON_LOG_DEBUG(printer.Print(output));
+            DARGON_LOG_DEBUG(printer.Print(output).c_str());
             delete output;
         }
         catch(ParsingException* e) {

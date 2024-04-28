@@ -87,7 +87,7 @@ namespace dargon {
         // Sanity check
         if(!_pos.Valid()) {
             std::string s = "File::ShowExactPosition() - File's current position was invalid.";
-            DARGON_LOG_ERROR(s);
+            DARGON_LOG_ERROR(s.c_str());
             return s;
         }
         // If EOF, just return nothing
@@ -112,7 +112,7 @@ namespace dargon {
         }
         catch(std::out_of_range& e) {
             std::string s = "File::ShowExactPosition() - File's current position was out of the range of the file: " + _pos.ToString();
-            DARGON_LOG_ERROR(s);
+            DARGON_LOG_ERROR(s.c_str());
             return s;
         }
         //std::string pos = _contents[_pos.line]; // Do this to not display newline in output

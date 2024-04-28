@@ -60,6 +60,51 @@ namespace hidden {
         }
     }
 
-}
+    void LogFormat(const LogType& type, int lineNum, const char* fileName, bool includeLoc, bool isVerbose, const char* fmt, ...) noexcept {
+        if(flags::LogSetting == flags::LogSeverity::NONE) { return; }
+        if(isVerbose && flags::LogSetting != flags::LogSeverity::VERBOSE) { return; }
+        if(flags::LogSetting == flags::LogSeverity::ERROR_ONLY && type != LogType::ERROR) { return; }
+        try {
+            LogFileMutex.lock();
+            if(firstCall) {
+                LogFilef = fopen(LogFileName, "w");
+                firstCall = false;
+            }
+            else {
+                LogFilef = fopen(LogFileName, "a");
+            }
+            fprintf(LogFilef, "%s ", GetDateTimeString().c_str());
+            switch(type) {
+                case LogType::INFO: fprintf(LogFilef, "[%s]: ", "INFO"); break;
+                case LogType::WARN: fprintf(LogFilef, "[%s]: ", "WARN"); break;
+                case LogType::ERROR: fprintf(LogFilef, "[%s]: ", "ERROR"); break;
+                case LogType::DEBUG: fprintf(LogFilef, "[%s]: ", "DEBUG"); break;
+                default: break;
+            }
+            va_list args;
+            va_start(args, fmt);
+            vfprintf(LogFilef, fmt, args);
+            va_start(args, fmt);
+            vfprintf(DARGON_OUTF, fmt, args); // Print same message to console
+            fprintf(DARGON_OUTF, "\n");
+            if(includeLoc) {
+                std::string s(fileName);
+                fprintf(LogFilef, " (at %s line %d)", s.substr(s.find_last_of("/\\") + 1).c_str(), lineNum);
+            }
+            fprintf(LogFilef, "\n");
+            fclose(LogFilef);
+            va_end(args);
+            LogFileMutex.unlock();
+        }
+        catch(const std::exception& e) {
+            // Should never get thrown!
+            std::string s = "UNEXPECTED ERROR OCCURED: ";
+            s += e.what();
+            out(s);
+            fclose(LogFilef);
+            LogFileMutex.unlock();
+        }
+    }
 
+}
 };

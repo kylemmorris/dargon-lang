@@ -25,6 +25,8 @@ namespace dargon {
     /// @brief The output stream used.
     #define DARGON_OUT std::cerr
 
+    #define DARGON_OUTF stderr
+
     /// @brief Prints to the standard output.
     inline void out(const char* msg, bool include_endl = true) noexcept {
         if(include_endl) {
@@ -33,7 +35,6 @@ namespace dargon {
         else {
             DARGON_OUT << msg;
         }
-
         //InfoLog(msg);
     }
 
