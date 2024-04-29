@@ -18,7 +18,7 @@
 namespace dargon {
 namespace hidden {
 
-    void Log(const LogType& type, const std::string& msg, int lineNum, const char* fileName, bool includeLoc, bool isVerbose) noexcept {
+    /* void Log(const LogType& type, const std::string& msg, int lineNum, const char* fileName, bool includeLoc, bool isVerbose) noexcept {
         if(flags::LogSetting == flags::LogSeverity::NONE) { return; }
         if(isVerbose && flags::LogSetting != flags::LogSeverity::VERBOSE) { return; }
         if(flags::LogSetting == flags::LogSeverity::ERROR_ONLY && type != LogType::ERROR) { return; }
@@ -58,7 +58,7 @@ namespace hidden {
             LogFile.close();
             LogFileMutex.unlock();
         }
-    }
+    } */
 
     void LogFormat(const LogType& type, int lineNum, const char* fileName, bool includeLoc, bool isVerbose, const char* fmt, ...) noexcept {
         if(flags::LogSetting == flags::LogSeverity::NONE) { return; }
@@ -98,9 +98,7 @@ namespace hidden {
         }
         catch(const std::exception& e) {
             // Should never get thrown!
-            std::string s = "UNEXPECTED ERROR OCCURED: ";
-            s += e.what();
-            out(s);
+            out(true, "UNEXPECTED ERROR OCCURED: %s", e.what());
             fclose(LogFilef);
             LogFileMutex.unlock();
         }

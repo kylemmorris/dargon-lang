@@ -1,6 +1,8 @@
-# The Dargon Programming Language - v0.1
+# The Dargon Programming Language
 
-![](res/img/cli.png)
+![](res/img/dargon_cli.png)
+
+![](res/img/dard_the_dragon.png)
 
 Dargon is a small passion project and toy language with a focus on being:
 
@@ -22,7 +24,13 @@ The full Dargon experience aims to deliver the following:
 
 ## Where to Start
 
-**Dargon is not ready for any form of distribution or usage. It's still large work-in-progress.** There is some initial documentation, including a tutorial on how I think Dargon should perform (almost like a requirements document), and grammar definition. These can be found in the [doc](doc) directory of this repository. Some [example](examples) programs are also available for preview. 
+**Dargon is not ready for any form of distribution or usage. It's still large work-in-progress.** 
+
+You can view the current documentation, including an in-progress tutorial, being hosted [on the official homepage](https://kylemmorris.github.io/dargon-lang-homepage).
+
+There is some initial documentation, including a tutorial on how I think Dargon should perform (almost like a requirements document), and grammar definition. These can be found in the [doc](doc) directory of this repository. Some [example](examples) programs are also available for preview. 
+
+## Building from Source
 
 Dargon is currently using the CMake build system:
 
@@ -40,8 +48,6 @@ repo/build$ cmake --build .
 
 - [examples](examples): Some example Dargon files which will be used as the basis for end-to-end testing. It also includes the files from the [tutorial](examples/tutorial).
 
-- [proj](proj): This contains the Code::Blocks project I am using.
-
 - [src](src): The source code, split up into different sections. It has its own [readme](src/README.md).
 
 ## Basic Code Example
@@ -49,11 +55,3 @@ repo/build$ cmake --build .
 ![](res/img/main_example.png)
 
 *Opened with xed, using custom sytax highlighting (see [here](res/text_highlighting))*
-
-## Technology Used
-
-- CMake (verison 3.22.1)
-- g++ (using C++17)
-- Code::Blocks IDE (version 20.03)
-- doxygen (for auto-documentation)
-- MarkText (for documentation)

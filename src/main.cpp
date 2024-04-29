@@ -25,9 +25,10 @@
 /// @brief Displays version information (and logs).
 void dispVer() {
     using namespace dargon;
-    out(VersionString());
-    out(Copyright);
-    out("");
+    std::string v = VersionString();
+    out(true, v.c_str());
+    out(true, Copyright);
+    out(true, "");
 }
 
 /// @brief Displays the help dialogue.
@@ -36,22 +37,22 @@ void help() {
     // Starting up
     dispVer();
     DARGON_OUT << "Usage: ." << Path::Slash << "dargon {FILE} {OPTIONS}\n\n"; 
-    out("FILE (optional):");
-    out("                    A Dargon source file to run (*.dargon).");
-    out("OPTIONS (optional):");
-    out("   -h:              Displays this dialogue.");
-    out("   -v:              Displays version and copyright information.");
-    out("   -t:              Tracks Dargon's execution time and prints out after completion.");
-    out("   -c:              Dargon will compile the input file but will not execute it.");
-    out("   -r:              Dargon will analyze the code for all \'To-Do\'-type comments and generate a report.");
-    out("   -s:              Creates a sample Dargon environment in the current, empty directory.");
-    out("   -g:              Opens the Dargon GUI (Dargui).");
-    out("   -n:              Runs the Dargon unit test suite and creates a report.");
-    out("   -x:              Clears the Dargon cache.");
-    out("   -l [option]:     Sets the log type. Options are: 'verbose', 'normal' (default), 'error-only', and 'none'.");
-    out("");
-    out("Running dargon without any arguments will begin the interpreter (DIR).");
-    out("");
+    out(true, "FILE (optional):");
+    out(true, "                    A Dargon source file to run (*.dargon).");
+    out(true, "OPTIONS (optional):");
+    out(true, "   -h:              Displays this dialogue.");
+    out(true, "   -v:              Displays version and copyright information.");
+    out(true, "   -t:              Tracks Dargon's execution time and prints out after completion.");
+    out(true, "   -c:              Dargon will compile the input file but will not execute it.");
+    out(true, "   -r:              Dargon will analyze the code for all \'To-Do\'-type comments and generate a report.");
+    out(true, "   -s:              Creates a sample Dargon environment in the current, empty directory.");
+    out(true, "   -g:              Opens the Dargon GUI (Dargui).");
+    out(true, "   -n:              Runs the Dargon unit test suite and creates a report.");
+    out(true, "   -x:              Clears the Dargon cache.");
+    out(true, "   -l [option]:     Sets the log type. Options are: 'verbose', 'normal' (default), 'error-only', and 'none'.");
+    out(true, "");
+    out(true, "Running dargon without any arguments will begin the interpreter (DIR).");
+    out(true, "");
 }
 
 /// @brief A basic REPL implementation.
@@ -60,8 +61,8 @@ void runBasicREPL(dargon::DIR& dir) {
 
     // Starting up
     dispVer();
-    out("Welcome to the Dargon Interpreter (DIR)! For help, type 'help', to exit type 'quit'.");
-    out("");
+    out(true, "Welcome to the Dargon Interpreter (DIR)! For help, type 'help', to exit type 'quit'.");
+    out(true, "");
     std::string line = "";
     std::ostringstream os;
     while(true) {
@@ -69,17 +70,17 @@ void runBasicREPL(dargon::DIR& dir) {
         if(line == "quit") { break; }
         if(line == "memory") { continue; }
         if(line == "help") {
-            out("");
-            out("**********");
-            out("This is the Dargon Interpreter (DIR).");
-            out("Type any Dargon code to have it be interpreted.");
-            out("");
-            out("The following is a list of commands:");
-            out("quit          - Exits the interpreter.");
-            out("help          - Displays this dialogue.");
-            out("memory        - Displays the items currently in memory.");
-            out("**********");
-            out("");
+            out(true, "");
+            out(true, "**********");
+            out(true, "This is the Dargon Interpreter (DIR).");
+            out(true, "Type any Dargon code to have it be interpreted.");
+            out(true, "");
+            out(true, "The following is a list of commands:");
+            out(true, "quit          - Exits the interpreter.");
+            out(true, "help          - Displays this dialogue.");
+            out(true, "memory        - Displays the items currently in memory.");
+            out(true, "**********");
+            out(true, "");
             continue;
         }
         // Edge-case: If the user only inputted whitespace and newline, don't continue
@@ -118,10 +119,6 @@ int testVM() {
 /// @brief Entry point.
 int main(int argc, char* argv[]) {
     using namespace dargon;
-
-    DARGON_LOG_INFO("This is a number: %d", 192);
-
-    return 0;
 
     // This is the Dargon Interpreter (DIR)
     DIR dir;
@@ -163,10 +160,10 @@ int main(int argc, char* argv[]) {
                 }
                 break;
             }
-            case 's': out("'-s' not implemented yet..."); break; // setup
-            case 'g': out("'-g' not implemented yet..."); break; // gui
-            case 'n': out("'-n' not implemented yet..."); break; // test
-            case 'x': out("'-x' not implemented yet..."); break; // clean
+            case 's': out(true, "'-s' not implemented yet..."); break; // setup
+            case 'g': out(true, "'-g' not implemented yet..."); break; // gui
+            case 'n': out(true, "'-n' not implemented yet..."); break; // test
+            case 'x': out(true, "'-x' not implemented yet..."); break; // clean
             default: abort();
         }
     }

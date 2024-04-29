@@ -42,7 +42,7 @@ namespace hidden {
     };
 
     /// @brief Underlying log function. Use macros instead.
-    void Log(const LogType& type, const std::string& msg, int lineNum = 0, const char* fileName = "", bool includeLoc = false, bool isVerbose = false) noexcept;
+    //void Log(const LogType& type, const std::string& msg, int lineNum = 0, const char* fileName = "", bool includeLoc = false, bool isVerbose = false) noexcept;
 
     /// @brief Underlying, formattable log function. Use macros instead.
     void LogFormat(const LogType& type, int lineNum, const char* fileName, bool includeLoc , bool isVerbose, const char* fmt, ...) noexcept;

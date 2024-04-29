@@ -62,7 +62,7 @@ namespace vm {
             os << "\n";
         }
         os << "== END ==\n";
-        dargon::out(os.str());
+        dargon::out(true, os.str().c_str());
     }
 
 }};
