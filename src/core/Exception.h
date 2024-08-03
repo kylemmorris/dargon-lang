@@ -22,7 +22,8 @@ namespace dargon {
     /// @brief The error codes used throughout the program.
 	/// @author Kyle Morris
 	/// @since v0.1
-    enum class ErrorCode : int32_t {
+    //enum class ErrorCode : int32_t {
+    enum class ErrorCode {
         NO_ERROR = 0x0,
         INTERNAL_ERROR = 0xD00,
         INVALID_TOKEN = 0xD01,

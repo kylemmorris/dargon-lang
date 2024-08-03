@@ -16,42 +16,20 @@
 #include <sstream>
 #include <cstring>
 #include <chrono>
+
 #include "core/io/Log.h"
 #include "core/ast/ASTPrinter.h"
 #include "core/DIR.h"
 #include "vm/Nugget.h"
 #include "vm/VirtualMachine.h"
+#include "../lib/CLI11/CLI11.hpp"
 
 /// @brief Displays version information (and logs).
-void dispVer() {
+void dispVer(int i=0) {
     using namespace dargon;
     std::string v = VersionString();
     out(true, v.c_str());
     out(true, Copyright);
-    out(true, "");
-}
-
-/// @brief Displays the help dialogue.
-void help() {
-    using namespace dargon;
-    // Starting up
-    dispVer();
-    DARGON_OUT << "Usage: ." << Path::Slash << "dargon {FILE} {OPTIONS}\n\n"; 
-    out(true, "FILE (optional):");
-    out(true, "                    A Dargon source file to run (*.dargon).");
-    out(true, "OPTIONS (optional):");
-    out(true, "   -h:              Displays this dialogue.");
-    out(true, "   -v:              Displays version and copyright information.");
-    out(true, "   -t:              Tracks Dargon's execution time and prints out after completion.");
-    out(true, "   -c:              Dargon will compile the input file but will not execute it.");
-    out(true, "   -r:              Dargon will analyze the code for all \'To-Do\'-type comments and generate a report.");
-    out(true, "   -s:              Creates a sample Dargon environment in the current, empty directory.");
-    out(true, "   -g:              Opens the Dargon GUI (Dargui).");
-    out(true, "   -n:              Runs the Dargon unit test suite and creates a report.");
-    out(true, "   -x:              Clears the Dargon cache.");
-    out(true, "   -l [option]:     Sets the log type. Options are: 'verbose', 'normal' (default), 'error-only', and 'none'.");
-    out(true, "");
-    out(true, "Running dargon without any arguments will begin the interpreter (DIR).");
     out(true, "");
 }
 
@@ -118,78 +96,57 @@ int testVM() {
 
 /// @brief Entry point.
 int main(int argc, char* argv[]) {
-    using namespace dargon;
+	
+    CLI::App dargonCLI { 
+        dargon::VersionString() + "\n" + dargon::Copyright + "\n"
+    };
+    argv = dargonCLI.ensure_utf8(argv);
+    dargonCLI.footer("Running dargon without any arguments will begin the interpreter (DIR).\n");
+    dargonCLI.failure_message(CLI::FailureMessage::help);
 
-    // This is the Dargon Interpreter (DIR)
-    DIR dir;
+    //dargonCLI.add_subcommand("init", "Initializes this directory with a simple Dargon environment.");
 
-    // Parse CLI using 'getopt'
-    int opt = 0;
-    const char* options = "hvtcrsgnxl:";
-    char* logType = NULL;
-    while((opt = getopt(argc, argv, options)) != -1) {
-        switch(opt) {
-            case 'h': help(); opt = -1; return EXIT_SUCCESS;
-            case 'v': dispVer(); opt = -1; return EXIT_SUCCESS;
-            case 't': flags::TimeExecution = true; break;
-            case 'c': flags::CompileOnlyNoExecute = true; break;
-            case 'r': flags::GenerateTodoReport = true; break;
-            case 'l': {
-                logType = optarg;
-                if(std::strcmp(logType, "verbose") == 0) {
-                    flags::LogSetting = flags::LogSeverity::VERBOSE;
-                }
-                else if(std::strcmp(logType, "normal") == 0)  {
-                    flags::LogSetting = flags::LogSeverity::NORMAL;
-                }
-                else if(std::strcmp(logType, "error-only") == 0) {
-                    flags::LogSetting = flags::LogSeverity::ERROR_ONLY;
-                }
-                else if(std::strcmp(logType, "none") == 0)  {
-                    flags::LogSetting = flags::LogSeverity::NONE;
-                }
-                else {
-                    DARGON_OUT << "Invalid log type: " << logType << "\n";
-                    exit(EXIT_FAILURE);
-                }
-                break;
-            }
-            case 's': out(true, "'-s' not implemented yet..."); break; // setup
-            case 'g': out(true, "'-g' not implemented yet..."); break; // gui
-            case 'n': out(true, "'-n' not implemented yet..."); break; // test
-            case 'x': out(true, "'-x' not implemented yet..."); break; // clean
-            default: abort();
-        }
-    }
+    dargonCLI.add_flag_function("-v,--version", dispVer, "Display version info.");
+    dargonCLI.add_flag("-t,--time", dargon::flags::TimeExecution, "Tracks Dargon's execution time and prints out after completion.");
+    dargonCLI.add_flag("--todo", dargon::flags::GenerateTodoReport, "Dargon will analyze the code for all \'To-Do\'-type comments and generate a report.");
+    dargonCLI.add_option("-l,--log", dargon::flags::LogSetting, "Sets the log type. Options are: 0 (normal, default), 1 (verbose), 2 (error only), and 3 (none).");
+    dargonCLI.add_option("-c,--comp-only", dargon::flags::CompileOnlyNoExecute, "Dargon will compile the input file(s) but will not execute it.");
 
-    // Multiple files...?
-    /* for(int i = optind; i < argc; i++) {
-        out(argv[i]);
-    } */
+    std::vector<std::string> files;
+    dargonCLI.add_option("files", files, "Files to be ingested by Dargon.");
+
+    CLI11_PARSE(dargonCLI, argc, argv); 
 
     // Timing
     std::chrono::_V2::steady_clock::time_point start;
-    if(flags::TimeExecution) {
+    if(dargon::flags::TimeExecution) {
         start = std::chrono::steady_clock::now();
     }
 
-    // Run the inputted file
-    if(optind < argc) {
-        Path p = Path(argv[optind]);
+    // Here it is - the interpreter
+    dargon::DIR dir;
+
+    if(files.size() > 0) {
         dispVer();
-        dir.Run(p);
+        std::vector<dargon::Path> paths;
+        for(std::string s : files) {
+            //dargon::out(true, "File: %s", s.c_str())
+            paths.push_back(dargon::Path(s));
+            //dir.Run()
+        }
     }
     else {
         runBasicREPL(dir);
     }
 
     // Timing
-    if(flags::TimeExecution) {
+    if(dargon::flags::TimeExecution) {
         auto end = std::chrono::steady_clock::now();
         std::chrono::nanoseconds diff = end - start;
         std::chrono::milliseconds diffMs = std::chrono::duration_cast<std::chrono::milliseconds>(diff);
-        DARGON_LOG_INFO("Took %dms", diffMs.count());
-        //out(true, "Took %dms", diffMs.count());
+        std::chrono::seconds diffS = std::chrono::duration_cast<std::chrono::seconds>(diff);
+        DARGON_LOG_INFO("Took %ds (%dms)", diffS.count(), diffMs.count());
+        //dargon::out(true, "Took %dms", diffMs.count());
     }
 
     return EXIT_SUCCESS;

@@ -1,0 +1,30 @@
+(#
+	File: GuessingGame.dargon
+	Simple guessing game.
+	Created by Kyle Morris.
+#)
+
+use random;
+
+print("Guess a number between 1 and 100! (Enter 'q' to quit)");
+
+int.. range = 1 .. 100;
+int secret = random(range);
+var string guess = "";
+var uint? num;
+
+loop {
+	guess = input("Guess: ");
+	if(guess == "q") { 
+		print("Goodbye!"); 
+		stop; 
+	}
+	print(
+		when((num = guess to uint)? and num in range) {
+			is < secret: "Higher!";
+			is > secret: "Lower!";
+			is == secret: "Bingo!";
+			else: "Please enter a positive integer between 1 and 100"
+		}
+	);
+}
