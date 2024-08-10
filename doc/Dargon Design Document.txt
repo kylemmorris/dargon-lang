@@ -1,0 +1,106 @@
+Dargon Design Document
+
+Desired features:
+- Variables
+- Functions (first class)
+- User-defined types and patterns
+- Auto-initialization to zero
+- Strongly-typed
+- Very little keywords:
+	- is
+	- none
+	- var
+	- fun
+	- new
+	- type
+	- then
+	- when
+	- else
+- Some common ground between error-as-value and exceptions
+- Simplistic module system
+
+---------------------------------------------------------------------
+----------------------------Syntax-----------------------------------
+---------------------------------------------------------------------
+
+Declaration:
+	<name>
+	<name> = <type>
+	<name> = <type> <value>
+	<name> = var <type>
+	<name> = var <type> <value>
+
+---------------------------------------------------------------------
+---------------------------Examples----------------------------------
+---------------------------------------------------------------------
+# ----- HelloWorld.dargon
+say "Hello World!"
+
+# ----- Variables.dargon
+a = var int 12
+b
+c = string "Dargon"
+
+say is b none 	# TRUE
+say is a 13 	# FALSE
+say is c var 	# FALSE
+
+# c = "Dragon" <- ERROR! Not a variable!
+# a = false	   <- ERROR! Can't change types!
+b = false 	  #<- OK, doesn't have a type yet
+
+# ----- Functions.dargon
+
+fib = fun(i int -> int) {
+	when i {
+		is < 2 	-> x
+		else 	-> fib(x-1) + fib(x-2)
+	}
+}
+
+a = fib(10)  # inferred type
+say a 		 # 55
+
+foreach = fun(f fun(int->int), arr var Array(int)) {
+	loop a : arr {
+		a = f a
+	}
+}
+
+myArr = var Array(int) { 0,1,2,3,4,5 }
+say myArr # 0,1,2,3,4,5
+
+foreach(fun(i int->int) { -> i*2 }, myArr)
+say myArr # 0,2,4,6,8,10
+
+# ----- UserTypes.dargon
+
+Header = new type {
+	version = var int 12
+	msgSize = var int 0
+	action  = var Action none
+}
+
+a = Header
+say a # Header{version=12, msgSize=0, action=none}
+
+a = Header {
+	version = 1
+	msgSize = 1024
+	action = Action { (# ... #) }
+}
+say a # Header{version=1, msgSize=1024, action=Action{...}}
+
+# anonymous type
+b = type {
+	foo = string "ZZZ"
+	bar = bool TRUE
+}
+say b # ANON{foo="ZZZ", bar=TRUE}
+
+# Here functions are attached to types
+Person = new type {
+	name =
+}
+
+# ----- Patterns.dargon
