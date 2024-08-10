@@ -1,6 +1,6 @@
 # The Dargon Programming Language
 
-![](res/img/cli_windows.png)
+![](res/img/cli_windows.PNG)
 
 ![](res/img/dard_the_dragon.png)
 
@@ -35,4 +35,4 @@ repo/build$ cmake --build .
 
 ## Basic Code Example
 
-![](res/img/main_example_2.png)
+![](res/img/main_example_2.PNG)
