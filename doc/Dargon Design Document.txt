@@ -16,6 +16,8 @@ Desired features:
 	- then
 	- when
 	- else
+	- possible
+	- pattern
 - Some common ground between error-as-value and exceptions
 - Simplistic module system
 
@@ -100,7 +102,30 @@ say b # ANON{foo="ZZZ", bar=TRUE}
 
 # Here functions are attached to types
 Person = new type {
-	name =
+	name = ""
+	introduce = fun (void->string) { -> "Hi my name is {name}" }
 }
 
+josh = Person { name="Josh" }
+say josh.introduce
+
+# Sometimes a more complex constructor is desired
+NetworkAddress = new type(ip string, port int) {
+	stringRep = string "{ip}:{port}"
+}
+
+localHost = NetworkAddress("127.0.0.1", 2013)
+say localHost.stringRep # 127.0.0.1:2013
+
 # ----- Patterns.dargon
+# Patterns allow for polymorphism
+
+Machine = new pattern {
+	TurnOn = fun(->success bool)
+	TurnOff = fun(->success bool)
+	Run = fun(->status string)
+}
+
+LightBulb = new Machine {
+	# ...
+}
