@@ -1,7 +1,7 @@
 {
     "files.associations": {
-        "fstream": "cpp"
-    },
-    // TODO: Put generator for linux here
-    "cmake.preferredGenerators": ["MinGW Makefiles"]
+        "time.h": "c",
+        "log.h": "c",
+        "stdio.h": "c"
+    }
 }

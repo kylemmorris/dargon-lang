@@ -1,0 +1,212 @@
+{
+  "main": {
+    "id": "43641b35a6c02aee",
+    "type": "split",
+    "children": [
+      {
+        "id": "f87419e4b10fb4da",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f783f9d460388865",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "README"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "dcb57dc722870e08",
+    "type": "split",
+    "children": [
+      {
+        "id": "058a62d687236dfc",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ebb14862de66a86f",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "318d7da17bc8942f",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "6abec499f77506a9",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 233.5
+  },
+  "right": {
+    "id": "200ee77cdbdcaa04",
+    "type": "split",
+    "children": [
+      {
+        "id": "1a4068d4ce11864e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0a70d73d8045e03c",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "doc/Programming Style.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Programming Style"
+            }
+          },
+          {
+            "id": "62e585a62446fd95",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "dddf6ff339d0d58c",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "b1a1862a9e436e6e",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "README.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of README"
+            }
+          }
+        ],
+        "currentTab": 3
+      }
+    ],
+    "direction": "horizontal",
+    "width": 219.5
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "f783f9d460388865",
+  "lastOpenFiles": [
+    "doc/Dargon Lang Specification.md",
+    "build/CMakeFiles/Progress/2",
+    "build/CMakeFiles/Progress/1",
+    "build/CMakeFiles/Progress/4",
+    "build/CMakeFiles/Progress/3",
+    "build/CMakeFiles/dargon.dir/compiler_depend.make.tmp70807",
+    "build/CMakeFiles/Progress/count.txt",
+    "build/CMakeFiles/Progress",
+    "build/CMakeFiles/dargon.dir/compiler_depend.internal.tmpe5f4d",
+    "build/CMakeFiles/dargon.dir/compiler_depend.make.tmp4fcf6",
+    "build/CMakeFiles/dargon.dir/src/drgStrUtil.c.o",
+    "doc/Programming Style.md",
+    "2025-06-09.md",
+    "README.md",
+    "Programming Style.md",
+    "Dargon Standard Library.md",
+    "Examples.md",
+    "House/Lending Estimates (LE).md",
+    "Coding/Dargon Lang.md",
+    "House/House Notes.md",
+    "Coding/Dargon Standard Library.md",
+    "Music/photo_2025-05-10_18-40-34.jpg",
+    "Music/FL_Studio_VST_Location.png",
+    "Todo List.md",
+    "Email Migration TODO.md",
+    "Coding/kina lang.md",
+    "Music/5D.md",
+    "Proton.md",
+    "Music/Chords & Melodies.md",
+    "Music/FL Studio.md",
+    "Pasted image 20250214122906.png",
+    "Music/Inspiration.md",
+    "Music/Advice.md",
+    "Resources/Pasted image 20250125185722.png",
+    "Resources/Pasted image 20250125142442.png",
+    "Resources/Screenshot 2025-01-25 135409 1.png",
+    "Resources/Pasted image 20250125140408.png",
+    "Resources/Pasted image 20250125140334.png",
+    "Resources/Screenshot 2025-01-25 135459.png",
+    "Resources/Screenshot 2025-01-25 135409.png",
+    "Welcome.md"
+  ]
+}

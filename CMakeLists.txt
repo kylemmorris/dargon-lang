@@ -4,7 +4,7 @@ project(Dargon-Lang
     DESCRIPTION "The Dargon Programming Language Interpreter"
     HOMEPAGE_URL https://github.com/kylemmorris/dargon-lang)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_C_STANDARD 11)
 
 ###############################################################################
 ## file globbing ##############################################################
@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD 17)
 # these instructions search the directory tree when CMake is
 # invoked and put all files that match the pattern in the variables
 # `sources` and `data`
-file(GLOB_RECURSE sources      src/*.cpp src/*.h)
+file(GLOB_RECURSE sources src/*.c src/*.h)
 # you can use set(sources src/main.cpp) etc if you don't want to
 # use globbing to find files automatically
 
