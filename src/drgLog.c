@@ -37,7 +37,7 @@ static void _drgVLog(const char* type, const char* fmt, va_list args)
     // Open file
     _logFile = fopen(_drgLogFileName, _firstCall ? "w" : "a");
     if(!_logFile) {
-        fprintf(stderr, "ERROR: _drgVLog(): fopen() failed!\n");
+        perror("ERROR: _drgVLog(): fopen() failed!");
         fclose(_logFile);
         return;
     }
@@ -51,26 +51,26 @@ static void _drgVLog(const char* type, const char* fmt, va_list args)
     strftime(_timeBuf, sizeof(_timeBuf), _drgTimeFormat, &_tstruct);
     errCode = fprintf(_logFile, "%s: %s: ", _timeBuf, type);
     if(errCode < 0) {
-        fprintf(stderr, "ERROR: _drgVLog(): fprintf() produced a negative value!\n");
+        perror("ERROR: _drgVLog(): fprintf() produced a negative value!");
         fclose(_logFile);
         return;
     }
     errCode = fprintf(stdout, "%s: ", type); // also write to stdout
     if(errCode < 0) {
-        fprintf(stderr, "ERROR: _drgVLog(): fprintf() produced a negative value!\n");
+        perror("ERROR: _drgVLog(): fprintf() produced a negative value!");
         fclose(_logFile);
         return;
     }
     //  -- rest of message
     errCode = vfprintf(_logFile, fmt, args);
     if(errCode < 0) {
-        fprintf(stderr, "ERROR: _drgVLog(): vfprintf() produced a negative value!\n");
+        perror("ERROR: _drgVLog(): vfprintf() produced a negative value!");
         fclose(_logFile);
         return;
     }
     errCode = vfprintf(stdout, fmt, _forcout);
     if(errCode < 0) {
-        fprintf(stderr, "ERROR: _drgVLog(): vfprintf() produced a negative value!\n");
+        perror("ERROR: _drgVLog(): vfprintf() produced a negative value!");
         fclose(_logFile);
         return;
     }
@@ -79,13 +79,13 @@ static void _drgVLog(const char* type, const char* fmt, va_list args)
 #ifdef DRG_DEBUG
     errCode = fprintf(_logFile, "\n\tat %s - line %d\n", fileName, lineNum);
     if(errCode < 0) {
-        fprintf(stderr, "ERROR: _drgVLog(): fprintf() produced a negative value!\n");
+        perror("ERROR: _drgVLog(): fprintf() produced a negative value!");
         fclose(_logFile);
         return;
     }
     errCode = fprintf(stdout, "\n\tat %s - line %d\n", fileName, lineNum);
     if(errCode < 0) {
-        fprintf(stderr, "ERROR: _drgVLog(): fprintf() produced a negative value!\n");
+        perror("ERROR: _drgVLog(): fprintf() produced a negative value!");
         fclose(_logFile);
         return;
     }

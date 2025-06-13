@@ -15,7 +15,7 @@
 
 #include "drgStrUtil.h"
 
-char* drgTrimSpaces(char* str) {
+char* drgStrTrimSpaces(char* str) {
     char* end;
 
     // Trim leading whitespace

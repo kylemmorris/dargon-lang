@@ -22,6 +22,6 @@
 /// overwrite the original ptr with this return value.
 /// NOTE: 
 /// The return value must NOT be free'd.
-char* drgTrimSpaces(char* str);
+char* drgStrTrimSpaces(char* str);
 
 #endif // DRG_H_STR_UTIL

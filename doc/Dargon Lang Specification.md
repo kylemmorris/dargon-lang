@@ -25,11 +25,11 @@
 | vm         | Inline bytecode                                                                                                                     |
 # List of File Types
 
-| Name               | Extension | Description |
-| ------------------ | --------- | ----------- |
-| Dargon Source File | dg        |             |
-| Dargon Project     | dgp       |             |
-| Dargon Module      | dgm       |             |
+| Name               | Extension | Description                                               |
+| ------------------ | --------- | --------------------------------------------------------- |
+| Dargon Source File | dg        | A source file that contains Dargon code                   |
+| Dargon Project     | dgprj     | A simple config file that defines a project and workspace |
+| Dargon Module      | dgm       | A Dargon Project that has been exported                   |
 # Hello World
 ```
 print("Hello World!");
@@ -822,10 +822,16 @@ fun something {
 
 # Putting it all together - Tooling
 The only tool a Dargon developer needs is `dargon`:
-- `dargon init`: Initializes a Dargon project
-- `dargon compile <prj>`: Compiles a Dargon project
-- `dargon export <prj>`: Exports a Dargon project as a dedicated module
+- `dargon <command> <flags> <input>`
+
+Commands:
+- `dargon init <flags>`: Initializes a Dargon project in this directory
+- `dargon run <input>`: Runs a Dargon file or project
+- `dargon export <flags> <prj>`: Exports a Dargon project as a dedicated module
 - `dargon`: Runs an interactive interpreter
+
+Flags:
+- `-allow-vm`: Allows for the `vm` expression when used in `dargon compile`.
 
 # Advanced
 
