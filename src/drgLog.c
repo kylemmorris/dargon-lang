@@ -15,7 +15,7 @@
 #include "drgLog.h"
 
 static const char* const _drgLogFileName = "drg.log";
-static const char* const _drgTimeFormat = "%m.%d.%Y %X";
+static const char* const _drgTimeFormat = "%X";
 
 #ifdef DRG_DEBUG
 static void _drgVLog(const char* fileName, int lineNum, const char* type, const char* fmt, va_list args)
@@ -44,18 +44,18 @@ static void _drgVLog(const char* type, const char* fmt, va_list args)
     _firstCall = 0;
     int errCode = 0;
 
-    // Write: "time: type: msg\n"
+    // Write: "time [type] msg\n"
     // -- time + type
     _now = time(0);
     _tstruct = *localtime(&_now);
     strftime(_timeBuf, sizeof(_timeBuf), _drgTimeFormat, &_tstruct);
-    errCode = fprintf(_logFile, "%s: %s: ", _timeBuf, type);
+    errCode = fprintf(_logFile, "%s [%s] ", _timeBuf, type);
     if(errCode < 0) {
         perror("ERROR: _drgVLog(): fprintf() produced a negative value!");
         fclose(_logFile);
         return;
     }
-    errCode = fprintf(stdout, "%s: ", type); // also write to stdout
+    errCode = fprintf(stdout, "[%s] ", type); // also write to stdout
     if(errCode < 0) {
         perror("ERROR: _drgVLog(): fprintf() produced a negative value!");
         fclose(_logFile);
@@ -100,14 +100,14 @@ static void _drgVLog(const char* type, const char* fmt, va_list args)
 void _drgLog(int lineNum, const char* fileName, const char* msgFmt, ...) {
     va_list args;
     va_start(args, msgFmt);
-    _drgVLog(fileName, lineNum, "INFO ", msgFmt, args);
+    _drgVLog(fileName, lineNum, "INFO", msgFmt, args);
     va_end(args);
 }
 
 void _drgLogWarning(int lineNum, const char* fileName, const char* msgFmt, ...) {
     va_list args;
     va_start(args, msgFmt);
-    _drgVLog(fileName, lineNum, "WARN ", msgFmt, args);
+    _drgVLog(fileName, lineNum, "WARN", msgFmt, args);
     va_end(args);
 }
 
@@ -122,13 +122,13 @@ void _drgLogError(int lineNum, const char* fileName, const char* msgFmt, ...) {
 void drgLog(const char* msgFmt, ...) {
     va_list args;
     va_start(args, msgFmt);
-    _drgVLog("INFO ", msgFmt, args);
+    _drgVLog("INFO", msgFmt, args);
     va_end(args);
 }
 void drgLogWarning(const char* msgFmt, ...) {
     va_list args;
     va_start(args, msgFmt);
-    _drgVLog("WARN ", msgFmt, args);
+    _drgVLog("WARN", msgFmt, args);
     va_end(args);
 }
 void drgLogError(const char* msgFmt, ...) {

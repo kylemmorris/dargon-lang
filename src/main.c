@@ -11,7 +11,6 @@
 *****************************************************************/
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include <drgLog.h>
@@ -33,7 +32,7 @@ int drgRepl(void) {
     char* buf = NULL;
     size_t bufLen = 0;
     for(;;) {
-        printf("> ");
+        printf("@ ");
         // Read user input
         bufLen = getline(&buf, &bufLen, stdin);
         if(-1 == bufLen) {
@@ -47,6 +46,7 @@ int drgRepl(void) {
         // Trim + print it out
         char* substr = drgStrTrimSpaces(buf);
         drgLog("Got: %s", substr);
+        printf("\n");
     }
     DRG_MEM_FREE(buf);
     return EXIT_SUCCESS;
@@ -71,7 +71,7 @@ int main(int argc, const char* argv[]) {
     else if(0 == strcmp(commandIn, "run")) {
         // Get the next input
         if(argc < 3) {
-            drgLogWarning("No input given to 'run'! Running interpreter.");
+            drgLogWarning("No input given to 'run' command! Running interpreter.");
             return drgRepl();
         }
         const char* runInput = argv[2];

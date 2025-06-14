@@ -2,20 +2,19 @@
 * Dargon Programming Language
 * (C) Kyle Morris 2025 - See LICENSE.txt for license information.
 *
-* @file drgFile.c
+* @file drgCommon.h
 * @author Kyle Morris
 * @since v0.1
 * @section Description
-* Module for file operations.
+* Contains common header includes that provide better types.
 *
 *****************************************************************/
 
-#include <sys/stat.h>
+#ifndef DRG_H_COMMON
+#define DRG_H_COMMON
 
-#include "drgFile.h"
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
-int drgFileExists(const char* filePath) {
-    // Check file status
-    struct stat status = { 0 };
-    return stat(filePath, &status) > 0;
-}
+#endif // DRG_H_COMMON
