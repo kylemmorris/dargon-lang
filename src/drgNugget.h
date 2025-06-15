@@ -17,10 +17,22 @@
 
 #include <drgValue.h>
 
+/// @brief Byte typedef.
+typedef uint8_t drgByte;
+
 /// @brief Operational code (Opcode)
 /// definitions for the Dargon virtual machine.
 typedef enum {
-    DRG_OC_RETURN = 0
+    DRG_OC_RETURN,
+    // Literals
+    DRG_OC_NUM_LIT,
+    // Unary operators
+    DRG_OC_NEGATE,
+    // Binary operators
+    DRG_OC_ADD,
+    DRG_OC_SUB,
+    DRG_OC_MULT,
+    DRG_OC_DIV
 } drgOpcode;
 
 /// @brief A "Nugget" is a dynamic array of
@@ -28,17 +40,20 @@ typedef enum {
 typedef struct {
     int count;
     int capacity;
-    uint8_t* bytecode;
-    drgValArray constants;
+    drgByte* bytecode;
+    drgValArray constantPool;
 } drgNugget;
 
 // Initializes a nugget (bytecode chunk).
 void drgNuggetInit(drgNugget* nugget);
+
 // Adds a new byte to a nugget.
-void drgNuggetAdd(drgNugget* nugget, uint8_t byte);
+void drgNuggetAdd(drgNugget* nugget, drgByte byte);
+
 /// @brief Adds a new constant to a nugget.
 /// @return The index where the constant was appended to.
-int drgNuggetAddConstant(drgNugget* nugget, drgVal constant);
+int drgNuggetAddLiteral(drgNugget* nugget, drgVal constant);
+
 // Frees a nugget's dynamic memory.
 void drgNuggetFree(drgNugget* nugget);
 

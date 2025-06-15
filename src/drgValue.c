@@ -10,6 +10,8 @@
 *
 *****************************************************************/
 
+#include <stdio.h>
+
 #include "drgValue.h"
 
 void drgValArrayInit(drgValArray* arr) {
@@ -31,4 +33,8 @@ void drgValArrayAdd(drgValArray* arr, drgVal val) {
 void drgValArrayFree(drgValArray* arr) {
     DRG_MEM_FREE_ARRAY(drgVal, arr->values, arr->capacity);
     drgValArrayInit(arr);
+}
+
+void drgPrintVal(drgVal val) {
+    printf("%g", val);
 }

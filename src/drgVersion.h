@@ -13,7 +13,7 @@
 #ifndef DRG_H_VERSION
 #define DRG_H_VERSION
 
-//#define DRG_DEBUG 1
+#define DRG_DEBUG 1
 
 #define DRG_PROGRAM_NAME "Dargon Programming Language version 0.1"
 #define DRG_COPYRIGHT "(C) Kyle Morris 2025 - See LICENSE.txt for license information."

@@ -16,6 +16,7 @@
 #include <drgLog.h>
 #include <drgStrUtil.h>
 #include <drgMemUtil.h>
+#include <drgVM.h>
 
 void drgUsage(void) {
     printf("Usage: dargon <command> <input>\n\n");
@@ -53,6 +54,9 @@ int drgRepl(void) {
 }
 
 int main(int argc, const char* argv[]) {
+    // Initialize the virtual machine
+    drgInitVM();
+
     // Print version info
     printf("%s\n", drgVersion);
 

@@ -1,0 +1,156 @@
+/*****************************************************************
+* Dargon Programming Language
+* (C) Kyle Morris 2025 - See LICENSE.txt for license information.
+*
+* @file drgVM.h
+* @author Kyle Morris
+* @since v0.1
+* @section Description
+* The implementation of the stack-based virtual machine (VM).
+*
+*****************************************************************/
+
+#include <stdio.h>
+
+#include "drgVersion.h"
+#include "drgVM.h"
+
+// TODO: Dynamically modify stack
+#define DRG_STACK_MAX 256
+
+/// @brief The Dargon Virtual Machine (VM)
+typedef struct {
+    drgNugget* nugget; // The nugget being interpreted
+    drgByte* ip; // Instruction Pointer to the instr ABOUT to be executed
+    drgVal stack[DRG_STACK_MAX];
+    drgVal* stackTop;
+} drgVM;
+
+static drgVM vm; // The single VM instance.
+
+// -----------------------
+
+static int drgSimpleInst(const char* name, drgByte inst, int offset) {
+    printf("%-16s (0x%02X)\n", name, inst);
+    return offset + 1;
+}
+
+static int drgLitInst(const char* name, drgByte inst, drgNugget* nug, int offset) {
+    drgByte lit = nug->bytecode[offset + 1];
+    printf("%-16s (0x%02X) %2d' ", name, inst, lit);
+    drgPrintVal(nug->constantPool.values[lit]);
+    printf("'\n");
+    return offset + 2; // Consumes 2 spaces
+}
+
+static void drgResetStack(void) {
+    vm.stackTop = vm.stack;
+}
+
+static void drgPushStack(drgVal val) {
+    // TODO: Make sure pushing would not
+    // go over the max!
+    *vm.stackTop = val;
+    vm.stackTop++;
+}
+
+static drgVal drgPopStack(void) {
+    vm.stackTop--;
+    return *vm.stackTop;
+}
+
+// -----------------------
+
+void drgInitVM(void) {
+    vm.nugget = NULL;
+    vm.ip = NULL;
+    drgResetStack();
+}
+
+void drgFreeVM(void) {
+    drgNuggetFree(vm.nugget);
+    drgInitVM();
+}
+
+drgVMResult drgVMRun(drgNugget* nugget) {
+    #define DRG_READ_BYTE() (*vm.ip++)
+    #define DRG_READ_LIT() (vm.nugget->constantPool.values[DRG_READ_BYTE()])
+    #define DRG_BINARY_OP(op) \
+        do {\
+            double b = drgPopStack();\
+            double a = drgPopStack();\
+            drgPushStack(a op b);\
+        } while(0)
+
+    vm.nugget = nugget;
+    vm.ip = vm.nugget->bytecode;
+    drgByte instruction;
+
+    for(;;) {
+        // If we are in debug mode, print the stack
+        // as well as the chunk being interpreted.
+        #ifdef DRG_DEBUG
+        drgPrintStack();
+        drgDisassembleInstruction(vm.nugget,
+            (int)(vm.ip - vm.nugget->bytecode));
+        #endif
+
+        // Read an instruction (byte) and
+        // do something depending on what it is
+        switch(instruction = DRG_READ_BYTE()) {
+            case DRG_OC_NUM_LIT:
+                drgVal lit = DRG_READ_LIT();
+                drgPushStack(lit);
+                break;
+            case DRG_OC_NEGATE: drgPushStack(-drgPopStack()); break;
+            case DRG_OC_ADD:  DRG_BINARY_OP(+); break;
+            case DRG_OC_SUB:  DRG_BINARY_OP(-); break;
+            case DRG_OC_MULT: DRG_BINARY_OP(*); break;
+            case DRG_OC_DIV:  DRG_BINARY_OP(/); break;
+            case DRG_OC_RETURN:
+                drgPrintVal(drgPopStack());
+                printf("\n");
+                return DRG_VMRES_OK;
+        }
+    }
+
+    #undef DRG_READ_BYTE
+    #undef DRG_READ_LIT
+    #undef DRG_BINARY_OP
+}
+
+void drgDisassembleNugget(drgNugget* nugget, const char* name) {
+    printf("[%s]\n", name);
+    for(int offset = 0; offset < nugget->count;) {
+        offset = drgDisassembleInstruction(nugget, offset);
+    }
+}
+
+int drgDisassembleInstruction(drgNugget* nugget, int offset) {
+    drgByte inst = nugget->bytecode[offset];
+    printf("%04d: ", offset);
+    switch(inst) {
+        case DRG_OC_RETURN: return drgSimpleInst("DRG_OC_RETURN", inst, offset);
+        case DRG_OC_NEGATE: return drgSimpleInst("DRG_OC_NEGATE", inst, offset);
+        case DRG_OC_ADD: return drgSimpleInst("DRG_OC_ADD", inst, offset);
+        case DRG_OC_SUB: return drgSimpleInst("DRG_OC_SUB", inst, offset);
+        case DRG_OC_MULT: return drgSimpleInst("DRG_OC_MULT", inst, offset);
+        case DRG_OC_DIV: return drgSimpleInst("DRG_OC_DIV", inst, offset);
+        case DRG_OC_NUM_LIT: return drgLitInst("DRG_OC_LIT_NUM", inst, nugget, offset);
+        default:
+            printf("!! Unknown opcode %d\n", inst);
+            return offset + 1;
+    }
+    return offset + 1; // shouldn't get hit but put it here anyway
+}
+
+void drgPrintStack(void) {
+    printf("          ");
+    // Iterate through the stack
+    for(drgVal* s = vm.stack; s < vm.stackTop; s++) {
+        printf("[ ");
+        drgPrintVal(*s);
+        printf(" ]");
+    }
+    printf("\n");
+}

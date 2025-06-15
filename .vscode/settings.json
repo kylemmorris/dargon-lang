@@ -4,6 +4,7 @@
         "log.h": "c",
         "stdio.h": "c",
         "drgstrutil.h": "c",
-        "drgmemutil.h": "c"
+        "drgmemutil.h": "c",
+        "drgvalue.h": "c"
     }
 }
