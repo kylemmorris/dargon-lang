@@ -29,7 +29,7 @@ void drgUsage(void) {
 }
 
 // Read-Eval-Print-Loop
-int drgRepl(void) {
+void drgRepl(void) {
     char* buf = NULL;
     size_t bufLen = 0;
     for(;;) {
@@ -39,18 +39,17 @@ int drgRepl(void) {
         if(-1 == bufLen) {
             perror("getline() returned an error!");
             DRG_MEM_FREE(buf);
-            return EXIT_FAILURE;
+            exit(EXIT_FAILURE);
         }
         if(0 == strcmp(buf, "quit\n")) {
             break;
         }
-        // Trim + print it out
+        // TODO: Line continuation!
+        // Trim and run it
         char* substr = drgStrTrimSpaces(buf);
-        drgLog("Got: %s", substr);
-        printf("\n");
+        drgVMRunLine(substr);
     }
     DRG_MEM_FREE(buf);
-    return EXIT_SUCCESS;
 }
 
 int main(int argc, const char* argv[]) {
@@ -62,35 +61,39 @@ int main(int argc, const char* argv[]) {
 
     // No args = interpreter
     if(argc == 1) {
-        return drgRepl();
-    }
-
-    // Parse args
-    // Syntax: dargon <command> <input>
-    // First one must be a command
-    const char* commandIn = argv[1];
-    if(0 == strcmp(commandIn, "init")) {
-        drgLog("init is not implemented.");
-    }
-    else if(0 == strcmp(commandIn, "run")) {
-        // Get the next input
-        if(argc < 3) {
-            drgLogWarning("No input given to 'run' command! Running interpreter.");
-            return drgRepl();
-        }
-        const char* runInput = argv[2];
-        drgLog("File: %s", runInput);
-    }
-    else if(0 == strcmp(commandIn, "export")) {
-        drgLog("export is not implemented.");
-    }
-    else if(0 == strcmp(commandIn, "help")) {
-        drgUsage();
+        drgRepl();
     }
     else {
-        drgLogError("Unknown command: %s\n", commandIn);
-        drgUsage();
+        // Parse args
+        // Syntax: dargon <command> <input>
+        // First one must be a command
+        const char* commandIn = argv[1];
+        if(0 == strcmp(commandIn, "init")) {
+            drgLog("init is not implemented.");
+        }
+        else if(0 == strcmp(commandIn, "run")) {
+            // Get the next input
+            if(argc < 3) {
+                drgLogWarning("No input given to 'run' command! Running interpreter.");
+                drgRepl();
+            }
+            else {
+                const char* runInput = argv[2];
+                drgVMRunFile(runInput);
+            }
+        }
+        else if(0 == strcmp(commandIn, "export")) {
+            drgLog("export is not implemented.");
+        }
+        else if(0 == strcmp(commandIn, "help")) {
+            drgUsage();
+        }
+        else {
+            drgLogError("Unknown command: %s\n", commandIn);
+            drgUsage();
+        }
     }
     
+    drgFreeVM();
     return EXIT_SUCCESS;
 }

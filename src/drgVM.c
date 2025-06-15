@@ -59,6 +59,39 @@ static drgVal drgPopStack(void) {
     return *vm.stackTop;
 }
 
+static char* drgReadFile(const char* path) {
+    FILE* file = fopen(path, "rb");
+    if(NULL == file) {
+        perror("Could not open file!");
+        exit(EXIT_FAILURE); // nothing more we can do
+    }
+
+    fseek(file, 0L, SEEK_END);
+    size_t fileSize = ftell(file);
+    rewind(file);
+
+    char* buffer = malloc(fileSize + 1); // remember null terminator
+    if(NULL == buffer) {
+        perror("Could not allocate enough memory to read file!");
+        exit(EXIT_FAILURE);
+    }
+
+    size_t bytesRead = fread(buffer, sizeof(char), fileSize, file);
+    if(bytesRead < fileSize) {
+        perror("Could not read the entire file!");
+        exit(EXIT_FAILURE);
+    }
+
+    buffer[bytesRead] = '\0';
+    
+    fclose(file);
+    return buffer;
+}
+
+static drgVMResult drgInterpret(const char* source) {
+
+}
+
 // -----------------------
 
 void drgInitVM(void) {
@@ -70,6 +103,28 @@ void drgInitVM(void) {
 void drgFreeVM(void) {
     drgNuggetFree(vm.nugget);
     drgInitVM();
+}
+
+void drgVMRunFile(const char* path) {
+    char* source = drgReadFile(path);
+    drgVMResult result = drgInterpret(source);
+    DRG_MEM_FREE(source);
+    
+    switch(result) {
+        case DRG_VMRES_COMPILE_ERROR: exit(DRG_VMRES_COMPILE_ERROR); break;
+        case DRG_VMRES_RUNTIME_ERROR: exit(DRG_VMRES_RUNTIME_ERROR); break;
+        default: break;
+    }
+}
+
+void drgVMRunLine(const char* line) {
+    drgVMResult result = drgInterpret(line);
+    
+    switch(result) {
+        case DRG_VMRES_COMPILE_ERROR: exit(DRG_VMRES_COMPILE_ERROR); break;
+        case DRG_VMRES_RUNTIME_ERROR: exit(DRG_VMRES_RUNTIME_ERROR); break;
+        default: break;
+    }
 }
 
 drgVMResult drgVMRun(drgNugget* nugget) {

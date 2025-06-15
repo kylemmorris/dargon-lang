@@ -23,8 +23,10 @@ typedef enum {
 } drgVMResult;
 
 void drgInitVM(void);
-void drgFreeVM(void);
+void drgVMRunFile(const char* path);
+void drgVMRunLine(const char* line);
 drgVMResult drgVMRun(drgNugget* nugget);
+void drgFreeVM(void);
 
 
 /// @brief Disassembles each instruction within the nugget, printing its contents to stdout.
