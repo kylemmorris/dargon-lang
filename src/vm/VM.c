@@ -12,8 +12,47 @@
 
 #include <stdio.h>
 
-#include "drgVersion.h"
-#include "drgVM.h"
+#include "VM.h"
+
+void D_InitVirtualMachine(D_VM* const vm) {
+    
+}
+
+D_Result D_Interpret(D_VM* const vm, const char* const source) {
+    // -- Initialize scanner
+    vm->scanner.start = source;
+    vm->scanner.current = source;
+    vm->scanner.line = 1;
+    vm->scanner.column = 1;
+
+    // -- Temporary code to drive a "compiler"
+    int line = -1;
+    for(;;) {
+        D_Token token = D_GetNextToken(&vm->scanner);
+        if(token.line != line) {
+            printf("%4d ", token.line);
+            line = token.line;
+        }
+        else {
+            printf("   | ");
+        }
+        // For now just print the token
+        printf("%2d '%.*s'\n", token.type, token.length, token.start);
+        if(token.type == D_TokenType_EOF) {
+            break;
+        }
+    }
+}
+
+void D_FreeVirtualMachine(D_VM* const vm) {
+
+}
+
+
+
+
+
+
 
 // TODO: Dynamically modify stack
 #define DRG_STACK_MAX 256
