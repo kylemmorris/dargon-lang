@@ -13,29 +13,30 @@
 #include <stdio.h>
 
 #include "VM.h"
+#include "../scanner/Scanner.h"
 
-void D_InitVirtualMachine(D_VM* const vm) {
+typedef struct {
+    //drgNugget* nugget; // The nugget being interpreted
+    //drgByte* ip; // Instruction Pointer to the instr ABOUT to be executed
+    //drgVal stack[DRG_STACK_MAX];
+    //drgVal* stackTop;
+} D_VM;
+
+static D_VM vm;
+
+void D_InitVirtualMachine(void) {
     
 }
 
-D_Result D_Interpret(D_VM* const vm, const char* const source) {
+D_Result D_Interpret(const char* const source) {
     // -- Initialize scanner
-    vm->scanner.start = source;
-    vm->scanner.current = source;
-    vm->scanner.line = 1;
-    vm->scanner.column = 1;
+    D_InitScanner(source);
 
     // -- Temporary code to drive a "compiler"
     int line = -1;
     for(;;) {
-        D_Token token = D_GetNextToken(&vm->scanner);
-        if(token.line != line) {
-            printf("%4d ", token.line);
-            line = token.line;
-        }
-        else {
-            printf("   | ");
-        }
+        D_Token token = D_GetNextToken();
+        printf("(%2d, %2d) ", token.line, token.column);
         // For now just print the token
         printf("%2d '%.*s'\n", token.type, token.length, token.start);
         if(token.type == D_TokenType_EOF) {
@@ -44,16 +45,11 @@ D_Result D_Interpret(D_VM* const vm, const char* const source) {
     }
 }
 
-void D_FreeVirtualMachine(D_VM* const vm) {
+void D_FreeVirtualMachine(void) {
 
 }
 
-
-
-
-
-
-
+/* 
 // TODO: Dynamically modify stack
 #define DRG_STACK_MAX 256
 
@@ -247,4 +243,4 @@ void drgPrintStack(void) {
         printf(" ]");
     }
     printf("\n");
-}
+} */

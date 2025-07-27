@@ -13,20 +13,14 @@
 #ifndef DRG_H_VM
 #define DRG_H_VM
 
-#include "../scanner/Scanner.h"
-
 typedef enum {
     D_Result_OK,
     D_Result_COMPILER_ERROR,
     D_Result_RUNTIME_ERROR
 } D_Result;
 
-typedef struct {
-    D_Scanner scanner;
-} D_VM;
-
-void D_InitVirtualMachine(D_VM* const vm);
-D_Result D_Interpret(D_VM* const vm, const char* const source);
-void D_FreeVirtualMachine(D_VM* const vm);
+void D_InitVirtualMachine(void);
+D_Result D_Interpret(const char* const source);
+void D_FreeVirtualMachine(void);
 
 #endif // DRG_H_VM

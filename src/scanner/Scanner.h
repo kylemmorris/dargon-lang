@@ -15,13 +15,7 @@
 
 #include "Token.h"
 
-typedef struct {
-    const char* start;      // ptr to start of lexeme
-    const char* current;    // 
-    int line;               // line number
-    int column;             // column in line
-} D_Scanner;
-
-D_Token D_GetNextToken(D_Scanner* const scanner);
+void D_InitScanner(const char* const source);
+D_Token D_GetNextToken(void);
 
 #endif // DRG_H_SCANNER

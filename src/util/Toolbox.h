@@ -23,7 +23,7 @@
 
 /// @brief Safer version of std free().
 /// @param ptr 
-inline void D_Free(void* ptr) {
+void D_Free(void* ptr) {
     if(ptr) {
         free(ptr);
         ptr = NULL;

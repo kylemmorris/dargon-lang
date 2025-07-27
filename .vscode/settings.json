@@ -6,5 +6,11 @@
         "drgstrutil.h": "c",
         "drgmemutil.h": "c",
         "drgvalue.h": "c"
-    }
+    },
+    "cmake.debugConfig": {
+        "args": [
+            "run", 
+            "../examples/Test1.dg"
+        ]
+     }
 }

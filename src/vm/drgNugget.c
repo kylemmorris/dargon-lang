@@ -10,7 +10,7 @@
 *
 *****************************************************************/
 
-#include "drgNugget.h"
+/* #include "drgNugget.h"
 #include "drgMemUtil.h"
 
 void drgNuggetInit(drgNugget* nugget) {
@@ -39,4 +39,4 @@ void drgNuggetFree(drgNugget* nugget) {
     DRG_MEM_FREE_ARRAY(drgByte, nugget->bytecode, nugget->capacity);
     drgValArrayFree(&nugget->constantPool);
     drgNuggetInit(nugget);
-}
+} */

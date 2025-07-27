@@ -19,20 +19,19 @@
 #include "vm/VM.h"
 
 void D_Help(void);
-void D_REPL(D_VM* const vm);
+void D_REPL(void);
 bool D_ReadFile(const char* path, char* fileOut);
 
 int main(int argc, const char* argv[]) {
     // Initialize the virtual machine
-    D_VM vm;
-    D_InitVirtualMachine(&vm);
+    D_InitVirtualMachine();
 
     // Print version info
     printf("%s\n", D_SoftwareVersion);
 
     // No args -> interpreter
     if(argc == 1) { 
-        D_REPL(&vm);
+        D_REPL();
     }
     else {
         // Parse args
@@ -46,13 +45,13 @@ int main(int argc, const char* argv[]) {
             // Get the next input
             if(argc < 3) {
                 D_LogWarning("No input given to 'run' command! Running interpreter.");
-                D_REPL(&vm);
+                D_REPL();
             }
             else {
                 const char* runInput = argv[2];
                 char* source;
                 if(D_ReadFile(runInput, source)) {
-                    D_Result result = D_Interpret(&vm, source);
+                    D_Result result = D_Interpret(source);
                     // TODO: Do something with result
                     D_Free(source);
                 }
@@ -73,7 +72,7 @@ int main(int argc, const char* argv[]) {
         }
     }
     
-    D_FreeVirtualMachine(&vm);
+    D_FreeVirtualMachine();
     return EXIT_SUCCESS;
 }
 
@@ -89,7 +88,7 @@ void D_Help(void) {
 }
 
 // Read-Eval-Print-Loop
-void D_REPL(D_VM* const vm) {
+void D_REPL(void) {
     char buf[1024];
     for(;;) {
         printf("@: ");
@@ -114,7 +113,7 @@ void D_REPL(D_VM* const vm) {
 
         // Trim and run it
         char* source = D_TrimString(buf);
-        D_Result result = D_Interpret(vm, source);
+        D_Result result = D_Interpret(source);
         // TODO: Do something with result
     }
 }

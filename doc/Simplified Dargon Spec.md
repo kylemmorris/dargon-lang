@@ -70,6 +70,21 @@ fun foo3(var ref int[200] bigArray) { (#...#) }
 #fun foo3(var int[200] bigArray) { (#...#) }
 ```
 
+# Basic Polymorphism
+```
+fun foo1(int|string input) {
+	when input {
+		is string print(input)
+		is int {
+			int b = input + 2
+			print(b)
+		}
+	}
+}
+
+fun foo2(Person|Entity|int input: bool) { ... }
+```
+
 # Compound Types
 ```
 # Components of struct inherit the object's mutability
@@ -107,7 +122,7 @@ A - B
 A * B
 A / B
 A ^ B
-A mod B
+A % B
 
 Comparison
 A > B
@@ -144,19 +159,26 @@ if(...) { ... }
 
 # Ternary
 int a = if(...) 10 else 11
+
+when(...) {
+	eq value1 {...}
+	eq value2 ...
+	eq value3 {...}
+	else {...}
+}
 ```
 
 # Loops
 ```
-while(...) {
+loop if(...) {
 	...
 }
 
-do {
+loop {
 	...
-} while(...)
+} if(...)
 
-for(...) {
+loop(...) {
 	...
 }
 ```

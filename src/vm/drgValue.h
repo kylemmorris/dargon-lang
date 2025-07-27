@@ -13,7 +13,7 @@
 #ifndef DRG_H_VALUE
 #define DRG_H_VALUE
 
-#include <stddef.h>
+/* #include <stddef.h>
 
 #include <drgMemUtil.h>
 
@@ -42,6 +42,6 @@ void drgValArrayFree(drgValArray* arr);
 
 /// @brief Prints a value to stdout.
 /// @param val 
-void drgPrintVal(drgVal val);
+void drgPrintVal(drgVal val); */
 
 #endif // DRG_H_VALUE

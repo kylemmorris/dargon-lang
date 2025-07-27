@@ -48,5 +48,11 @@ set(CPACK_PACKAGE_VERSION "0.1")
 # we don't want to split our program up into several things
 set(CPACK_MONOLITHIC_INSTALL 1)
 
+###############################################################################
+## testing ####################################################################
+###############################################################################
+enable_testing()
+add_test(NAME Test1 COMMAND dargon run ../examples/Test1.dg)
+
 # This must be last
 include(CPack)

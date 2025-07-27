@@ -31,4 +31,45 @@
 | module   |             |
 | export   |             |
 | vm       |             |
-Total: 30
+| true     |             |
+| false    |             |
+| when     |             |
+| is       |             |
+
+
+Total: 31
+
+```
+alias
+and
+bool
+copy
+defer
+else
+eq
+exists
+export
+false
+fun
+if
+int
+is
+loop
+module
+neq
+not
+or
+private
+readonly
+real
+ref
+string
+struct
+then
+true
+try
+var
+vm
+when
+xor
+```

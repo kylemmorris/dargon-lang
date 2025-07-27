@@ -1,0 +1,11 @@
+(# This is a test document, testing all features #)
+
+int a = 0
+real pi = 3.14
+bool flag = false
+string c = "hey! I can
+    span multiple lines..."
+
+fun(int,bool:string) func = { (# ... #) }
+
+var real calc = 3.1314

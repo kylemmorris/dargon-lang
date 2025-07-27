@@ -12,7 +12,7 @@
 
 #include <stdio.h>
 
-#include "drgValue.h"
+/* #include "drgValue.h"
 
 void drgValArrayInit(drgValArray* arr) {
     arr->capacity = 0;
@@ -37,4 +37,4 @@ void drgValArrayFree(drgValArray* arr) {
 
 void drgPrintVal(drgVal val) {
     printf("%g", val);
-}
+} */

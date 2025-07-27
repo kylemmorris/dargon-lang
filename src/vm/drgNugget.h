@@ -15,7 +15,7 @@
 
 #include <stdint.h>
 
-#include <drgValue.h>
+/* #include <drgValue.h>
 
 /// @brief Byte typedef.
 typedef uint8_t drgByte;
@@ -55,6 +55,6 @@ void drgNuggetAdd(drgNugget* nugget, drgByte byte);
 int drgNuggetAddLiteral(drgNugget* nugget, drgVal constant);
 
 // Frees a nugget's dynamic memory.
-void drgNuggetFree(drgNugget* nugget);
+void drgNuggetFree(drgNugget* nugget); */
 
 #endif // DRG_H_NUGGET

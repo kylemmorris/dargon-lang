@@ -35,8 +35,7 @@
               "title": "Dargon Reserved Words"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -93,7 +92,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 233.5
+    "width": 233.5,
+    "collapsed": true
   },
   "right": {
     "id": "200ee77cdbdcaa04",
@@ -181,21 +181,22 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "2d7a0069e0ce7877",
+  "active": "f783f9d460388865",
   "lastOpenFiles": [
-    "doc/Simplified Dargon Spec.md",
-    "doc/Dargon Reserved Words.md",
-    "doc/Dargon Lang Specification.md",
-    "build/CMakeFiles/Progress/2",
-    "build/CMakeFiles/Progress/1",
+    "build/Testing/20250727-1424/Test.xml.tmp",
+    "build/Testing/Temporary/LastTest_20250727-1424.log.tmp",
+    "build/CMakeFiles/Progress/8",
+    "build/CMakeFiles/Progress/7",
+    "build/CMakeFiles/Progress/6",
+    "build/CMakeFiles/Progress/5",
     "build/CMakeFiles/Progress/4",
     "build/CMakeFiles/Progress/3",
-    "build/CMakeFiles/dargon.dir/compiler_depend.make.tmp744ac",
-    "build/CMakeFiles/Progress/count.txt",
-    "build/CMakeFiles/Progress",
-    "build/CMakeFiles/dargon.dir/compiler_depend.internal.tmp55022",
-    "build/CMakeFiles/dargon.dir/compiler_depend.make.tmp79774",
-    "build/CMakeFiles/dargon.dir/compiler_depend.internal.tmp319c5",
+    "build/CMakeFiles/Progress/2",
+    "build/CMakeFiles/Progress/1",
+    "build/CMakeFiles/dargon.dir/compiler_depend.internal",
+    "doc/Dargon Reserved Words.md",
+    "doc/Simplified Dargon Spec.md",
+    "doc/Dargon Lang Specification.md",
     "README.md",
     "doc/Programming Style.md",
     "2025-06-09.md",
