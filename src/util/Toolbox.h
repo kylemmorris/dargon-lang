@@ -59,4 +59,13 @@ char* D_TrimString(char* str) {
     return str;
 }
 
+/// @brief Clears the console window.
+void D_ClearConsole(void) {
+    #if defined(_WIN32) || defined(_WIN64)
+    system("cls");
+    #else
+    system("clear");
+    #endif
+}
+
 #endif // DRG_H_TOOLBOX

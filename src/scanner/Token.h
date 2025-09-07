@@ -68,7 +68,9 @@ typedef enum {
     D_TokenType_KW_var,
     D_TokenType_KW_vm,
     D_TokenType_KW_when,
-    D_TokenType_KW_xor
+    D_TokenType_KW_xor,
+    // Count
+    D_TokenType_Count
 } D_TokenType;
 
 typedef struct {
@@ -78,5 +80,7 @@ typedef struct {
     int line;
     int column;
 } D_Token;
+
+
 
 #endif // DRG_H_TOKEN

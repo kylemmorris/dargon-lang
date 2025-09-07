@@ -36,13 +36,15 @@ D_Result D_Interpret(const char* const source) {
     int line = -1;
     for(;;) {
         D_Token token = D_GetNextToken();
-        printf("(%2d, %2d) ", token.line, token.column);
+        printf("(%3d,%3d) ", token.line, token.column);
         // For now just print the token
         printf("%2d '%.*s'\n", token.type, token.length, token.start);
         if(token.type == D_TokenType_EOF) {
             break;
         }
     }
+
+    return D_Result_OK;
 }
 
 void D_FreeVirtualMachine(void) {

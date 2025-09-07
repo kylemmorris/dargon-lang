@@ -4,7 +4,7 @@ project(Dargon-Lang
     DESCRIPTION "The Dargon Programming Language Interpreter"
     HOMEPAGE_URL https://github.com/kylemmorris/dargon-lang)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 17)
 
 ###############################################################################
 ## file globbing ##############################################################

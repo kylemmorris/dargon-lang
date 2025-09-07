@@ -18,20 +18,22 @@
 #include "util/Version.h"
 #include "vm/VM.h"
 
+void D_Repl(void);
+void D_ReplHelp(void);
 void D_Help(void);
-void D_REPL(void);
-bool D_ReadFile(const char* path, char* fileOut);
+char* D_ReadFile(const char* path);
 
 int main(int argc, const char* argv[]) {
     // Initialize the virtual machine
     D_InitVirtualMachine();
 
     // Print version info
+    D_ClearConsole();
     printf("%s\n", D_SoftwareVersion);
 
     // No args -> interpreter
     if(argc == 1) { 
-        D_REPL();
+        D_Repl();
     }
     else {
         // Parse args
@@ -45,12 +47,12 @@ int main(int argc, const char* argv[]) {
             // Get the next input
             if(argc < 3) {
                 D_LogWarning("No input given to 'run' command! Running interpreter.");
-                D_REPL();
+                D_Repl();
             }
             else {
                 const char* runInput = argv[2];
-                char* source;
-                if(D_ReadFile(runInput, source)) {
+                char* source = D_ReadFile(runInput);
+                if(NULL != source) {
                     D_Result result = D_Interpret(source);
                     // TODO: Do something with result
                     D_Free(source);
@@ -76,6 +78,83 @@ int main(int argc, const char* argv[]) {
     return EXIT_SUCCESS;
 }
 
+/*****************************************************************
+* REPL State Machine
+*****************************************************************/
+
+typedef enum {
+    D_ReplState_READLINE, // Waiting for input
+    D_ReplState_CHECK,    // Check for special keywords
+    D_ReplState_INTERP,   // Interpret
+    D_ReplState_STOP      // Stop
+} D_ReplState;
+
+// Read-Eval-Print-Loop
+void D_Repl(void) {
+    D_ReplState state = D_ReplState_READLINE;
+    char buf[1024];
+    printf("*** Type 'help for help.\n");
+    while(state != D_ReplState_STOP) {
+        switch(state) {
+            case D_ReplState_READLINE: {
+                printf("@: ");
+                // Read user input
+                if(!fgets(buf, sizeof(buf), stdin)) {
+                    D_LogError("Well, that's an unexpected error from reading your input!");
+                    state = D_ReplState_STOP;
+                    break;
+                }
+                // If there's no newline character, only a partial line was read.
+                if(!strchr(buf, '\n')) {
+                    D_LogError("Lines longer than 1024 characters just aren't my thing...");
+                    state = D_ReplState_STOP;
+                    break;
+                }
+                state = D_ReplState_CHECK;
+                break;
+            }
+            case D_ReplState_CHECK: {
+                if(0 == strcmp(buf, "help\n")) {
+                    D_ReplHelp();
+                    state = D_ReplState_READLINE;
+                }
+                else if(0 == strcmp(buf, "exit\n")) {
+                    state = D_ReplState_STOP;
+                }
+                else if(0 == strcmp(buf, "clear\n")) {
+                    D_ClearConsole();
+                    state = D_ReplState_READLINE;
+                }
+                else {
+                    // TODO: Line continuation!
+                    state = D_ReplState_INTERP;
+                }
+                break;
+            }
+            case D_ReplState_INTERP: {
+                // Trim and run it
+                char* source = D_TrimString(buf);
+                D_Result result = D_Interpret(source);
+                // TODO: Do something with result
+                state = D_ReplState_READLINE;
+                break;
+            }
+            default:
+                state = D_ReplState_STOP;
+                break;
+        }
+    }
+}
+
+void D_ReplHelp(void) {
+    printf("*** Type 'clear' to clear the console.\n");
+    printf("*** Type 'exit' to exit this session.\n");
+}
+
+/*****************************************************************
+* Util Functions
+*****************************************************************/
+
 // Print help info to console
 void D_Help(void) {
     printf("Usage: dargon <command> <input>\n\n");
@@ -87,58 +166,25 @@ void D_Help(void) {
     printf("*           help: Prints this dialogue.\n");
 }
 
-// Read-Eval-Print-Loop
-void D_REPL(void) {
-    char buf[1024];
-    for(;;) {
-        printf("@: ");
-        // Read user input
-        if(!fgets(buf, sizeof(buf), stdin)) {
-            D_LogError("drgrepl: fgets() failed!");
-            exit(EXIT_FAILURE);
-        }
-
-        // If there's no newline character, it only a partial
-        // line was read.
-        if(!strchr(buf, '\n')) {
-            D_LogError("Cannot handle multiple lines just yet!");
-            return;
-        }
-
-        // If they typed 'quit', quit REPL.
-        if(0 == strcmp(buf, "quit\n")) {
-            break;
-        }
-        // TODO: Line continuation!
-
-        // Trim and run it
-        char* source = D_TrimString(buf);
-        D_Result result = D_Interpret(source);
-        // TODO: Do something with result
-    }
-}
-
-/// @brief Reads a file at the location 'path' and outputs it
-/// to the contents of 'fileOut', including null-termination. 
-/// This should be free'd after use.
-/// @param path 
-/// @param fileOut 
-/// @return True on success, false on error.
-bool D_ReadFile(const char* path, char* fileOut) {
+/// @brief Reads a file at the location 'path' and returns its
+/// including null-termination. This should be free'd after use.
+/// @param path  
+/// @return Malloc'd contents, NULL on error.
+char* D_ReadFile(const char* path) {
     // Try to open file
     FILE* file = fopen(path, "rb");
     if(NULL == file) {
         D_LogError("Could not open file \"%s\".\n", path);
-        return false;
+        return NULL;
     }
-
+    
     // Get size of file
     fseek(file, 0L, SEEK_END);
     size_t fileSize = ftell(file);
     rewind(file);
 
     // Allocate buffer (null-terminate it)
-    fileOut = (char*)malloc(fileSize+1);
+    char* fileOut = (char*)malloc(fileSize+1);
     if(!fileOut) {
         D_LogError("D_ReadFile: malloc() failed!");
         exit(EXIT_FAILURE); // nothing we can do
@@ -147,5 +193,5 @@ bool D_ReadFile(const char* path, char* fileOut) {
     fileOut[bytesRead] = '\0';
 
     fclose(file);
-    return true;
+    return fileOut;
 }

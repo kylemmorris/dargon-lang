@@ -14,6 +14,10 @@
 #include <string.h>
 #include "Scanner.h"
 
+/*****************************************************************
+* Types
+*****************************************************************/
+
 typedef struct {
     const char* start;      // ptr to start of lexeme
     const char* current;    // 
@@ -22,6 +26,10 @@ typedef struct {
 } D_Scanner;
 
 static D_Scanner scanner;
+
+/*****************************************************************
+* Utils
+*****************************************************************/
 
 inline static bool D_AtEnd(void) {
     return *scanner.current == '\0';
@@ -46,6 +54,10 @@ inline static D_Token D_NewToken(D_TokenType type) {
     token.column = scanner.column;
     return token;
 }
+
+/*****************************************************************
+* Consume Functions
+*****************************************************************/
 
 inline static char D_Peek(void) {
     return *scanner.current;
@@ -82,16 +94,19 @@ inline static void D_ConsumeWhitespaces(void) {
                     // Block comment ends when '#)' is found
                     // (# test #)
                     while(!D_AtEnd()) {
-                        D_Consume();
                         if(D_Peek() == '#' && D_PeekNext() == ')') {
                             // Consume both and exit
                             D_Consume();
                             D_Consume();
                             break;
                         }
+                        D_Consume();
                     }
                     // If we were at the end, it means we never found a matching
                     // closing brace
+                }
+                else {
+                    return;
                 }
                 break;
             }
@@ -99,11 +114,9 @@ inline static void D_ConsumeWhitespaces(void) {
                 if(D_Peek() == '!') {
                     // TODO-style comment
                 }
-                else {
-                    // Comment goes till end of line
-                    while(D_Peek() != '\n' && !D_AtEnd()) {
-                        D_Consume();
-                    }
+                // Comment goes till end of line
+                while(D_Peek() != '\n' && !D_AtEnd()) {
+                    D_Consume();
                 }
                 break;
             }
@@ -247,6 +260,10 @@ inline static D_TokenType D_CheckIfKeyword(void) {
     }
     return D_TokenType_IDENTIFIER;
 }
+
+/*****************************************************************
+* Scanner
+*****************************************************************/
 
 void D_InitScanner(const char* const source) {
     scanner.start = source;
