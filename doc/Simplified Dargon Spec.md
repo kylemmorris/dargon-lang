@@ -85,6 +85,19 @@ fun foo1(int|string input) {
 fun foo2(Person|Entity|int input: bool) { ... }
 ```
 
+or
+
+```
+fun foo(const dynamic input) {
+	int {
+		int b = input + 2
+		print(b)
+	}
+	string {
+		print(input)
+	}
+}
+```
 # Compound Types
 ```
 # Components of struct inherit the object's mutability
@@ -226,6 +239,12 @@ struct foobar {...}
 
 export foo1
 export foobar
+
+# or
+
+fun foo1() { ... }
+export fun foo1() { ... }
+export struct foobar { ... }
 ```
 
 # Inline Bytecode

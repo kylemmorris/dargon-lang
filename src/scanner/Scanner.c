@@ -20,19 +20,19 @@
 
 typedef struct {
     const char* start;      // ptr to start of lexeme
-    const char* current;    // 
+    const char* current;    // ptr to char being worked on
     int line;               // line number
     int column;             // column in line
 } D_Scanner;
 
-static D_Scanner scanner;
+static D_Scanner _sc;
 
 /*****************************************************************
 * Utils
 *****************************************************************/
 
 inline static bool D_AtEnd(void) {
-    return *scanner.current == '\0';
+    return *_sc.current == '\0';
 }
 
 inline static bool D_IsDigit(char c) {
@@ -48,10 +48,10 @@ inline static bool D_IsAlpha(char c) {
 inline static D_Token D_NewToken(D_TokenType type) {
     D_Token token;
     token.type = type;
-    token.start = scanner.start;
-    token.length = (int)(scanner.current - scanner.start);
-    token.line = scanner.line;
-    token.column = scanner.column;
+    token.start = _sc.start;
+    token.length = (int)(_sc.current - _sc.start);
+    token.line = _sc.line;
+    token.column = _sc.column;
     return token;
 }
 
@@ -60,26 +60,26 @@ inline static D_Token D_NewToken(D_TokenType type) {
 *****************************************************************/
 
 inline static char D_Peek(void) {
-    return *scanner.current;
+    return *_sc.current;
 }
 
 inline static char D_PeekNext(void) {
     if(D_AtEnd()) return '\0';
-    return scanner.current[1];
+    return _sc.current[1];
 }
 
 inline static char D_Consume(void) {
     // Increment pointer
-    scanner.current++;
-    scanner.column++;
+    _sc.current++;
+    _sc.column++;
     // Return previous char
-    return scanner.current[-1];
+    return _sc.current[-1];
 }
 
 inline static bool D_ConsumeIfMatch(char expected) {
     if(D_AtEnd()) return false;
-    if(*scanner.current != expected) return false;
-    scanner.current++;
+    if(*_sc.current != expected) return false;
+    _sc.current++;
     return true;
 }
 
@@ -130,17 +130,17 @@ inline static void D_ConsumeWhitespaces(void) {
 }
 
 inline static D_TokenType D_CompareWithKeyword(int start, int length, const char* rest, D_TokenType type) {
-    if(scanner.current - scanner.start == start + length && 0 == memcmp(scanner.start + start, rest, length)) {
+    if(_sc.current - _sc.start == start + length && 0 == memcmp(_sc.start + start, rest, length)) {
         return type;
     }
     return D_TokenType_IDENTIFIER;
 }
 
 inline static D_TokenType D_CheckIfKeyword(void) {
-    switch(scanner.start[0]) {
+    switch(_sc.start[0]) {
         case 'a': {
-            if(scanner.current - scanner.start > 1) {
-                switch(scanner.start[1]) {
+            if(_sc.current - _sc.start > 1) {
+                switch(_sc.start[1]) {
                     case 'l': return D_CompareWithKeyword(2, 3, "ias", D_TokenType_KW_alias);
                     case 'n': return D_CompareWithKeyword(2, 1, "d", D_TokenType_KW_and);
                 }
@@ -151,13 +151,13 @@ inline static D_TokenType D_CheckIfKeyword(void) {
         case 'c': return D_CompareWithKeyword(1, 3, "opy", D_TokenType_KW_copy);
         case 'd': return D_CompareWithKeyword(1, 4, "efer", D_TokenType_KW_defer);
         case 'e': {
-            if(scanner.current - scanner.start > 1) {
-                switch(scanner.start[1]) {
+            if(_sc.current - _sc.start > 1) {
+                switch(_sc.start[1]) {
                     case 'l': return D_CompareWithKeyword(2, 2, "se", D_TokenType_KW_else);
                     case 'q': return D_TokenType_KW_eq;
                     case 'x': {
-                        if(scanner.current - scanner.start > 2) {
-                            switch(scanner.start[2]) {
+                        if(_sc.current - _sc.start > 2) {
+                            switch(_sc.start[2]) {
                                 case 'i': return D_CompareWithKeyword(3, 3, "sts", D_TokenType_KW_exists);
                                 case 'p': return D_CompareWithKeyword(3, 3, "ort", D_TokenType_KW_export);
                             }
@@ -169,8 +169,8 @@ inline static D_TokenType D_CheckIfKeyword(void) {
             break;
         }
         case 'f': {
-            if(scanner.current - scanner.start > 1) {
-                switch(scanner.start[1]) {
+            if(_sc.current - _sc.start > 1) {
+                switch(_sc.start[1]) {
                     case 'a': return D_CompareWithKeyword(2, 3, "lse", D_TokenType_KW_false);
                     case 'u': return D_CompareWithKeyword(2, 1, "n", D_TokenType_KW_fun);
                 }
@@ -178,8 +178,8 @@ inline static D_TokenType D_CheckIfKeyword(void) {
             break;
         }
         case 'i': {
-            if(scanner.current - scanner.start > 1) {
-                switch(scanner.start[1]) {
+            if(_sc.current - _sc.start > 1) {
+                switch(_sc.start[1]) {
                     case 'f': return D_TokenType_KW_if;
                     case 'n': return D_CompareWithKeyword(2, 1, "t", D_TokenType_KW_int);
                     case 's': return D_TokenType_KW_is;
@@ -190,8 +190,8 @@ inline static D_TokenType D_CheckIfKeyword(void) {
         case 'l': return D_CompareWithKeyword(1, 3, "oop", D_TokenType_KW_loop);
         case 'm': return D_CompareWithKeyword(1, 5, "odule", D_TokenType_KW_module);
         case 'n': {
-            if(scanner.current - scanner.start > 1) {
-                switch(scanner.start[1]) {
+            if(_sc.current - _sc.start > 1) {
+                switch(_sc.start[1]) {
                     case 'e': return D_CompareWithKeyword(2, 1, "q", D_TokenType_KW_neq);
                     case 'o': return D_CompareWithKeyword(2, 1, "t", D_TokenType_KW_not);
                 }
@@ -204,11 +204,11 @@ inline static D_TokenType D_CheckIfKeyword(void) {
             // rea   donly
             // rea   l
             // ref
-            if(scanner.current - scanner.start > 2 && scanner.start[1] == 'e') {
-                switch(scanner.start[2]) {
+            if(_sc.current - _sc.start > 2 && _sc.start[1] == 'e') {
+                switch(_sc.start[2]) {
                     case 'a': {
-                        if(scanner.current - scanner.start > 3) {
-                            switch(scanner.start[3]) {
+                        if(_sc.current - _sc.start > 3) {
+                            switch(_sc.start[3]) {
                                 case 'd': return D_CompareWithKeyword(4, 4, "only", D_TokenType_KW_readonly);
                                 case 'l': return D_TokenType_KW_real;
                             }
@@ -222,8 +222,8 @@ inline static D_TokenType D_CheckIfKeyword(void) {
         case 's': {
             // str  ing
             // str  uct
-            if(scanner.current - scanner.start > 3 && scanner.start[1] == 't' && scanner.start[2] == 'r') {
-                switch(scanner.start[3]) {
+            if(_sc.current - _sc.start > 3 && _sc.start[1] == 't' && _sc.start[2] == 'r') {
+                switch(_sc.start[3]) {
                     case 'i': return D_CompareWithKeyword(4, 2, "ng", D_TokenType_KW_string);
                     case 'u': return D_CompareWithKeyword(4, 2, "ct", D_TokenType_KW_struct);
                 }
@@ -231,12 +231,12 @@ inline static D_TokenType D_CheckIfKeyword(void) {
             break;
         }
         case 't': {
-            if(scanner.current - scanner.start > 1) {
-                switch(scanner.start[1]) {
+            if(_sc.current - _sc.start > 1) {
+                switch(_sc.start[1]) {
                     case 'h': return D_CompareWithKeyword(2, 2, "en", D_TokenType_KW_then);
                     case 'r': {
-                        if(scanner.current - scanner.start > 2) {
-                            switch(scanner.start[2]) {
+                        if(_sc.current - _sc.start > 2) {
+                            switch(_sc.start[2]) {
                                 case 'u': return D_CompareWithKeyword(2, 1, "e", D_TokenType_KW_true);
                                 case 'y': return D_TokenType_KW_try;
                             }
@@ -247,8 +247,8 @@ inline static D_TokenType D_CheckIfKeyword(void) {
             break;
         }
         case 'v': {
-            if(scanner.current - scanner.start > 1) {
-                switch(scanner.start[1]) {
+            if(_sc.current - _sc.start > 1) {
+                switch(_sc.start[1]) {
                     case 'a': return D_CompareWithKeyword(2, 1, "r", D_TokenType_KW_var);
                     case 'm': return D_TokenType_KW_vm;
                 }
@@ -266,10 +266,10 @@ inline static D_TokenType D_CheckIfKeyword(void) {
 *****************************************************************/
 
 void D_InitScanner(const char* const source) {
-    scanner.start = source;
-    scanner.current = source;
-    scanner.line = 1;
-    scanner.column = 0;
+    _sc.start = source;
+    _sc.current = source;
+    _sc.line = 1;
+    _sc.column = 0;
 }
 
 D_Token D_GetNextToken(void) {
@@ -280,7 +280,7 @@ D_Token D_GetNextToken(void) {
     // 'start' to point to the current char so we
     // remember where the lexeme we're about to 
     // scan starts.
-    scanner.start = scanner.current;
+    _sc.start = _sc.current;
 
     // If we're at the end, return EOF token
     if(D_AtEnd()) {
@@ -319,9 +319,9 @@ D_Token D_GetNextToken(void) {
     // Everything else
     switch(currentChar) {
         case '\n': {
-            scanner.line++;
+            _sc.line++;
             D_Token ret = D_NewToken(D_TokenType_NEWLINE);
-            scanner.column = 0;
+            _sc.column = 0;
             return ret;
         }
         case '(': {
@@ -350,7 +350,7 @@ D_Token D_GetNextToken(void) {
             // While we're within the string and not at end...
             while(D_Peek() != '"' && !D_AtEnd()) {
                 if(D_Peek() == '\n') {
-                    scanner.line++;
+                    _sc.line++;
                 }
                 D_Consume();
             }

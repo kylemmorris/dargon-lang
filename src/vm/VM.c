@@ -14,15 +14,16 @@
 
 #include "VM.h"
 #include "../scanner/Scanner.h"
+#include "../compiler/Compiler.h"
 
-typedef struct {
+//typedef struct {
     //drgNugget* nugget; // The nugget being interpreted
     //drgByte* ip; // Instruction Pointer to the instr ABOUT to be executed
     //drgVal stack[DRG_STACK_MAX];
     //drgVal* stackTop;
-} D_VM;
+//} D_VM;
 
-static D_VM vm;
+//static D_VM vm;
 
 void D_InitVirtualMachine(void) {
     
@@ -30,19 +31,26 @@ void D_InitVirtualMachine(void) {
 
 D_Result D_Interpret(const char* const source) {
     // -- Initialize scanner
-    D_InitScanner(source);
+    //D_InitScanner(source);
 
     // -- Temporary code to drive a "compiler"
-    int line = -1;
-    for(;;) {
-        D_Token token = D_GetNextToken();
-        printf("(%3d,%3d) ", token.line, token.column);
-        // For now just print the token
-        printf("%2d '%.*s'\n", token.type, token.length, token.start);
-        if(token.type == D_TokenType_EOF) {
-            break;
-        }
-    }
+    //int line = -1;
+    //for(;;) {
+    //    D_Token token = D_GetNextToken();
+    //    printf("(%3d,%3d) ", token.line, token.column);
+    //    // For now just print the token
+    //    printf("%2d '%.*s'\n", token.type, token.length, token.start);
+    //    if(token.type == D_TokenType_EOF) {
+    //        break;
+    //    }
+    //}
+
+    D_Chunk chunk; 
+    D_NewChunk(&chunk);
+
+
+
+    D_FreeChunk(&chunk);
 
     return D_Result_OK;
 }

@@ -1,12 +1,15 @@
-- Using `camelCase` notation
-- Functions, etc. that shouldn't be used, but must be in the header, will start with `_drg`, e.g. `_drgLog()`, etc.
-- Customizations via the C preprocessor will start with `DRG`, i.e. macros, header guards, and function-like macros. E.g. `DRG_DEBUG`
-- Customizations outside the C preprocessor, e.g. functions, typedefs, and enumerations, will start with `drg`. E.g. `drgLog`, `drgToken`, etc.
 - H files describe interfaces, C files describe implementations (pretty standard)
 - `#include`s will appear AFTER header guard, and in the following order:
 	- Standard Library includes
 	- External 3rd Party Library Includes
 	- Source Includes
+- C preprocessor stuff starts with `DRG`_
+- Customizations outside the C preprocessor, e.g. functions, typedefs, and enumerations, start with `D_` and use `PascalCase`.
+- Constants are fully capitalized
+- Static-local variables start with an underscore
+- Local variables use `camelCase`.
+
+Example:
 ```c
 #ifndef DRG_H_EXAMPLE
 #define DRG_H_EXAMPLE
@@ -16,10 +19,26 @@
 
 #include <somelibrary.h>
 
-#include "token.h"
+#include "Token.h"
 
-...
+typedef enum {
+	D_State_IDLE,
+	D_State_RUNNING,
+	D_State_STOP
+} D_State;
+
+typedef struct {
+	D_State state;
+	int number;
+} D_MyStruct;
+
+static const int D_CONSTANT = 12;
+
+static D_MyStruct _staticVar;
+
+void D_Fun(void) {
+	int localVariable = 0;
+}
 
 #endif // DRG_H_EXAMPLE
 ```
-- ..
